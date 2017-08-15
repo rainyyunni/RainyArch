@@ -25,9 +25,15 @@ Or you can just choose to use any one of the frameworks alone. For instance, if 
 In fact, the prototypes even contain a desktop client sample to show how the server-side framework work without the client-side framework.
 
 ## Why RainyArch?
-1.	The prototypes get the first round iteration of your application development done within a day. Customers and engineers will directly see the system running and they can discuss requirements and design by actually using the evolving application from the very beginning and in every subsequent iteration. They can really work together based on a same thing ¨C the target software, instead of using some mockup like static pages for customers and a pile of incomplete code files for engineers. And that is right one of the principles of Agile Development.
-More for Agile Development, RainyArch also comes along with automation tools to generate database and CURD code files from UI to backend all from a same design document. Add those auto-generated stuff to the project and build, all primitive functions will be running on a clicking. It¡¯s really agile, isn¡¯t it?
-2. 
+1. The prototypes get the first round iteration of your application development done within a day. 
+Customers and engineers will directly see the system running 
+and they can discuss requirements and design by actually using the evolving application from the very beginning and in every subsequent iteration. 
+They can really work together based on a same thing ¨C the target software, instead of using some mockup like static pages for customers 
+and a pile of incomplete code files for engineers. And that is right one of the principles of Agile Development.
+
+More for Agile Development, RainyArch also comes along with automation tools to generate database and CURD code files from UI to backend all from a same design document. 
+Add those auto-generated stuff to the project and build, all primitive functions will be running on a clicking. It¡¯s really agile, isn¡¯t it?
+
 
 ## How to use RainyArch?
 See https://rainyyunni.github.io/RainyArch/ for documentation.
