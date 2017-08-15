@@ -21,7 +21,7 @@ RainyArch contains two application prototypes and three frameworks.
 
 You can combine one of the server-side frameworks with the client-side framework as the prototypes do. They are bounded to cooperate so that programming for both sides can easily and smoothly proceed as a whole. 
  
-Or you can just choose to use any one of the frameworks alone. For instance, if your application has a non-browser client, or a server which is not written in java or C#, you are free to use whatever you have or you¡¯ll create for one side, as long as you make them match the simple interfaces the framework provides for the other side. 
+Or you can just choose to use any one of the frameworks alone. For instance, if your application has a non-browser client, or a server which is not written in java or C#, you are free to use whatever you have or you'll create for one side, as long as you make them match the simple interfaces the framework provides for the other side. 
 In fact, the prototypes even contain a desktop client sample to show how the server-side framework work without the client-side framework.
 
 ## Why RainyArch?
@@ -32,7 +32,7 @@ They can really work together based on a same thing ¨C the target software, inst
 and a pile of incomplete code files for engineers. And that is right one of the principles of Agile Development.
 
 More for Agile Development, RainyArch also comes along with automation tools to generate database and CURD code files from UI to backend all from a same design document. 
-Add those auto-generated stuff to the project and build, all primitive functions will be running on a clicking. It¡¯s really agile, isn¡¯t it?
+Add those auto-generated stuff to the project and build, all primitive functions will be running on a clicking. It's really agile, isn't it?
 
 
 ## How to use RainyArch?
