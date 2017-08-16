@@ -1,0 +1,815 @@
+<style>
+pre{
+max-height:500px;
+overflow-y:scroll;
+overflow-x:scroll;
+word-wrap:normal;
+}
+</style>
+<div class="panel panel-info" >
+<div class="panel-heading">
+<span translate>SrcCode</span>
+<button class="btn btn-primary btn-sm" translate ng-click="c.colcnt==6?c.colcnt=12:c.colcnt=6">SwitchLayout</button>
+<span translate>Note_AutoSrc</span>
+</div>
+  <div class="panel-body">
+
+ <uib-tabset active="activeJustified" justified="true">
+    <uib-tab index="0" heading="DomainObject class">
+    	<div class="row">
+		<div class="col-md-{{c.colcnt}}"><code>C#</code><pre >
+    public class TaskItem : BaseDomainObject
+    {
+		[DomainSignature]
+		public virtual Task Task { get; set; }
+		[DomainSignature]
+		public virtual string Brief { get; set; }
+		public virtual User User { get; set; }
+		public virtual string Requirement { get; set; }
+		public virtual string Record { get; set; }
+		public virtual string KeyInfo { get; set; }
+		public virtual DateTime CreateDate { get; set; }
+		public virtual DateTime? ActionDate { get; set; }
+		public virtual Task.StatusEnum Status { get; set; }
+		public virtual int OrderNum { get; set; }
+    }
+    	</pre></div>
+    	<div class="col-md-{{c.colcnt}}"><code>Java</code><pre>
+@Getter@Setter
+public class TaskItem extends BaseDomainObject {
+	
+	@DomainSignature
+	private Task task;
+	@DomainSignature
+	private String brief;
+	private User user;
+	private String requirement;
+	private String record;
+	private String keyInfo;
+	private Date createDate;
+	private Date actionDate;
+	private Integer status;
+	private int orderNum;
+}
+    	</pre></div>
+    	</div>
+	</uib-tab>
+    <uib-tab index="1" heading="Controller class">
+    	<div class="row">
+		<div class="col-md-{{c.colcnt}}"><code>C#</code><pre >
+	[Auth]
+    public class TaskItemController : AppBaseController
+    {
+        public ICommonBD&lt;TaskItem&gt; TaskItemBD { get; set; }
+		public ICommonBD&lt;Task&gt; TaskBD { get; set; }
+		public ICommonBD&lt;User&gt; UserBD { get; set; }
+
+
+        protected override void OnViewExecuting(object viewModel)
+        {
+			SetViewModel&lt;TaskItemEditVM&gt;(m =&gt;{ 
+				m.Tasks = TaskBD.GetRefList();
+				m.Users = UserBD.GetRefList();
+			});
+        }
+        
+        public ActionResult Search()
+        {
+            return ForView(new TaskItemSearchVM());
+        }
+        
+        public ActionResult List(TaskItemSearchVM searchvm, TaskItemListVM listvm)
+        {
+            if (!ModelState.IsValid) return ClientShowMessage();
+            var filter = BuildFilter(searchvm.Input);
+            if (filter != null)
+            {
+                listvm.ResultList = TaskItemBD.GetDtoList&lt;TaskItemListVM.ListRow&gt;(listvm.Input.Pager,
+                                                        filter,
+                                                       listvm.Input.OrderExpression);
+            }
+            return ForView("List",listvm);
+        }
+
+        [HttpPost]
+        [Transaction]
+        public ActionResult Delete(TaskItemSearchVM searchvm, TaskItemListVM listvm)
+        {
+            foreach (var id in listvm.Input.SelectedValues)
+                TaskItemBD.Delete(id);
+            return List(searchvm,listvm);
+        }
+
+        public ActionResult Add()
+        {
+        	var m=new TaskItemEditVM{/*[todo:set default value]*/};
+            return ForView("Edit",m);
+        }
+
+        public ActionResult Edit(int id)
+        {
+        	var m=new TaskItemEditVM
+            {
+                Input = Map&lt;TaskItem, TaskItemEditVM.EditInput&gt;(TaskItemBD.Get(id))
+            };
+            return ForView(m);
+        }
+
+       
+        [HttpPost]
+        [Transaction]
+        public ActionResult Save(TaskItemEditVM editvm)
+        {
+            if (ModelState.IsValid)
+            {
+                Save(editvm.Input);
+                SetViewMessage(Message_SaveSuccessfully);
+                if (editvm.Input.Id == 0) return RcJson();
+            }
+            return ClientShowMessage();
+        }
+
+        private void Save(TaskItemEditVM.EditInput input)
+        {
+            TaskItem taskitem;
+            if (input.Id == 0)
+            {
+                taskitem = new TaskItem();
+            }
+            else
+            {
+                taskitem = TaskItemBD.Get(input.Id);
+            }
+
+			taskitem.Task = input.Task.ToReferencedDO(TaskBD);
+			taskitem.Brief = input.Brief;
+			taskitem.User = input.User.ToReferencedDO(UserBD);
+			taskitem.Requirement = input.Requirement;
+			taskitem.Record = input.Record;
+			taskitem.KeyInfo = input.KeyInfo;
+			taskitem.CreateDate = input.CreateDate;
+			taskitem.ActionDate = input.ActionDate;
+			taskitem.Status = input.Status;
+			taskitem.OrderNum = input.OrderNum;
+
+
+            TaskItemBD.Save(taskitem);
+        }
+
+
+        private Expression&lt;Func&lt;TaskItem,bool&gt;&gt; BuildFilter(TaskItemSearchVM.SearchInput input)
+        {
+            var filter = PredicateBuilder.True&lt;TaskItem&gt;();
+     		/*[todo:choose to use]
+			if (Util.IsNotNull(input.Task)
+				filter = filter.And(o =&gt; o.Task.Id  == input.Task.Id);
+			if (!string.IsNullOrEmpty(input.Brief))
+				filter = filter.And(o =&gt; o.Brief.StartsWith(input.Brief));
+			if (Util.IsNotNull(input.User)
+				filter = filter.And(o =&gt; o.User.Id  == input.User.Id);
+			if (!string.IsNullOrEmpty(input.Requirement))
+				filter = filter.And(o =&gt; o.Requirement.StartsWith(input.Requirement));
+			if (!string.IsNullOrEmpty(input.Record))
+				filter = filter.And(o =&gt; o.Record.StartsWith(input.Record));
+			if (!string.IsNullOrEmpty(input.KeyInfo))
+				filter = filter.And(o =&gt; o.KeyInfo.StartsWith(input.KeyInfo));
+			if (input.CreateDate!=null)
+				filter = filter.And(o =&gt; o.CreateDate==input.CreateDate);
+			if (input.ActionDate!=null)
+				filter = filter.And(o =&gt; o.ActionDate==input.ActionDate);
+			if (input.Status!=null)
+				filter = filter.And(o =&gt; o.Status==input.Status);
+			if (input.OrderNum!=null)
+				filter = filter.And(o =&gt; o.OrderNum==input.OrderNum);
+
+			*/
+            return filter;
+        }
+
+    }
+    	</pre></div>
+    	<div class="col-md-{{c.colcnt}}"><code>Java</code><pre>
+ @Auth
+public class TaskItemController extends AppBaseController{
+
+        @Resource public ICommonBD&lt;TaskItem&gt; TaskItemBD;
+		@Resource public ICommonBD&lt;Task&gt; TaskBD;
+		@Resource public ICommonBD&lt;User&gt; UserBD;
+
+
+	@Override
+	protected void OnViewExecuting(Object viewModel) {
+			if(viewModel instanceof TaskItemEditVM) {
+				((TaskItemEditVM)viewModel).setTasks(TaskBD.GetRefList());
+				((TaskItemEditVM)viewModel).setUsers(UserBD.GetRefList());
+			}
+
+	}
+		
+       public ActionResult Search()
+        {
+            return ForView(new TaskItemSearchVM());
+        }
+        
+        public ActionResult List(@Valid TaskItemSearchVM searchvm, @Valid TaskItemListVM listvm)
+        {
+        	HqlCriterion filter=BuildFilter(searchvm.getInput());
+            if (filter!= null)
+            {
+            	listvm.setResultList( TaskItemBD.GetDtoList(listvm.getInput().getPager(),
+                		TaskItemListVM_ListRow.class,
+                		filter,
+                		listvm.getInput().getOrderExpression()));
+            }
+            return ForView("List",listvm);
+        }
+
+    	@RequestMapping(method=RequestMethod.POST)
+    	@Transaction
+        public ActionResult Delete(@Valid TaskItemSearchVM searchvm, @Valid TaskItemListVM listvm)
+        {
+            for (Integer id : listvm.getInput().getSelectedValues())
+                TaskItemBD.Delete(id);
+            return List(searchvm,listvm);
+        }
+
+        public ActionResult Add()
+        {
+            return ForView("Edit",new TaskItemEditVM());
+        }
+
+        public ActionResult Edit(int id)
+        {
+        	TaskItemEditVM m=new TaskItemEditVM();
+        	Map(TaskItemBD.Get(id),m.getInput());
+            return ForView(m);
+        }
+
+
+    	@RequestMapping(method=RequestMethod.POST)
+    	@Transaction
+        public ActionResult Save(@Valid TaskItemEditVM editvm)
+        {
+            Save(editvm.getInput());
+            if (editvm.getInput().getId() == 0) return RcJson();
+            return ClientShowMessage(Message_SaveSuccessfully);
+        }
+
+        private void Save(TaskItemEditVM.EditInput input)
+        {
+            TaskItem taskitem;
+            if (input.getId() == 0)
+            {
+                taskitem = new TaskItem();
+            }
+            else
+            {
+                taskitem = TaskItemBD.Get(input.getId());
+            }
+
+			taskitem.setTask(input.getTask().ToReferencedDO(TaskBD));
+			taskitem.setBrief(input.getBrief());
+			taskitem.setUser(input.getUser().ToReferencedDO(UserBD));
+			taskitem.setRequirement(input.getRequirement());
+			taskitem.setRecord(input.getRecord());
+			taskitem.setKeyInfo(input.getKeyInfo());
+			taskitem.setCreateDate(input.getCreateDate());
+			taskitem.setActionDate(input.getActionDate());
+			taskitem.setStatus(input.getStatus().getIntValue());
+			taskitem.setOrderNum(input.getOrderNum());
+
+            TaskItemBD.Save(taskitem);
+        }
+
+        private HqlCriterion BuildFilter(TaskItemSearchVM.SearchInput input)
+        {
+            HqlCriterion filter = new HqlCriterion();
+            /*
+			if (Util.IsNotNull(input.getTask())
+				filter = filter.And("this.task.id  = ?",input.getTask().getId());
+			if (!StringUtils.isEmpty(input.getBrief()))
+				filter = filter.And("this.brief like ? ",input.getBrief()+"%");
+			if (Util.IsNotNull(input.getUser())
+				filter = filter.And("this.user.id  = ?",input.getUser().getId());
+			if (!StringUtils.isEmpty(input.getRequirement()))
+				filter = filter.And("this.requirement like ? ",input.getRequirement()+"%");
+			if (!StringUtils.isEmpty(input.getRecord()))
+				filter = filter.And("this.record like ? ",input.getRecord()+"%");
+			if (!StringUtils.isEmpty(input.getKeyInfo()))
+				filter = filter.And("this.keyInfo like ? ",input.getKeyInfo()+"%");
+			if (input.getCreateDate()!=null)
+				filter = filter.And("this.createDate=?",input.getCreateDate());
+			if (input.getActionDate()!=null)
+				filter = filter.And("this.actionDate=?",input.getActionDate());
+			if (input.getStatus()!=null)
+				filter = filter.And("this.status=?",input.getStatus());
+			if (input.getOrderNum()!=null)
+				filter = filter.And("this.orderNum=?",input.getOrderNum());
+
+*/
+            return filter;
+        }
+
+    }
+    	 </pre></div>
+		</div>
+	</uib-tab>
+    <uib-tab index="2" heading="ViewModel class">
+    	<div class="row">
+		<div class="col-md-{{c.colcnt}}"><code>C#</code><pre>
+		[Bind(Include="Input")]
+    public class TaskItemSearchVM 
+    {
+
+        public TaskItemSearchVM()
+        {
+            Input = new SearchInput();
+        }
+        
+        public SearchInput Input { get; set; }
+        
+        [DisplayName("TaskItem")]
+        public class SearchInput
+        {
+            //[todo:copy properties from Edit viewmodel]
+        }
+    }
+    
+    [Bind(Include = "Input")]
+    public class TaskItemListVM
+    {
+        public TaskItemListVM()
+        {
+            ResultList=new List&lt;ListRow&gt;();
+            Input = new ListInput(5);
+        }
+        
+        public IList&lt;ListRow&gt; ResultList { get; set; }
+        public ListInput Input { get; set; }
+
+        public class ListRow
+        {
+        	public int Id { get; set; }
+			public string TaskName  { get; set; }
+			public string Brief { get; set; }
+			public string UserName  { get; set; }
+			public string Requirement { get; set; }
+			public string Record { get; set; }
+			public string KeyInfo { get; set; }
+			public DateTime CreateDate { get; set; }
+			public DateTime? ActionDate { get; set; }
+			public Task.StatusEnum Status { get; set; }
+			public int OrderNum { get; set; }
+
+
+        }
+	}
+	
+	[Bind(Include = "Input")]
+    public class TaskItemEditVM 
+    {
+    	public TaskItemEditVM()
+        {
+            Input = new EditInput();
+        }
+		public IList&lt;DORef&lt;Task&gt;&gt; Tasks { get; set; }
+		public IList&lt;DORef&lt;User&gt;&gt; Users { get; set; }
+    
+        public EditInput Input { get; set; }
+
+		[DisplayName("TaskItem")]
+        public class EditInput
+        {
+            #region "input properties"
+
+			public int Id { get; set; }
+			[Required]
+			public  DORef&lt;Task&gt; Task { get; set; }
+			[Required]
+			[StringLength(30)]
+			public  string Brief { get; set; }
+			[Required]
+			public  DORef&lt;User&gt; User { get; set; }
+			[StringLength(200)]
+			public  string Requirement { get; set; }
+			[StringLength(1000)]
+			public  string Record { get; set; }
+			[StringLength(200)]
+			public  string KeyInfo { get; set; }
+			public  DateTime CreateDate { get; set; }
+			public  DateTime? ActionDate { get; set; }
+			public  Task.StatusEnum Status { get; set; }
+			public  int OrderNum { get; set; }
+
+            #endregion
+        }
+    }
+    	</pre></div>
+    	<div class="col-md-{{c.colcnt}}"><code>Java</code><pre>
+@Getter@Setter
+public class TaskItemSearchVM 
+{
+	public TaskItemSearchVM()
+	{
+		input = new SearchInput();
+	}
+       
+	private SearchInput input;
+    
+	@Getter@Setter
+	@DisplayName("TaskItem")
+	public class SearchInput 
+	{
+           
+	}
+}
+@Getter@Setter
+public class TaskItemListVM
+{
+    public TaskItemListVM()
+    {
+        resultList = new ArrayList&lt;TaskItemListVM_ListRow&gt;();
+        input = new ListInput(5);
+    }
+
+    private List&lt;TaskItemListVM_ListRow&gt; resultList;
+    
+    private ListInput input;
+
+}
+@Getter@Setter
+public class TaskItemListVM_ListRow
+{
+	private int id;
+	private String taskName ;
+	private String brief;
+	private String userName ;
+	private String requirement;
+	private String record;
+	private String keyInfo;
+	private Date createDate;
+	private Date actionDate;
+	private Integer status;
+	private int orderNum;
+	
+}
+@Getter@Setter
+public class TaskItemEditVM {
+	public TaskItemEditVM() {
+		input = new EditInput();
+	}
+	private List&lt;DORef&lt;Task&gt;&gt; tasks;
+	private List&lt;DORef&lt;User&gt;&gt; users;
+  
+	private EditInput input;
+
+	@Getter@Setter
+	@DisplayName("TaskItem")
+	public class EditInput {
+		
+		private int id;
+			
+		@NotNull
+		private  DORef&lt;Task&gt; task;
+		@Size(max=30)
+		@NotNull
+		private  String brief;
+		@NotNull
+		private  DORef&lt;User&gt; user;
+		@Size(max=200)
+		private  String requirement;
+		@Size(max=1000)
+		private  String record;
+		@Size(max=200)
+		private  String keyInfo;
+		@NotNull
+		private  Date createDate;
+		private  Date actionDate;
+		@NotNull
+		private  Task_StatusEnum status;
+		private  int orderNum;
+
+    }
+}
+    	</pre></div>
+    	</div>
+	</uib-tab>
+    <uib-tab index="3" heading="Search View">
+    	<div class="row">
+		<div class="col-md-{{c.colcnt}}"><code>C#</code><pre>
+&lt;viewdata model="TaskItemSearchVM" /&gt;
+  &lt;%Html.NgForm("c.frmSearch","List",null,new{role="form"});%&gt;
+      &lt;div class="form-inline"&gt;
+&lt;!--   [todo:以下查询区里的控件只是例子，应根据界面详细设计进行增删或修改]
+    	&lt;div class="form-group"&gt;
+    		${Html.NgLabelFor(m=&gt;m.Input.DORef}
+            ${Html.NgSelectFor(m=&gt;m.Input.DORef,"c.vm.DORefs","","form-control")}
+       &lt;/div&gt;
+       &lt;div class="form-group"&gt;
+       		${Html.NgLabelFor(m=&gt;m.Input.String)}
+            ${Html.NgTextBoxFor(m=&gt;m.Input.String,"form-control")}
+       &lt;/div&gt;
+       &lt;div class="form-group"&gt;
+            ${Html.NgLabelFor(m=&gt;m.Input.Int)}
+            ${Html.NgTextBoxFor(m=&gt;m.Input.Int,"form-control")}
+       &lt;/div&gt;
+       	&lt;div class="form-group"&gt;
+	       	${Html.NgLabelFor(m=&gt;m.Input.Boolean)}
+          ${Html.NgRadioButtonFor(m=&gt;m.Input.Boolean,true)}&lt;span translate&gt;true&lt;/span&gt;
+          ${Html.NgRadioButtonFor(m=&gt;m.Input.Boolean,false)}&lt;span translate&gt;false&lt;/span&gt;
+          ${Html.NgRadioButtonFor(m=&gt;m.Input.Boolean,null)}&lt;span translate&gt;any&lt;/span&gt;
+		&lt;/div&gt;
+--&gt;
+       &lt;div class="form-group"&gt;
+            &lt;button type="button" translate="Search" ajax-url='' ajax-bind="divMain" class="btn btn-default"/&gt;
+ 		&lt;/div&gt;
+     &lt;/div&gt;
+    &lt;br/&gt;
+    &lt;div id="divMain" ui-view&gt;&lt;/div&gt;
+  &lt;/form&gt;
+        </pre></div>
+    	<div class="col-md-{c.colcnt}"><code>Java</code><pre>
+   &lt;p:viewdata model="TaskItemSearchVM" /&gt;
+  &lt;html:form name="c.frmSearch"  role="form" ajax-url='${Url.Action("List")}'&gt;
+    &lt;div class="form-inline"&gt;
+   &lt;%--   [todo:以下查询区里的控件只是例子，应根据界面详细设计进行增删或修改]
+    	&lt;div class="form-group"&gt;
+    		&lt;html:label path="vm.input.doRef" /&gt;
+            &lt;html:select path="vm.input.doRef" selectList='c.vm.doRefs' optionLabel="" class="form-control"&gt;
+            &lt;/html:select&gt;
+       &lt;/div&gt;
+       &lt;div class="form-group"&gt;
+       		&lt;html:label path="vm.input.string"/&gt;
+            &lt;html:input path="vm.input.string" class="form-control"/&gt;
+       &lt;/div&gt;
+       &lt;div class="form-group"&gt;
+            &lt;html:label path="vm.input.int"/&gt;
+            &lt;html:input path="vm.input.int" class="form-control"/&gt;
+       &lt;/div&gt;
+       	&lt;div class="form-group"&gt;
+	       	&lt;html:label path="vm.input.boolean"/&gt;
+			&lt;html:radiobutton path="vm.input.boolean" class="form-control" value="true"/&gt;&lt;span translate&gt;true&lt;/span&gt;
+			&lt;html:radiobutton path="vm.input.boolean" class="form-control" value="false"/&gt;&lt;span translate&gt;false&lt;/span&gt;
+			&lt;html:radiobutton path="vm.input.boolean" class="form-control" value="null" /&gt;&lt;span translate&gt;any&lt;/span&gt;
+		&lt;/div&gt;
+--%&gt;
+       &lt;div class="form-group"&gt;
+            &lt;button type="button" translate="Search" ajax-url='' ajax-bind="divMain" class="btn btn-default"/&gt;
+ 		&lt;/div&gt;
+ 	&lt;/div&gt;
+    &lt;br/&gt;
+    &lt;div id="divMain" ui-view&gt;&lt;/div&gt;
+  &lt;/html:form&gt;   	
+    	</pre></div>
+    	</div>
+	</uib-tab>
+    <uib-tab index="4" heading="List View">
+	    <div class="row">
+		<div class="col-md-{{c.colcnt}}"><code>C#</code><pre>
+&lt;viewdata model="TaskItemListVM"/&gt;	
+&lt;div class="table-responsive"&gt;&lt;table class="table table-striped table-bordered table-hover" &gt;
+	&lt;thead&gt;&lt;tr  pb-sort-input="Input.OrderExpression" pb-sort-model="c.vm.Input.OrderExpression" ajax-url='' ajax-bind='parent'&gt;
+        &lt;th&gt;&lt;pb-checkall list-model="c.vm.resultList" list-prop="id" selected-model="c.vm.input.selectedValues"/&gt;{'Select'|translate}&lt;/th&gt;
+		&lt;th  nowrap pb-sort-expr="Task"&gt;&lt;span  translate="TaskItem_Task"&gt;&lt;/span&gt;&lt;/th&gt;
+		&lt;th  pb-sort-expr="Brief"&gt;&lt;span  translate="TaskItem_Brief"&gt;&lt;/span&gt;&lt;/th&gt;
+		&lt;th  nowrap pb-sort-expr="User"&gt;&lt;span  translate="TaskItem_User"&gt;&lt;/span&gt;&lt;/th&gt;
+		&lt;th  pb-sort-expr="Requirement"&gt;&lt;span  translate="TaskItem_Requirement"&gt;&lt;/span&gt;&lt;/th&gt;
+		&lt;th  pb-sort-expr="Record"&gt;&lt;span  translate="TaskItem_Record"&gt;&lt;/span&gt;&lt;/th&gt;
+		&lt;th  pb-sort-expr="KeyInfo"&gt;&lt;span  translate="TaskItem_KeyInfo"&gt;&lt;/span&gt;&lt;/th&gt;
+		&lt;th  nowrap pb-sort-expr="CreateDate"&gt;&lt;span  translate="TaskItem_CreateDate"&gt;&lt;/span&gt;&lt;/th&gt;
+		&lt;th  nowrap pb-sort-expr="ActionDate"&gt;&lt;span  translate="TaskItem_ActionDate"&gt;&lt;/span&gt;&lt;/th&gt;
+		&lt;th  nowrap pb-sort-expr="Status"&gt;&lt;span  translate="TaskItem_Status"&gt;&lt;/span&gt;&lt;/th&gt;
+		&lt;th  nowrap pb-sort-expr="OrderNum"&gt;&lt;span  translate="TaskItem_OrderNum"&gt;&lt;/span&gt;&lt;/th&gt;
+
+	&lt;/tr&gt;&lt;/thead&gt;
+	&lt;tbody&gt;&lt;tr ng-repeat="item in c.vm.ResultList"&gt;
+        &lt;th class="col-sm-1"&gt;
+        	&lt;input type="checkbox" name="Input.SelectedValues" value="{item.Id}" ng-true-value="{item.Id}" ng-model="c.vm.Input.SelectedValues[$index]"/&gt;
+        &lt;/th&gt;
+		&lt;td&gt;&lt;a ${Url.State("forward:Edit(id:item.Id)")}&gt;{::item.Task}&lt;/a&gt;&lt;/td&gt;
+		&lt;td&gt;&lt;a ${Url.State("forward:Edit(id:item.Id)")}&gt;{::item.Brief}&lt;/a&gt;&lt;/td&gt;
+		&lt;td&gt;{::item.User}&lt;/td&gt;
+		&lt;td&gt;{::item.Requirement}&lt;/td&gt;
+		&lt;td&gt;{::item.Record}&lt;/td&gt;
+		&lt;td&gt;{::item.KeyInfo}&lt;/td&gt;
+		&lt;td&gt;{::item.CreateDate|Display}&lt;/td&gt;
+		&lt;td&gt;{::item.ActionDate|Display}&lt;/td&gt;
+		&lt;td&gt;{::item.Status|Display:'TaskItem_StatusEnum'}&lt;/td&gt;
+		&lt;td&gt;{::item.OrderNum}&lt;/td&gt;
+
+	&lt;/tr&gt;&lt;/tbody&gt;
+&lt;/table&gt;&lt;/div&gt;
+&lt;div class="row text-center"&gt;
+	&lt;div pager-input="Input.Pager" pager-model="c.vm.Input.Pager" pager-sizemax="200" pager-short="false" ajax-url='' ajax-bind='parent'&gt;&lt;/div&gt;
+&lt;/div&gt;
+&lt;div class="row text-center"&gt;
+	&lt;button translate="Add"  type="button" ${Url.State("forward:Add")} class="btn btn-default"/&gt;
+	&lt;button translate="Delete"  type="button" ajax-url='${Url.Action("Delete")}' ajax-confirm-multi="c.vm.Input.SelectedValues" class="btn btn-default"/&gt;
+&lt;/div&gt;
+        </pre></div>
+    	<div class="col-md-{{c.colcnt}}"><code>Java</code><pre>
+&lt;p:viewdata model="TaskItemListVM"/&gt;	
+&lt;div class="table-responsive"&gt;&lt;table class="table table-striped table-bordered table-hover" &gt;
+	&lt;thead&gt;&lt;tr pb-sort-input="input.orderExpression" pb-sort-model="c.vm.input.orderExpression" ajax-url='' ajax-bind='parent'&gt;
+        &lt;th&gt;&lt;pb-checkall list-model="c.vm.resultList" list-prop="id" selected-model="c.vm.input.selectedValues"/&gt;{'Select'|translate}&lt;/th&gt;
+		&lt;th  nowrap pb-sort-expr="this.task"&gt;&lt;span  translate="Task"&gt;&lt;/span&gt;&lt;/th&gt;
+		&lt;th  pb-sort-expr="this.brief"&gt;&lt;span  translate="TaskItem_Brief"&gt;&lt;/span&gt;&lt;/th&gt;
+		&lt;th  nowrap pb-sort-expr="this.user"&gt;&lt;span  translate="User"&gt;&lt;/span&gt;&lt;/th&gt;
+		&lt;th  pb-sort-expr="this.requirement"&gt;&lt;span  translate="TaskItem_Requirement"&gt;&lt;/span&gt;&lt;/th&gt;
+		&lt;th  pb-sort-expr="this.record"&gt;&lt;span  translate="TaskItem_Record"&gt;&lt;/span&gt;&lt;/th&gt;
+		&lt;th  pb-sort-expr="this.keyInfo"&gt;&lt;span  translate="TaskItem_KeyInfo"&gt;&lt;/span&gt;&lt;/th&gt;
+		&lt;th  nowrap pb-sort-expr="this.createDate"&gt;&lt;span  translate="TaskItem_CreateDate"&gt;&lt;/span&gt;&lt;/th&gt;
+		&lt;th  nowrap pb-sort-expr="this.actionDate"&gt;&lt;span  translate="TaskItem_ActionDate"&gt;&lt;/span&gt;&lt;/th&gt;
+		&lt;th  nowrap pb-sort-expr="this.status"&gt;&lt;span  translate="TaskItem_Status"&gt;&lt;/span&gt;&lt;/th&gt;
+		&lt;th  nowrap pb-sort-expr="this.orderNum"&gt;&lt;span  translate="TaskItem_OrderNum"&gt;&lt;/span&gt;&lt;/th&gt;
+
+	&lt;/tr&gt;&lt;/thead&gt;
+	&lt;tbody&gt;&lt;tr ng-repeat="item in c.vm.resultList"&gt;
+        &lt;th class="col-sm-1"&gt;
+        	&lt;input type="checkbox" name="input.selectedValues" value="{item.id}" ng-true-value="{item.id}" ng-model="c.vm.input.selectedValues[$index]"/&gt;
+        &lt;/th&gt;
+		&lt;td&gt;&lt;a ${Url.State("forward:Edit(id:item.id)")}&gt;{::item.task}&lt;/a&gt;&lt;/td&gt;
+		&lt;td&gt;&lt;a ${Url.State("forward:Edit(id:item.id)")}&gt;{::item.brief}&lt;/a&gt;&lt;/td&gt;
+		&lt;td&gt;{::item.user}&lt;/td&gt;
+		&lt;td&gt;{::item.requirement}&lt;/td&gt;
+		&lt;td&gt;{::item.record}&lt;/td&gt;
+		&lt;td&gt;{::item.keyInfo}&lt;/td&gt;
+		&lt;td&gt;{::item.createDate|Display}&lt;/td&gt;
+		&lt;td&gt;{::item.actionDate|Display}&lt;/td&gt;
+		&lt;td&gt;{::item.status|Display:'TaskItem_StatusEnum'}&lt;/td&gt;
+		&lt;td&gt;{::item.orderNum}&lt;/td&gt;
+
+	&lt;/tr&gt;&lt;/tbody&gt;
+&lt;/table&gt;&lt;/div&gt;
+&lt;div class="row text-center"&gt;
+	&lt;div pager-input="input.pager" pager-model="c.vm.input.pager" pager-sizemax="200" pager-short="false" ajax-url='' ajax-bind='parent'&gt;&lt;/div&gt;
+&lt;/div&gt;
+&lt;div class="row text-center"&gt;
+	&lt;button translate="Add"  type="button" ${Url.State("forward:Add")} class="btn btn-default"/&gt;
+	&lt;button translate="Delete"  type="button" ajax-url='${Url.Action("Delete")}' ajax-confirm-multi="c.vm.input.selectedValues" class="btn btn-default"/&gt;
+&lt;/div&gt;
+    	</pre></div>
+    	</div>
+	</uib-tab>
+    <uib-tab index="5" heading="Edit View">
+	    <div class="row">
+		<div class="col-md-{{c.colcnt}}"><code>C#</code><pre>
+&lt;viewdata model="TaskItemEditVM" /&gt;
+&lt;%Html.NgForm("c.frmEdit","Save");%&gt;
+&lt;div class="form-horizontal"&gt;
+	${Html.NgHiddenFor(m=&gt;m.Input.Id)}
+		
+	&lt;div class="form-group"&gt;
+		${Html.NgLabelFor(m=&gt;m.Input.Task,"col-sm-1 control-label")}
+		&lt;div class="col-sm-4"&gt;${Html.NgSelectFor(m=&gt;m.Input.Task,"c.vm.Tasks","-choose-","form-control")}&lt;/div&gt;
+	&lt;/div&gt;
+		
+	&lt;div class="form-group"&gt;
+		${Html.NgLabelFor(m=&gt;m.Input.Brief,"col-sm-1 control-label")}
+		&lt;div class="col-sm-4"&gt;${Html.NgTextBoxFor(m=&gt;m.Input.Brief,"form-control")}&lt;/div&gt;
+	&lt;/div&gt;
+		
+	&lt;div class="form-group"&gt;
+		${Html.NgLabelFor(m=&gt;m.Input.User,"col-sm-1 control-label")}
+		&lt;div class="col-sm-4"&gt;${Html.NgSelectFor(m=&gt;m.Input.User,"c.vm.Users","-choose-","form-control")}&lt;/div&gt;
+	&lt;/div&gt;
+		
+	&lt;div class="form-group"&gt;
+		${Html.NgLabelFor(m=&gt;m.Input.Requirement,"col-sm-1 control-label")}
+		&lt;div class="col-sm-4"&gt;${Html.NgTextBoxFor(m=&gt;m.Input.Requirement,"form-control")}&lt;/div&gt;
+	&lt;/div&gt;
+		
+	&lt;div class="form-group"&gt;
+		${Html.NgLabelFor(m=&gt;m.Input.Record,"col-sm-1 control-label")}
+		&lt;div class="col-sm-4"&gt;${Html.NgTextBoxFor(m=&gt;m.Input.Record,"form-control")}&lt;/div&gt;
+	&lt;/div&gt;
+		
+	&lt;div class="form-group"&gt;
+		${Html.NgLabelFor(m=&gt;m.Input.KeyInfo,"col-sm-1 control-label")}
+		&lt;div class="col-sm-4"&gt;${Html.NgTextBoxFor(m=&gt;m.Input.KeyInfo,"form-control")}&lt;/div&gt;
+	&lt;/div&gt;
+		
+	&lt;div class="form-group"&gt;
+		${Html.NgLabelFor(m=&gt;m.Input.CreateDate,"col-sm-1 control-label")}
+		&lt;div class="col-sm-4"&gt;${Html.NgTextBoxFor(m=&gt;m.Input.CreateDate,"form-control")}&lt;/div&gt;
+	&lt;/div&gt;
+		
+	&lt;div class="form-group"&gt;
+		${Html.NgLabelFor(m=&gt;m.Input.ActionDate,"col-sm-1 control-label")}
+		&lt;div class="col-sm-4"&gt;${Html.NgTextBoxFor(m=&gt;m.Input.ActionDate,"form-control")}&lt;/div&gt;
+	&lt;/div&gt;
+		
+	&lt;div class="form-group"&gt;
+		${Html.NgLabelFor(m=&gt;m.Input.Status,"col-sm-1 control-label")}
+		&lt;div class="col-sm-4"&gt;${Html.NgSelectFor(m=&gt;m.Input.Status,null,"-choose-","form-control")}&lt;/div&gt;
+	&lt;/div&gt;
+		
+	&lt;div class="form-group"&gt;
+		${Html.NgLabelFor(m=&gt;m.Input.OrderNum,"col-sm-1 control-label")}
+		&lt;div class="col-sm-4"&gt;${Html.NgTextBoxFor(m=&gt;m.Input.OrderNum,"form-control")}&lt;/div&gt;
+	&lt;/div&gt;
+
+	&lt;div class="form-group"&gt;
+    	&lt;button translate="Save" type="button" ajax-url=''  class="btn btn-default"/&gt;
+    &lt;/div&gt;
+&lt;/div&gt;
+&lt;/form&gt;
+        </pre></div>
+    	<div class="col-md-{{c.colcnt}}"><code>Java</code><pre>
+&lt;p:viewdata model="TaskItemEditVM" /&gt;
+&lt;html:form ajax-url='${Url.Action("Save")}' name="c.frmEdit" &gt;
+&lt;div class="form-horizontal"&gt;
+	&lt;html:hidden path="vm.input.id"/&gt;
+		
+	&lt;div class="form-group"&gt;
+		&lt;html:label path="vm.input.task" class="col-sm-1 control-label"  translate="Task"/&gt;
+		&lt;div class="col-sm-4"&gt;&lt;html:select path="vm.input.task" selectList="c.vm.tasks" optionLabel="-choose-"  class="form-control"/&gt;&lt;/div&gt;
+	&lt;/div&gt;
+		
+	&lt;div class="form-group"&gt;
+		&lt;html:label path="vm.input.brief" class="col-sm-1 control-label"/&gt;
+		&lt;div class="col-sm-4"&gt;&lt;html:input path="vm.input.brief"   class="form-control"/&gt;&lt;/div&gt;
+	&lt;/div&gt;
+		
+	&lt;div class="form-group"&gt;
+		&lt;html:label path="vm.input.user" class="col-sm-1 control-label" translate="User"/&gt;
+		&lt;div class="col-sm-4"&gt;&lt;html:select path="vm.input.user" selectList="c.vm.users" optionLabel="-choose-"  class="form-control"/&gt;&lt;/div&gt;
+	&lt;/div&gt;
+		
+	&lt;div class="form-group"&gt;
+		&lt;html:label path="vm.input.requirement" class="col-sm-1 control-label"/&gt;
+		&lt;div class="col-sm-4"&gt;&lt;html:input path="vm.input.requirement"   class="form-control"/&gt;&lt;/div&gt;
+	&lt;/div&gt;
+		
+	&lt;div class="form-group"&gt;
+		&lt;html:label path="vm.input.record" class="col-sm-1 control-label"/&gt;
+		&lt;div class="col-sm-4"&gt;&lt;html:input path="vm.input.record"   class="form-control"/&gt;&lt;/div&gt;
+	&lt;/div&gt;
+		
+	&lt;div class="form-group"&gt;
+		&lt;html:label path="vm.input.keyInfo" class="col-sm-1 control-label"/&gt;
+		&lt;div class="col-sm-4"&gt;&lt;html:input path="vm.input.keyInfo"   class="form-control"/&gt;&lt;/div&gt;
+	&lt;/div&gt;
+		
+	&lt;div class="form-group"&gt;
+		&lt;html:label path="vm.input.createDate" class="col-sm-1 control-label"/&gt;
+		&lt;div class="col-sm-4"&gt;&lt;html:input path="vm.input.createDate"   class="form-control"/&gt;&lt;/div&gt;
+	&lt;/div&gt;
+		
+	&lt;div class="form-group"&gt;
+		&lt;html:label path="vm.input.actionDate" class="col-sm-1 control-label"/&gt;
+		&lt;div class="col-sm-4"&gt;&lt;html:input path="vm.input.actionDate"   class="form-control"/&gt;&lt;/div&gt;
+	&lt;/div&gt;
+		
+	&lt;div class="form-group"&gt;
+		&lt;html:label path="vm.input.status" class="col-sm-1 control-label"/&gt;
+		&lt;div class="col-sm-4"&gt;&lt;html:select path="vm.input.status"  optionLabel="-choose-"  class="form-control"/&gt;&lt;/div&gt;
+	&lt;/div&gt;
+		
+	&lt;div class="form-group"&gt;
+		&lt;html:label path="vm.input.orderNum" class="col-sm-1 control-label"/&gt;
+		&lt;div class="col-sm-4"&gt;&lt;html:input path="vm.input.orderNum"   class="form-control"/&gt;&lt;/div&gt;
+	&lt;/div&gt;
+
+	&lt;div class="form-group"&gt;
+    	&lt;button translate="Save" type="button" ajax-url=''  class="btn btn-default"/&gt;
+    &lt;/div&gt;
+&lt;/div&gt;
+&lt;/html:form&gt;
+    	</pre></div>
+    	</div>
+	</uib-tab>
+    <uib-tab index="6" heading="JS">
+	    <div class="row">
+		<div class="col-md-{{c.colcnt}}"><code>C#</code><pre>
+def.ns = "/TA/TaskItem/";
+def.ContentState('Edit', "id").Controller(['pb', 'serverVm', '$scope',function (pb, serverVm, $scope) {
+    var c = pb.Super(this, serverVm, $scope);
+
+    c.ExecuteNoopResult = function (elementid) {
+        pb.AjaxNavBack();
+    };
+
+}]);
+def.ContentState('Add').WithController('Edit');
+def.ContentState('Search').WithChild('List');
+        </pre></div>
+    	<div class="col-md-{{c.colcnt}}"><code>Java</code><pre>
+def.ns = "/ta/TaskItem/";
+def.ContentState('Edit', "id").Controller(['pb', 'serverVm', '$scope',function (pb, serverVm, $scope) {
+    var c = pb.Super(this, serverVm, $scope, false);
+
+    c.ExecuteNoopResult = function (elementid) {
+        pb.AjaxNavBack();
+    };
+
+}]);
+def.ContentState('Add').WithController('Edit');
+def.ContentState('Search').WithChild('List');
+    	</pre></div>
+    	</div>
+	</uib-tab>
+  </uib-tabset>
+  
+    </div>
+</div>

@@ -1,0 +1,49 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<web-app xmlns="http://xmlns.jcp.org/xml/ns/javaee"
+  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  xsi:schemaLocation="http://xmlns.jcp.org/xml/ns/javaee
+                      http://xmlns.jcp.org/xml/ns/javaee/web-app_3_1.xsd"
+  version="3.1"
+  metadata-complete="true">
+    <display-name>javangarch</display-name>
+    <!--begin:context-param app setting======================================================-->
+     <context-param>
+		<param-name>LogRoot</param-name>
+		<param-value>/Log</param-value>
+  	</context-param>
+  	<context-param>
+		<param-name>Debug</param-name>
+		<param-value>true</param-value>
+  	</context-param>
+  	<context-param>
+		<param-name>WebJsDebug</param-name>
+		<param-value>C:\Work\Research\RainyArch\JavaNgArch\web</param-value>
+  	</context-param>
+  	<!--  -->
+
+
+    <welcome-file-list>
+        <welcome-file>index.htm</welcome-file>
+    </welcome-file-list>
+ 
+    <!--begin:error-page======================================================-->
+	<error-page>
+        <exception-type>java.lang.Throwable</exception-type>
+        <location>/Application_Error.do</location>
+    </error-page>    
+   	<!--end:error-page======================================================-->
+   <!--begin:jsp-config======================================================-->
+  	<jsp-config>
+	<jsp-property-group>
+		<url-pattern>*.jsp</url-pattern>
+		<include-prelude>/Shared/_global.jspf</include-prelude>
+	</jsp-property-group>
+	</jsp-config>
+	<!-- end:jsp-config======================================================-->
+	
+	<!--begin:session-config======================================================-->
+   	<session-config>
+    	<session-timeout>40</session-timeout>
+  	</session-config>
+  	<!-- end:session-config======================================================-->
+</web-app>

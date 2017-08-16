@@ -1,0 +1,72 @@
+<style>
+pre{
+max-height:500px;
+overflow-y:scroll;
+overflow-x:scroll;
+word-wrap:normal;
+}
+</style>
+<div class="panel panel-info" >
+<div class="panel-heading">
+<span translate>SrcCode</span>
+<button class="btn btn-primary btn-sm" translate ng-click="c.colcnt==6?c.colcnt=12:c.colcnt=6">SwitchLayout</button>
+<span translate>Note_AutoSrc_addfilter</span>
+</div>
+  <div class="panel-body">
+
+ <uib-tabset active="activeJustified" justified="true">
+    <uib-tab index="1" heading="Controller class">
+    	<div class="row">
+		<div class="col-md-{{c.colcnt}}"><code>C#</code><pre >
+
+			if (!string.IsNullOrEmpty(input.Name))
+				filter = filter.And(o =&gt; o.Name.StartsWith(input.Name));
+
+    	</pre></div>
+    	<div class="col-md-{{c.colcnt}}"><code>Java</code><pre>
+ 
+			if (!StringUtils.isEmpty(input.getName()))
+				filter = filter.And("this.name like ? ",input.getName()+"%");
+
+    	 </pre></div>
+		</div>
+	</uib-tab>
+    <uib-tab index="2" heading="ViewModel class">
+    	<div class="row">
+		<div class="col-md-{{c.colcnt}}"><code>C#</code><pre>
+		
+		public  string Name{ get; set; }
+
+    	</pre></div>
+    	<div class="col-md-{{c.colcnt}}"><code>Java</code><pre>
+
+           private  String name;
+
+    	</pre></div>
+    	</div>
+	</uib-tab>
+    <uib-tab index="3" heading="Search View">
+    	<div class="row">
+		<div class="col-md-{{c.colcnt}}"><code>C#</code><pre>
+
+       &lt;div class="form-group"&gt;
+       		${Html.NgLabelFor(m=&gt;m.Input.Name)}
+            ${Html.NgTextBoxFor(m=&gt;m.Input.Name,"form-control")}
+       &lt;/div&gt;
+
+        </pre></div>
+    	<div class="col-md-{{c.colcnt}}"><code>Java</code><pre>
+ 
+       &lt;div class="form-group"&gt;
+       		&lt;html:label path="vm.input.name"/&gt;
+            &lt;html:input path="vm.input.name" class="form-control"/&gt;
+       &lt;/div&gt;
+ 	
+    	</pre></div>
+    	</div>
+	</uib-tab>
+
+  </uib-tabset>
+  
+    </div>
+</div>

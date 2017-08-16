@@ -1,0 +1,268 @@
+<style>
+pre{
+max-height:500px;
+overflow-y:scroll;
+overflow-x:scroll;
+word-wrap:normal;
+}
+</style>
+<div class="panel panel-info" >
+<div class="panel-heading">
+<span translate>SrcCode</span>
+<button class="btn btn-primary btn-sm" translate ng-click="c.colcnt==6?c.colcnt=12:c.colcnt=6">SwitchLayout</button>
+<span translate>Note_InLineEditSrc</span>
+</div>
+  <div class="panel-body">
+
+ <uib-tabset active="activeJustified" justified="true">
+    <uib-tab index="1" heading="Controller class">
+    	<div class="row">
+		<div class="col-md-{{c.colcnt}}"><code>C#</code><pre >
+
+        [HttpPost]
+        [Transaction]
+	    public ActionResult SaveInLine(DeptListVM editvm) {
+            int id=Save(editvm.EditInput,false);
+            return RcJson(id);
+	    }
+	
+        [HttpPost]
+        [Transaction]
+	    public ActionResult DeleteInLine(int id) {
+		    DeptBD.Delete(id);
+		    return RcJson(true);
+	    }
+
+    	</pre></div>
+    	<div class="col-md-{{c.colcnt}}"><code>Java</code><pre>
+ 
+	@RequestMapping(method = RequestMethod.POST)
+	@Transaction
+	public ActionResult SaveInLine(@Valid DeptListVM editvm) {
+        int id=Save(editvm.getEditInput(),false);
+        return RcJson(id);
+	}
+	
+	@RequestMapping(method = RequestMethod.POST)
+	@Transaction
+	public ActionResult DeleteInLine(int id) {
+		DeptBD.Delete(id);
+		return RcJson(true);
+	}
+
+    	 </pre></div>
+		</div>
+	</uib-tab>
+    <uib-tab index="2" heading="ViewModel class">
+    	<div class="row">
+		<div class="col-md-{{c.colcnt}}"><code>C#</code><pre>
+		
+        public DeptEditVM.EditInput EditInput { get; set; }
+
+    	</pre></div>
+    	<div class="col-md-{{c.colcnt}}"><code>Java</code><pre>
+
+	private DeptEditVM.EditInput editInput=(new DeptEditVM()).new EditInput();
+
+    	</pre></div>
+    	</div>
+	</uib-tab>
+    <uib-tab index="3" heading="List View">
+    	<div class="row">
+		<div class="col-md-{{c.colcnt}}"><code>C#</code><pre>
+
+         ...
+		&lt;div class="col-sm-2" &gt;
+			&lt;button translate="Edit"  type="button" class="btn btn-default btn-xs" ng-click="c.btnEditInLine_click(item,$index)"/&gt;
+			&lt;button translate="Delete"  type="button" class="btn btn-default btn-xs" ng-click="c.btnDeleteInLine_click($index)"/&gt;
+		&lt;/div&gt;
+	&lt;/div&gt;
+	&lt;div class="row" ng-hide="c.tmp.IsInLine" id="divNewRow"&gt;
+        &lt;div class="col-sm-1"&gt;
+        &lt;/div&gt;
+		&lt;div class="col-sm-1"&gt;&lt;/div&gt;
+		&lt;div class="col-sm-1"&gt;&lt;/div&gt;
+		&lt;div class="col-sm-2" &gt;
+			&lt;button translate="Add"  type="button" class="btn btn-default btn-xs" ng-click="c.btnAddInLine_click()"/&gt;
+		&lt;/div&gt;
+		...
+		
+&lt;div id="divStandBy"&gt;
+	&lt;div id="divEdit" class="row" ng-show="c.tmp.IsInLine"&gt;
+    &lt;%Html.NgForm("c.frmEdit","SaveInLine",null,new{role="form"});%&gt;
+        &lt;div class="col-sm-1"&gt;
+        ${Html.NgHiddenFor(m=&gt;m.EditInput.Id)}
+       &lt;/div&gt;
+		&lt;div class="col-sm-1"&gt;${Html.NgTextBoxFor(m=&gt;m.EditInput.Code,"form-control")}&lt;/div&gt;
+		&lt;div class="col-sm-1"&gt;${Html.NgTextBoxFor(m=&gt;m.EditInput.Name,"form-control")}&lt;/div&gt;
+		&lt;div class="col-sm-2" &gt;			
+			&lt;button  id="btnSave" translate="Save"  type="button" class="btn btn-default btn-xs" ng-click='c.btnSaveInLine_click()'/&gt;
+			&lt;button translate="Cancel"  type="button" class="btn btn-default btn-xs" ng-click='c.btnCancel_click()'/&gt;
+		&lt;/div&gt;
+	&lt;/form&gt;
+  &lt;/div&gt;    
+&lt;/div&gt;
+
+        </pre></div>
+    	<div class="col-md-{c.colcnt}"><code>Java</code><pre>
+ 
+		...
+		&lt;div class="col-sm-3 gridcell" &gt;
+			&lt;button translate="Edit"  type="button" class="btn btn-default btn-xs" ng-click="c.btnEditInLine_click(item,$index)"/&gt;
+			&lt;button translate="Delete"  type="button" class="btn btn-default btn-xs" ng-click="c.btnDeleteInLine_click($index)"/&gt;
+		&lt;/div&gt;
+	&lt;/div&gt;
+	&lt;div class="row gridrow" ng-hide="c.tmp.IsInLine" id="divNewRow"&gt;
+        &lt;div class="col-sm-1 gridcell"&gt;
+        &lt;/div&gt;
+		&lt;div class="col-sm-4 gridcell"&gt;&lt;/div&gt;
+		&lt;div class="col-sm-4 gridcell"&gt;&lt;/div&gt;
+		&lt;div class="col-sm-3 gridcell" &gt;
+			&lt;button translate="Add"  type="button" class="btn btn-default btn-xs" ng-click="c.btnAddInLine_click()"/&gt;
+		&lt;/div&gt;
+		...
+		
+&lt;div id="divStandBy"&gt;
+	&lt;div id="divEdit" class="row gridrow" ng-show="c.tmp.IsInLine"&gt;
+		&lt;html:form name="c.frmEdit"  role="form" ajaxAction='SaveInLine'&gt;
+		       &lt;div class="col-sm-1 gridcell"&gt;
+		       &lt;html:hidden path="vm.editInput.id" /&gt;
+		      &lt;/div&gt;
+			&lt;div class="col-sm-4 gridcell"&gt;&lt;html:input path="vm.editInput.code"   class="form-control"/&gt;&lt;/div&gt;
+			&lt;div class="col-sm-4 gridcell"&gt;&lt;html:input path="vm.editInput.name"   class="form-control"/&gt;&lt;/div&gt;
+			&lt;div class="col-sm-3 gridcell" &gt;			
+				&lt;button  id="btnSave" translate="Save"  type="button" class="btn btn-default btn-xs" ng-click='c.btnSaveInLine_click()'/&gt;
+				&lt;button translate="Cancel"  type="button" class="btn btn-default btn-xs" ng-click='c.btnCancel_click()'/&gt;
+			&lt;/div&gt;
+		&lt;/html:form&gt;
+	&lt;/div&gt;    
+&lt;/div&gt;
+ 	
+    	</pre></div>
+    	</div>
+	</uib-tab>
+    <uib-tab index="6" heading="JS">
+    	<div class="row">
+		<div class="col-md-{{c.colcnt}}"><code>C#</code><pre>
+
+   c.vm.EditInput = { Id: 0 };
+    c.tmp.IsInLine = false;
+
+    c.btnDeleteInLine_click = function (idx) {
+        var item = c.vm.ResultList[idx];
+        pbui.Confirm('ConfirmDelete', item.Name).then(function () {
+            pb.CallAction('/GN/Dept/DeleteInLine?id=' + item.Id, null, function (result) {
+                if (result.data == true) {
+                    delete c.vm.ResultList[idx];
+                }
+            });
+        });
+
+    };
+    c.btnAddInLine_click = function () {
+        c.moveToLine(-1);
+    };
+    c.btnEditInLine_click = function (item, index) {
+        c.moveToLine(index);
+        c.vm.EditInput = item;
+        c.tmp.backupItem = angular.copy(item);
+    };
+    c.btnSaveInLine_click = function () {
+        pb.AjaxSubmit('c.frmEdit', null, null, function (result) {
+            if (!result.IsData) return;
+            if (c.vm.EditInput.Id == 0) {
+                c.vm.EditInput.Id = result.data;
+                c.vm.ResultList[c.vm.ResultList.length] = c.vm.EditInput;
+            }
+            c.resetEditLine();
+        });
+    };
+    c.btnCancel_click = function () {
+        angular.copy(c.tmp.backupItem, c.vm.EditInput);
+        c.resetEditLine();
+    };
+    c.resetEditLine = function () {
+        c.vm.EditInput = { id: 0 };
+        c.frmEdit.$setPristine();
+        c.moveToLine(null);
+    };
+    c.moveToLine = function(rowIndex) {
+        var tbl = pb.ElementById('tbl');
+        var divEdit = pb.ElementById('divEdit');
+        var divNewRow = pb.ElementById('divNewRow');
+        c.tmp.IsInLine = true;
+        if (rowIndex == null) {
+            c.tmp.IsInLine = false;
+            pb.ElementById('divStandBy').append(divEdit);
+        } else if (rowIndex == -1)
+            divNewRow.after(divEdit);
+        else
+            tbl.children().eq(rowIndex + 1).after(divEdit);
+    };
+
+        </pre></div>
+    	<div class="col-md-{{c.colcnt}}"><code>Java</code><pre>
+ 
+    c.vm.editInput={id:0};
+    c.tmp.IsInLine=false;
+    
+    c.btnDeleteInLine_click= function (idx) {
+    	var item=c.vm.resultList[idx];
+        pbui.Confirm('ConfirmDelete',item.name).then(function(){
+        	pb.CallAction('/do/gn/Dept/DeleteInLine?id='+item.id,null,function(result){
+        		if(result.data==true){
+        			delete c.vm.resultList[idx];
+        		}
+        	});
+        });
+
+    };
+    c.btnAddInLine_click= function () {
+    	c.moveToLine(-1);
+    };
+    c.btnEditInLine_click= function (item,index) {
+    	c.moveToLine(index);
+    	c.vm.editInput=item;
+    	c.tmp.backupItem=angular.copy(item);
+    };
+    c.btnSaveInLine_click = function () {
+    	pb.AjaxSubmit('c.frmEdit',null,null,function(result){
+    		if(!result.IsData)return;
+    		if(c.vm.editInput.id==0){
+    			c.vm.editInput.id=result.data;
+    			c.vm.resultList[c.vm.resultList.length]=c.vm.editInput;
+    		}
+    		c.resetEditLine();
+    	});
+    };
+    c.btnCancel_click = function () {
+    	angular.copy(c.tmp.backupItem,c.vm.editInput);
+    	c.resetEditLine();
+    };
+    c.resetEditLine=function(){
+		c.vm.editInput={id:0};
+        c.frmEdit.$setPristine();
+        c.moveToLine(null);
+    };
+    c.moveToLine=function(rowIndex){
+    	var tbl=pb.ElementById('tbl');
+    	var divEdit=pb.ElementById('divEdit');
+    	var divNewRow=pb.ElementById('divNewRow');
+    	c.tmp.IsInLine=true;
+    	if(rowIndex==null){
+        	c.tmp.IsInLine=false;
+    		pb.ElementById('divStandBy').append(divEdit);
+    	}
+    	else if(rowIndex==-1)
+    		divNewRow.after(divEdit);
+    	else
+    		tbl.children().eq(rowIndex+1).after(divEdit);
+    };
+ 	
+    	</pre></div>
+    	</div>
+	</uib-tab>
+  </uib-tabset>
+  
+    </div>
+</div>

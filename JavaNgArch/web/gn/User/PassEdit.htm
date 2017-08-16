@@ -1,0 +1,22 @@
+﻿<form name="c.frmPass" >
+<div class="form-horizontal">
+	<div class="form-group">
+		<label class="col-sm-1 control-label" translate="OldPassword"></label>
+		<div class="col-sm-4"><input type="password" ng-model="c.vm.OldPassword"  ng-model-options="{updateOn:'blur'}" class="form-control" required="required"></input></div>
+	</div>
+		
+		<div class="form-group">
+		<label class="col-sm-1 control-label" translate="NewPassword"></label>
+		<div class="col-sm-4"><input type="password" ng-model="c.vm.NewPassword" ng-model-options="{updateOn:'blur'}" class="form-control"  required="required"></input></div>
+	</div>
+		<div class="form-group">
+		<label class="col-sm-1 control-label" translate="ConfirmPassword"></label>
+		<div class="col-sm-4"><input type="password" ng-model="c.vm.ConfirmPassword"  ng-model-options="{updateOn:'blur'}" equalto="c.vm.NewPassword" valmsg='{"equalto":"Val_ConfirmPassword"}' translateKey="ConfirmPassword" class="form-control"  required="required"></input></div>
+	</div>
+	<div class="form-group">
+    	<button translate="Save" type="button" ng-click="c.btnOK_click()"  class="btn btn-default"/>
+    </div>
+</div>
+</form>
+
+

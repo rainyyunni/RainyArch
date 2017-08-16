@@ -1,0 +1,322 @@
+<div>
+<h3 translate>MultiViewsSample</h3><br>
+<h4 translate>MultiViewsLayoutDescription</h4><br>
+<p><span translate>EditViewMsg</span><code>{{c.tmp.MsgFromEdit}}</code></p>
+</div>
+ <uib-tabset  justified="true">
+    <uib-tab index="0" >
+    	<uib-tab-heading><strong translate>EditView</strong></uib-tab-heading>
+		<div ui-view="Edit"></div>
+	</uib-tab>
+    <uib-tab index="1" >
+    	<uib-tab-heading><strong translate>AnotherView</strong></uib-tab-heading>
+		<div ui-view="AnotherView"></div>
+	</uib-tab>
+</uib-tabset>
+<style>
+pre{
+max-height:500px;
+overflow-y:scroll;
+overflow-x:scroll;
+word-wrap:normal;
+}
+</style>
+<br>
+<br>
+<br>
+<div class="panel panel-info" >
+<div class="panel-heading">
+<span translate>SrcCode</span>
+<button class="btn btn-primary btn-sm" translate ng-click="c.colcnt==6?c.colcnt=12:c.colcnt=6">SwitchLayout</button>
+<span translate>Note_CollectionAndMultiViewsSrc</span>
+</div>
+  <div class="panel-body">
+
+ <uib-tabset active="activeJustified" justified="true">
+    <uib-tab index="0" heading="DomainObject class">
+    	<div class="row">
+    	<div class="col-md-{{c.colcnt}}"><code>Java</code><pre>
+@Getter
+@Setter
+public class Corp extends BaseDomainObject {
+
+	private static final long serialVersionUID = 1L;
+	public static final String DefaultSort = "Name asc";
+
+	@DomainSignature
+	private String code;
+	@RefText
+	private String name;
+	private String phone;
+
+	private IDomainList&lt;Dept&gt; depts;
+	public List&lt;Dept&gt; getDepts() {
+		return depts;
+	}
+	
+	private List&lt;Func&gt; funcs;
+	@OneToMany
+	@JoinTable(name = "gn_corpfunc", joinColumns = @JoinColumn(name = "CorpID") , inverseJoinColumns = @JoinColumn(name = "FuncID") )
+	public List&lt;Func&gt; getFuncs() {
+		return funcs;
+	}  
+	
+	private List&lt;CorpContact&gt; contacts;
+	@ElementCollection
+	@CollectionTable(name = "gn_corpcontact", joinColumns = @JoinColumn(name = "CorpID")  )
+	public List&lt;CorpContact&gt; getContacts() {
+		return contacts;
+	}
+	
+}
+@Getter@Setter
+@Embeddable
+public class CorpContact {
+
+	private String phone;
+	private String name;
+	private String position;
+
+	public CorpContact(){
+	}
+	
+	public CorpContact(String phone,String name,String position){
+		this.phone=phone;
+		this.name=name;
+		this.position=position;
+	}
+}
+    	</pre></div>
+    	</div>
+	</uib-tab>
+    <uib-tab index="1" heading="Controller class">
+    	<div class="row">
+    	<div class="col-md-{{c.colcnt}}"><code>Java</code><pre>
+   @Auth
+    public class CorpController  extends  AppBaseController
+    {
+        @Resource public ICommonBD&lt;Corp&gt; CorpBD;
+
+        public ActionResult Edit()
+        {
+            Corp corp = GetLoginCorp();
+            CorpEditVM m = new CorpEditVM();
+
+            Map(corp,m.getInput());
+			Type listType = new TypeToken&lt;List&lt;CorpContactEditVM&gt;&gt;(){}.getType();
+            m.getInput().setContactList(MapCollection(corp.getContacts(), listType));
+            return ForView(m);
+        }
+
+        @RequestMapping(method=RequestMethod.POST)
+        @Transaction
+        public ActionResult Save(@Valid CorpEditVM editvm)
+        {
+         	Save(editvm.getInput());
+            SetViewMessage(Message_SaveSuccessfully);
+            return ClientShowMessage();
+        }
+
+        private void Save(CorpEditVM.EditInput input)
+        {
+            Corp corp;
+            if (input.getId() == 0)
+            {
+                corp = new Corp();
+            }
+            else
+            {
+                corp = CorpBD.Get(input.getId());
+            }
+			corp.setName(input.getName());
+			corp.setPhone(input.getPhone());
+			
+			List&lt;CorpContact&gt; cl=new ArrayList&lt;CorpContact&gt;();
+			for(CorpContactEditVM i :input.getContactList()){
+				cl.add(new CorpContact(i.getPhone(),i.getName(),i.getPosition()));
+			}
+			corp.setContacts(cl);
+            CorpBD.Save(corp);
+        }
+}
+    	 </pre></div>
+		</div>
+	</uib-tab>
+    <uib-tab index="2" heading="ViewModel class">
+    	<div class="row">
+    	<div class="col-md-{{c.colcnt}}"><code>Java</code><pre>
+@Getter@Setter
+public class CorpEditVM {
+	public CorpEditVM() {
+		input = new EditInput();
+	}
+  
+
+	private EditInput input;
+
+	@Getter@Setter
+	@DisplayName("Corp")
+	public class EditInput {
+		
+		private int id;
+		
+		@NotNull
+		@Size(max=10)
+		private  String code;
+		@NotNull
+		@Size(max=50)
+		private  String name;
+		@Size(max=20)
+		private  String phone;
+		
+		private List&lt;CorpContactEditVM&gt; contactList=new ArrayList&lt;CorpContactEditVM&gt;();
+		private CorpContactEditVM newContact=new CorpContactEditVM();
+
+    }
+}
+	@Getter@Setter
+	public class CorpContactEditVM {
+		
+		@NotNull
+		@Size(max=20)
+		private  String phone;
+		@NotNull
+		@Size(max=10)
+		private  String name;
+		@Size(max=20)
+		private  String position;
+	}
+    	</pre></div>
+    	</div>
+	</uib-tab>
+
+    <uib-tab index="3" heading="Layout View">
+	    <div class="row"><pre>
+&lt;div&gt;
+&lt;h3 translate&gt;MultiViewsSample&lt;/h3&gt;&lt;br&gt;
+&lt;h4 translate&gt;MultiViewsLayoutDescription&lt;/h4&gt;&lt;br&gt;
+&lt;p&gt;&lt;span translate&gt;EditViewMsg&lt;/span&gt;&lt;code&gt;{c.tmp.MsgFromEdit}&lt;/code&gt;&lt;/p&gt;
+&lt;/div&gt;
+ &lt;uib-tabset  justified="true"&gt;
+    &lt;uib-tab index="0" &gt;
+    	&lt;uib-tab-heading&gt;&lt;strong translate&gt;EditView&lt;/strong&gt;&lt;/uib-tab-heading&gt;
+		&lt;div ui-view="Edit"&gt;&lt;/div&gt;
+	&lt;/uib-tab&gt;
+    &lt;uib-tab index="1" &gt;
+    	&lt;uib-tab-heading&gt;&lt;strong translate&gt;AnotherView&lt;/strong&gt;&lt;/uib-tab-heading&gt;
+		&lt;div ui-view="AnotherView"&gt;&lt;/div&gt;
+	&lt;/uib-tab&gt;
+&lt;/uib-tabset&gt;
+	    </pre></div>
+	</uib-tab>  
+
+    <uib-tab index="4" heading="Edit View">
+	    <div class="row">
+    	<div class="col-md-{{c.colcnt}}"><code>Java</code><pre>
+&lt;%@ page pageEncoding="UTF-8" %&gt;
+&lt;p:viewdata model="CorpEditVM" /&gt;
+&lt;html:form ajax-url='${Url.Action("Save")}' name="c.frmEdit" &gt;
+&lt;div class="form-horizontal"&gt;
+	&lt;html:hidden path="vm.input.id"/&gt;
+		
+	&lt;div class="form-group"&gt;
+		&lt;html:label path="vm.input.code" class="col-sm-2 control-label"/&gt;
+		&lt;div class="col-sm-4"&gt;&lt;html:input path="vm.input.code"   class="form-control"/&gt;&lt;/div&gt;
+	&lt;/div&gt;
+		
+	&lt;div class="form-group"&gt;
+		&lt;html:label path="vm.input.name" class="col-sm-2 control-label"/&gt;
+		&lt;div class="col-sm-4"&gt;&lt;html:input path="vm.input.name"   class="form-control"/&gt;&lt;/div&gt;
+	&lt;/div&gt;
+		
+	&lt;div class="form-group"&gt;
+		&lt;html:label path="vm.input.phone" class="col-sm-2 control-label"/&gt;
+		&lt;div class="col-sm-4"&gt;&lt;html:input path="vm.input.phone"   class="form-control"/&gt;&lt;/div&gt;
+	&lt;/div&gt;
+
+	&lt;div class="form-group"&gt;
+	&lt;span translate="CorpContact" class="col-sm-2 control-label"&gt;&lt;/span&gt;
+&lt;div class="col-sm-8 table-responsive"&gt;&lt;table class="table table-striped table-bordered table-hover" &gt;
+	&lt;thead&gt;&lt;tr &gt;
+		&lt;th&gt;&lt;span  translate="CorpContact_Phone"&gt;&lt;/span&gt;&lt;/th&gt;
+		&lt;th&gt;&lt;span  translate="CorpContact_Name"&gt;&lt;/span&gt;&lt;/th&gt;
+		&lt;th&gt;&lt;span  translate="CorpContact_Position"&gt;&lt;/span&gt;&lt;/th&gt;
+		&lt;th&gt;&lt;span  translate="Operation"&gt;&lt;/span&gt;&lt;/th&gt;
+	&lt;/tr&gt;&lt;/thead&gt;
+	&lt;tbody&gt;&lt;tr ng-repeat="item in c.vm.input.contactList track by $index" ng-if="item"&gt;
+		&lt;td&gt;&lt;html:input path="vm.input.newContact.phone" ng-model="c.vm.input.contactList[$index].phone" /&gt;&lt;/td&gt;
+		&lt;td&gt;&lt;html:input path="vm.input.newContact.name" ng-model="c.vm.input.contactList[$index].name" /&gt;&lt;/td&gt;
+		&lt;td&gt;&lt;html:input path="vm.input.newContact.position" ng-model="c.vm.input.contactList[$index].position" /&gt;&lt;/td&gt;
+		&lt;td&gt;
+			&lt;button translate="Delete"  type="button" class="btn btn-default btn-xs" ng-click="c.btnDeleteRow_click($index)"/&gt;
+		&lt;/td&gt;
+	&lt;/tr&gt;
+	&lt;tr&gt;
+		&lt;td&gt;&lt;html:input path="vm.input.newContact.phone" name="" pb-group="newrow" /&gt;&lt;/td&gt;
+		&lt;td&gt;&lt;html:input path="vm.input.newContact.name"  name="" pb-group="newrow" /&gt;&lt;/td&gt;
+		&lt;td&gt;&lt;html:input path="vm.input.newContact.position"  name="" pb-group="newrow"/&gt;&lt;/td&gt;
+		&lt;td&gt;&lt;button translate="Add"  type="button" class="btn btn-default btn-xs" ng-click="c.btnAddRow_click()"/&gt;
+		&lt;/td&gt;
+	&lt;/tr&gt;
+	&lt;/tbody&gt;
+&lt;/table&gt;&lt;/div&gt;
+    &lt;/div&gt;
+    &lt;div class="form-group text-center col-sm-6"&gt;
+    	&lt;button translate="Save" type="button" ajax-url='' class="btn btn-default"/&gt;
+    &lt;/div&gt;
+&lt;/div&gt;
+&lt;br&gt;
+&lt;/html:form&gt;
+    	</pre></div>
+    	</div>
+	</uib-tab>
+	<uib-tab index="5" heading="Another View">
+	    <div class="row"><pre>
+&lt;div&gt;
+&lt;h4 translate&gt;AnotherViewDescription&lt;/h4&gt;&lt;br&gt;
+&lt;p&gt;&lt;span translate&gt;EditViewMsg&lt;/span&gt;&lt;code&gt;{c.tmp.MsgFromEdit}&lt;/code&gt;&lt;/p&gt;
+	    </pre></div>
+	</uib-tab>  
+    <uib-tab index="6" heading="JS">
+	    <div class="row">
+    	<div class="col-md-{{c.colcnt}}"><code></code><pre>
+def.ns = "/gn/Corp/";
+def.tmp=def.MultiViewsState('MultiViewsSample.html');
+def.tmp.Layout.Controller(['pb', '$scope','$rootScope',function (pb, $scope,$rootScope) {
+	var c = pb.Super(this, {}, $scope);
+	
+	$rootScope.$on("/gn/Corp/Edit.deleteContact",function(event,args){
+		c.tmp.MsgFromEdit=args;
+	});
+}]);
+def.tmp.BranchView('Edit', "id").Controller(['pb', 'serverVm', '$scope','$rootScope','$translate',function (pb, serverVm, $scope,$rootScope,$translate) {
+	var c = pb.Super(this, serverVm, $scope);
+	
+	c.btnDeleteRow_click= function (idx) {
+		var deleted=c.vm.input.contactList[idx].name;
+		delete c.vm.input.contactList[idx];
+		$translate('ContactDeleted').then(function(ContactDeleted){
+			$rootScope.$emit("/gn/Corp/Edit.deleteContact",ContactDeleted+deleted);
+		})
+	};
+	c.btnAddRow_click= function () {
+		if(!pb.ValidateUtil.Validate(c.frmEdit,'newrow'))return;
+		c.vm.input.contactList[c.vm.input.contactList.length]=c.vm.input.newContact;
+		c.vm.input.newContact={};
+		pb.ValidateUtil.SetPristine(c.frmEdit,'newrow');
+	};
+}])
+.BranchView('AnotherView.htm').Controller(['pb', '$scope','$rootScope',function (pb, $scope,$rootScope) {
+	var c = pb.Super(this, {}, $scope);
+	
+	$rootScope.$on("/gn/Corp/Edit.deleteContact",function(event,args){
+		c.tmp.MsgFromEdit=args;
+	});
+}]);
+    	</pre></div>
+    	</div>
+	</uib-tab>
+  </uib-tabset>
+  
+    </div>
+</div>

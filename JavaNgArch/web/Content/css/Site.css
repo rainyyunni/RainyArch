@@ -1,0 +1,23 @@
+﻿.projectbase-processing 
+{
+	z-index:10;
+	position: absolute;
+	color:#708090;
+	border:1px solid #bed6e2;
+	background:url(/Content/images/Processing.gif) no-repeat transparent 50% 50%;
+	opacity:0.3; filter: alpha(opacity=30); background-color:#ffffec;
+}
+.gridcell
+{
+	height:40px;
+}
+.gridrow
+{
+	border-bottom:1px solid silver;
+	border-left:1px solid silver;
+	border-right:1px solid silver;
+}
+.gridrow-top
+{
+	border-top:1px solid silver;
+}

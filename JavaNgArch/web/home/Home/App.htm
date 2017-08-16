@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html ng-app="app" lang="zh-CN">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+    <title>纯真年代</title>
+	<link href="/Content/bootstrap.css" rel="stylesheet" />
+	<link href="/Content/bootstrap-theme.css" rel="stylesheet" />
+    <script src="/Scripts/jquery-1.8.2.min.js"></script>
+    <script src="/Scripts/md5-min.js"></script>
+    <script src="/Scripts/angular.js"></script>
+    <script src="/Scripts/angular-cookies.js"></script>
+    <script src="/Scripts/angular-translate.js"></script>
+    <script src="/Scripts/angular-translate-loader-static-files.js"></script>
+    <script src="/Scripts/angular-translate-storage-cookie.js"></script>
+    <script src="/Scripts/angular-translate-storage-local.js"></script>
+    <script src="/Scripts/angular-ui-router.js"></script>
+    <script src="/Scripts/jcs-auto-validate.js"></script>
+   <!-- ------- -->
+    <script src="/Scripts/ProjectBase_Common.js?v=20"></script>
+   <script src="/Scripts/ProjectBase_Ajax.js"></script>
+   <script src="/Scripts/App_Common.js?v=20"></script>
+    <script src="/home/Home/Ctrl.js"></script>
+   <script src="/cz/MemberNote/Ctrl.js"></script>
+   <script src="/cz/ChunZhenHome/Ctrl.js"></script>
+  </head>
+  <body bottomMargin="0" leftMargin="0" topMargin="0" rightMargin="0" ng-controller="BaseCtrl as baseCtrl" class="container-fluid">
+this is the prototype of MainFrame which is a sample of entry to an angular app page.You should use this page as a general start point.
+<ui-view name="topview"></ui-view>
+<ui-view name="leftview" ></ui-view>
+<ui-view name="someview" ></ui-view>
+<ui-view ></ui-view>
+</body>
+</html>
+
+
+
+

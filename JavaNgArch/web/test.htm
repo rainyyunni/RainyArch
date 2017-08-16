@@ -1,0 +1,472 @@
+<!DOCTYPE html>
+<html ng-app="ui.bootstrap.demo" lang="zh-CN">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no"/>
+    <title>纯真年代</title>
+	<link href="/Content/css/bootstrap.css" rel="stylesheet" />
+	<link href="/Content/css/bootstrap-theme.css" rel="stylesheet" />
+	<script src="/Scripts/angular.js"></script>
+	<script src="/Scripts/angular-animate.js"></script>
+	<script src="/Scripts/lang/angular-locale_zh-cn.js"></script>
+    <script src="/Scripts/angular-cookies.js"></script>
+    <script src="/Scripts/angular-translate.js"></script>
+    <script src="/Scripts/angular-translate-loader-static-files.js"></script>
+    <script src="/Scripts/angular-translate-storage-cookie.js"></script>
+    <script src="/Scripts/angular-translate-storage-local.js"></script>
+    <script src="/Scripts/angular-ui-router.js"></script>
+    <script src="/Scripts/jcs-auto-validate.js"></script>
+    <script src="/Scripts/ui-bootstrap-tpls-1.2.4.js"></script>
+   <script src="/Scripts/md5-min.js"></script>
+   <!-- ------- -->
+    <script src="/Scripts/ProjectBase_Common.js"></script>
+   <script src="/Scripts/ProjectBase_Ajax.js"></script>
+   <script src="/Scripts/App_Common.js"></script>
+   <script >
+   angular.module('ui.bootstrap.demo',['projectbase']);
+   angular.module('ui.bootstrap.demo').controller('PositionDemoCtrl', function ($scope, $window, $uibPosition) {
+
+	    $scope.elemVals = {};
+	    $scope.parentScrollable = true;
+	    $scope.parentRelative = true;
+
+	    $scope.getValues = function() {
+	      var divEl = $window.document.querySelector('#posdemodiv');
+	     // var btnEl = $window.document.querySelector('#posdemobtn');
+	      var btnEl = $window.document.querySelector('#btnTest');
+
+	      var offsetParent = $uibPosition.offsetParent(divEl);
+	      $scope.elemVals.offsetParent = 'type: ' + offsetParent.tagName + ', id: ' + offsetParent.id;
+
+	      var scrollParent = $uibPosition.scrollParent(divEl);
+	      $scope.elemVals.scrollParent = 'type: ' + scrollParent.tagName + ', id: ' + scrollParent.id;
+
+	      $scope.scrollbarWidth = $uibPosition.scrollbarWidth();
+
+	      $scope.elemVals.position = $uibPosition.position(divEl);
+
+	      $scope.elemVals.offset = $uibPosition.offset(divEl);
+
+	      //$scope.elemVals.viewportOffset = $uibPosition.viewportOffset(divEl);
+
+	      $scope.elemVals.positionElements = $uibPosition.positionElements(divEl, btnEl,'top-left');
+	    };
+	});
+   angular.module('ui.bootstrap.demo').controller('CollapseDemoCtrl', function ($scope) {
+	   $scope.isCollapsed = false;
+	 });
+   angular.module('ui.bootstrap.demo').controller('AlertDemoCtrl', function ($scope) {
+	   $scope.alerts = [
+	     { type: 'danger', msg: 'Oh snap! Change a few things up and try submitting again.' },
+	     { type: 'success', msg: 'Well done! You successfully read this important alert message.' }
+	   ];
+
+	   $scope.addAlert = function() {
+	     $scope.alerts.push({msg: 'Another alert!'});
+	   };
+
+	   $scope.closeAlert = function(index) {
+	     $scope.alerts.splice(index, 1);
+	   };
+	 });
+   angular.module('ui.bootstrap.demo').controller('ModalDemoCtrl', function ($scope, $uibModal, $log) {
+
+	   $scope.items = ['item1', 'item2', 'item3'];
+
+	   $scope.animationsEnabled = true;
+
+	   $scope.open = function (size) {
+
+	     var modalInstance = $uibModal.open({
+	       animation: $scope.animationsEnabled,
+	       templateUrl: 'uib/template/modal/window.html',
+	       controller: 'ModalInstanceCtrl',
+	       size: size,
+	       resolve: {
+	         items: function () {
+	           return $scope.items;
+	         }
+	       }
+	     });
+
+	     modalInstance.result.then(function (selectedItem) {
+	       $scope.selected = selectedItem;
+	     }, function () {
+	       $log.info('Modal dismissed at: ' + new Date());
+	     });
+	   };
+
+	   $scope.toggleAnimation = function () {
+	     $scope.animationsEnabled = !$scope.animationsEnabled;
+	   };
+
+	 });
+
+	 // Please note that $uibModalInstance represents a modal window (instance) dependency.
+	 // It is not the same as the $uibModal service used above.
+
+	 angular.module('ui.bootstrap.demo').controller('ModalInstanceCtrl', function ($scope, $uibModalInstance, items) {
+
+	   $scope.items = items;
+	   $scope.selected = {
+	     item: $scope.items[0]
+	   };
+
+	   $scope.ok = function () {
+	     $uibModalInstance.close($scope.selected.item);
+	   };
+
+	   $scope.cancel = function () {
+	     $uibModalInstance.dismiss('cancel');
+	   };
+	 });
+	 angular.module('ui.bootstrap.demo').controller('TabsDemoCtrl', function ($scope, $window) {
+		  $scope.tabs = [
+		    { title:'Dynamic Title 1', content:'Dynamic content 1' },
+		    { title:'Dynamic Title 2', content:'Dynamic content 2', disabled: true }
+		  ];
+
+		  $scope.alertMe = function() {
+		    setTimeout(function() {
+		      $window.alert('You\'ve selected the alert tab!');
+		    });
+		  };
+
+		  $scope.model = {
+		    name: 'Tabs'
+		  };
+		});
+	 angular.module('ui.bootstrap.demo').controller('AccordionDemoCtrl', function ($scope) {
+		  $scope.oneAtATime = true;
+
+		  $scope.groups = [
+		    {
+		      title: 'Dynamic Group Header - 1',
+		      content: 'Dynamic Group Body - 1'
+		    },
+		    {
+		      title: 'Dynamic Group Header - 2',
+		      content: 'Dynamic Group Body - 2'
+		    }
+		  ];
+
+		  $scope.items = ['Item 1', 'Item 2', 'Item 3'];
+
+		  $scope.addItem = function() {
+		    var newItemNo = $scope.items.length + 1;
+		    $scope.items.push('Item ' + newItemNo);
+		  };
+
+		  $scope.status = {
+		    isCustomHeaderOpen: false,
+		    isFirstOpen: true,
+		    isFirstDisabled: false
+		  };
+		});
+	 angular.module('ui.bootstrap.demo').controller('PopoverDemoCtrl', function ($scope, $sce) {
+		  $scope.dynamicPopover = {
+		    content: 'Hello, World!',
+		    templateUrl: 'myPopoverTemplate.html',
+		    title: 'Title'
+		  };
+
+		  $scope.placement = {
+		    options: [
+		      'top',
+		      'top-left',
+		      'top-right',
+		      'bottom',
+		      'bottom-left',
+		      'bottom-right',
+		      'left',
+		      'left-top',
+		      'left-bottom',
+		      'right',
+		      'right-top',
+		      'right-bottom'
+		    ],
+		    selected: 'top'
+		  };
+		  
+		  $scope.htmlPopover = $sce.trustAsHtml('<b style="color: red">I can</b> have <div class="label label-success">HTML</div> content');
+		});
+   </script>
+  </head>
+<body>
+<button class="btn btn-default">uuu</button>
+<div ng-controller="CollapseDemoCtrl">
+<a href="/rrr" class="disabled">ttt</a>
+	<button type="button" class="btn btn-default" ng-click="isCollapsed = !isCollapsed">Toggle collapse</button>
+	<hr>
+	<div uib-collapse="isCollapsed">
+		<div class="well well-lg">Some content</div>
+	</div>
+	<li ng-click="isCollapsed = !isCollapsed" >
+	hello
+	<ul uib-collapse="isCollapsed"><li >h1</li><li>h2</li></ul>
+	</li>
+</div>
+<div ng-controller="PositionDemoCtrl">
+  <h4>$uibPosition service</h4>
+  <div id="posdemoparent" ng-style="{'overflow': (parentScrollable && 'scroll'), 'position': (parentRelative && 'relative')}" style="border: 1px solid #ccc; padding: 15px;">
+    <div class="checkbox">
+      <label>
+        <input type="checkbox" ng-model="parentScrollable"> Parent scrollable
+      </label>
+    </div>
+    <div class="checkbox">
+      <label>
+        <input type="checkbox" ng-model="parentRelative"> Parent relative
+      </label>
+    </div>
+    <button id="posdemobtn" class="btn btn-default" ng-click="getValues()">Get values</button>
+
+    <div id="posdemodiv" style="width: 100px; height: 100px; margin: 15px 0; padding: 10px; background-color: #f8f8f8; border: 1px solid #ccc;">
+      Demo element
+    </div>
+    <button id="btnTest" class="btn btn-default" >Get values</button>
+  </div>
+  <br />
+  offsetParent: {{elemVals.offsetParent}}
+  <br />
+  scrollParent: {{elemVals.scrollParent}}
+  <br />
+  scrollbarWidth: {{scrollbarWidth}}
+  <br />
+  position: {{elemVals.position}}
+  <br />
+  offset: {{elemVals.offset}}
+  <br />
+  viewportOffset: {{elemVals.viewportOffset}}
+  <br />
+  positionElements: {{elemVals.positionElements}}
+</div>
+
+<div ng-controller="AlertDemoCtrl">
+  <script type="text/ng-template" id="alert.html">
+    <div class="alert" style="background-color:#fa39c3;color:white" role="alert">
+      <div ng-transclude></div>
+    </div>
+  </script>
+
+  <uib-alert ng-repeat="alert in alerts" type="{{alert.type}}" close="closeAlert($index)">{{alert.msg}}</uib-alert>
+  <uib-alert template-url="alert.html">A happy alert!</uib-alert>
+  <uib-alert >mine</uib-alert>
+  <button type="button" class='btn btn-default' ng-click="addAlert()">Add Alert</button>
+</div>
+<div ng-controller="ModalDemoCtrl">
+    <script type="text/ng-template" id="myModalContent.html">
+        <div class="modal-header">
+            <h3 class="modal-title">I'm a modal!</h3>
+        </div>
+        <div class="modal-body">
+            <ul>
+                <li ng-repeat="item in items">
+                    <a href="#" ng-click="$event.preventDefault(); selected.item = item">{{ item }}</a>
+                </li>
+            </ul>
+            Selected: <b>{{ selected.item }}</b>
+        </div>
+        <div class="modal-footer">
+            <button class="btn btn-primary" type="button" ng-click="ok()">OK</button>
+            <button class="btn btn-warning" type="button" ng-click="cancel()">Cancel</button>
+        </div>
+    </script>
+
+    <button type="button" class="btn btn-default" ng-click="open()">Open me!</button>
+    <button type="button" class="btn btn-default" ng-click="open('lg')">Large modal</button>
+    <button type="button" class="btn btn-default" ng-click="open('sm')">Small modal</button>
+    <button type="button" class="btn btn-default" ng-click="toggleAnimation()">Toggle Animation ({{ animationsEnabled }})</button>
+    <div ng-show="selected">Selection from a modal: {{ selected }}</div>
+</div>
+<style type="text/css">
+  form.tab-form-demo .tab-pane {
+    margin: 20px 20px;
+  }
+</style>
+
+<div ng-controller="TabsDemoCtrl">
+  <p>Select a tab by setting active binding to true:</p>
+  <p>
+    <button type="button" class="btn btn-default btn-sm" ng-click="active = 1">Select second tab</button>
+    <button type="button" class="btn btn-default btn-sm" ng-click="active = 2">Select third tab</button>
+  </p>
+  <p>
+    <button type="button" class="btn btn-default btn-sm" ng-click="tabs[1].disabled = ! tabs[1].disabled">Enable / Disable third tab</button>
+  </p>
+  <hr />
+
+  <uib-tabset active="active">
+    <uib-tab index="0" heading="Static title">Static content</uib-tab>
+    <uib-tab index="$index + 1" ng-repeat="tab in tabs" heading="{{tab.title}}" disable="tab.disabled">
+      {{tab.content}}
+    </uib-tab>
+    <uib-tab index="3" select="alertMe()">
+      <uib-tab-heading>
+        <i class="glyphicon glyphicon-bell"></i> Alert!
+      </uib-tab-heading>
+      I've got an HTML heading, and a select callback. Pretty cool!
+    </uib-tab>
+  </uib-tabset>
+
+  <hr />
+
+  <uib-tabset active="activePill" vertical="true" type="pills">
+    <uib-tab index="0" heading="Vertical 1">Vertical content 1</uib-tab>
+    <uib-tab index="1" heading="Vertical 2">Vertical content 2</uib-tab>
+  </uib-tabset>
+
+  <hr />
+
+  <uib-tabset active="activeJustified" justified="true">
+    <uib-tab index="0" heading="Justified">Justified content</uib-tab>
+    <uib-tab index="1" heading="SJ">Short Labeled Justified content</uib-tab>
+    <uib-tab index="2" heading="Long Justified">Long Labeled Justified content</uib-tab>
+  </uib-tabset>
+
+  <hr />
+
+  Tabbed pills with CSS classes
+  <uib-tabset type="pills">
+    <uib-tab heading="Default Size">Tab 1 content</uib-tab>
+    <uib-tab heading="Small Button" classes="btn-sm">Tab 2 content</uib-tab>
+  </uib-tabset>
+
+  <hr />
+
+  Tabs using nested forms:
+  <form name="outerForm" class="tab-form-demo">
+    <uib-tabset active="activeForm">
+      <uib-tab index="0" heading="Form Tab">
+        <ng-form name="nestedForm">
+          <div class="form-group">
+            <label>Name</label>
+            <input type="text" class="form-control" required ng-model="model.name"/>
+          </div>
+        </ng-form>
+      </uib-tab>
+      <uib-tab index="1" heading="Tab One">
+        Some Tab Content
+      </uib-tab>
+      <uib-tab index="2" heading="Tab Two">
+        More Tab Content
+      </uib-tab>
+    </uib-tabset>
+  </form>
+  Model:
+  <pre>{{ model | json }}</pre>
+  Nested Form:
+  <pre>{{ outerForm.nestedForm | json }}</pre>
+</div>
+<div ng-controller="AccordionDemoCtrl">
+  <script type="text/ng-template" id="group-template.html">
+    <div class="panel {{panelClass || 'panel-default'}}">
+      <div class="panel-heading">
+        <h4 class="panel-title" style="color:#fa39c3">
+          <a href tabindex="0" class="accordion-toggle" ng-click="toggleOpen()" uib-accordion-transclude="heading">
+            <span uib-accordion-header ng-class="{'text-muted': isDisabled}">
+              {{heading}}
+            </span>
+          </a>
+        </h4>
+      </div>
+      <div class="panel-collapse collapse" uib-collapse="!isOpen">
+        <div class="panel-body" style="text-align: right" ng-transclude></div>
+      </div>
+    </div>
+  </script>
+
+  <p>
+    <button type="button" class="btn btn-default btn-sm" ng-click="status.open = !status.open">Toggle last panel</button>
+    <button type="button" class="btn btn-default btn-sm" ng-click="status.isFirstDisabled = ! status.isFirstDisabled">Enable / Disable first panel</button>
+  </p>
+
+  <div class="checkbox">
+    <label>
+      <input type="checkbox" ng-model="oneAtATime">
+      Open only one at a time
+    </label>
+  </div>
+  <uib-accordion close-others="oneAtATime">
+    <uib-accordion-group heading="Static Header, initially expanded" is-open="status.isFirstOpen" is-disabled="status.isFirstDisabled">
+      This content is straight in the template.
+    </uib-accordion-group>
+    <uib-accordion-group heading="{{group.title}}" ng-repeat="group in groups">
+      {{group.content}}
+    </uib-accordion-group>
+    <uib-accordion-group heading="Dynamic Body Content">
+      <p>The body of the uib-accordion group grows to fit the contents</p>
+      <button type="button" class="btn btn-default btn-sm" ng-click="addItem()">Add Item</button>
+      <div ng-repeat="item in items">{{item}}</div>
+    </uib-accordion-group>
+    <uib-accordion-group heading="Custom template" template-url="group-template.html">
+      Hello
+    </uib-accordion-group>
+    <uib-accordion-group is-open="status.isCustomHeaderOpen" template-url="group-template.html">
+      <uib-accordion-heading>
+        Custom template with custom header template <i class="pull-right glyphicon" ng-class="{'glyphicon-chevron-down': status.isCustomHeaderOpen, 'glyphicon-chevron-right': !status.isCustomHeaderOpen}"></i>
+      </uib-accordion-heading>
+      World
+    </uib-accordion-group>
+    <uib-accordion-group heading="Delete account" panel-class="panel-danger">
+      <p>Please, to delete your account, click the button below</p>
+      <button class="btn btn-danger">Delete</button>
+    </uib-accordion-group>
+    <uib-accordion-group is-open="status.open">
+      <uib-accordion-heading>
+        I can have markup, too! <i class="pull-right glyphicon" ng-class="{'glyphicon-chevron-down': status.open, 'glyphicon-chevron-right': !status.open}"></i>
+      </uib-accordion-heading>
+      This is just some content to illustrate fancy headings.
+    </uib-accordion-group>
+  </uib-accordion>
+</div>
+<div ng-controller="PopoverDemoCtrl">
+    <h4>Dynamic</h4>
+    <div class="form-group">
+      <label>Popup Text:</label>
+      <input type="text" ng-model="dynamicPopover.content" class="form-control">
+    </div>
+    <div class="form-group">
+      <label>Popup Title:</label>
+      <input type="text" ng-model="dynamicPopover.title" class="form-control">
+    </div>
+    <div class="form-group">
+      <label>Popup Template:</label>
+      <input type="text" ng-model="dynamicPopover.templateUrl" class="form-control">
+    </div>
+    <button uib-popover="{{dynamicPopover.content}}" popover-title="{{dynamicPopover.title}}" type="button" class="btn btn-default">Dynamic Popover</button>
+
+    <button uib-popover-template="dynamicPopover.templateUrl" popover-title="{{dynamicPopover.title}}" type="button" class="btn btn-default">Popover With Template</button>
+
+    <script type="text/ng-template" id="myPopoverTemplate.html">
+        <div>{{dynamicPopover.content}}</div>
+        <div class="form-group">
+          <label>Popup Title:</label>
+          <input type="text" ng-model="dynamicPopover.title" class="form-control">
+        </div>
+    </script>
+    <hr />
+    <h4>Positional</h4>
+    <div class="form-group">
+      <label>Popover placement</label>
+      <select class="form-control" ng-model="placement.selected" ng-options="o as o for o in placement.options"></select>
+    </div>
+    <button popover-placement="{{placement.selected}}" uib-popover="On the {{placement.selected}}" type="button" class="btn btn-default">Popover {{placement.selected}}</button>
+
+    <hr />
+    <h4>Triggers</h4>
+    <p>
+      <button uib-popover="I appeared on mouse enter!" popover-trigger="mouseenter" type="button" class="btn btn-default">Mouseenter</button>
+    </p>
+    <input type="text" value="Click me!" uib-popover="I appeared on focus! Click away and I'll vanish..."  popover-trigger="focus" class="form-control">
+
+    <hr />
+    <h4>Other</h4>
+    <button popover-animation="true" uib-popover="I fade in and out!" type="button" class="btn btn-default">fading</button>
+    <button uib-popover="I have a title!" popover-title="The title." type="button" class="btn btn-default">title</button>
+    <button uib-popover="I am activated manually" popover-is-open="popoverIsOpen" ng-click="popoverIsOpen = !popoverIsOpen" type="button" class="btn btn-default">Toggle popover</button>
+    <button uib-popover-html="htmlPopover" class="btn btn-default">HTML Popover</button>
+</div>
+</body>
+</html>
