@@ -1,0 +1,42 @@
+<viewdata model="MemberNoteListVM"/>	
+<div class="tbl tbl-stripped" >
+	<div class="row"  pb-sort-input="Input.OrderExpression" pb-sort-model="c.vm.Input.OrderExpression" ajax-url='' ajax-bind='parent'>
+        <div class="col-sm-1" translate="Select"></div>
+		<div class="col-sm-1" pb-sort-expr="Member" translate="MemberNote_Member"></div>
+		<div class="col-sm-1" pb-sort-expr="Seq" translate="MemberNote_Seq"></div>
+		<div class="col-sm-1"  translate="MemberNote_ActionTime"></div>
+		<div class="col-sm-1"  translate="MemberNote_Note"></div>
+		<div class="col-sm-1"  translate="MemberNote_User"></div>
+		<div class="col-sm-1"  translate="MemberNote_Result"></div>
+		<div class="col-sm-1"  translate="MemberNote_NoteClass"></div>
+		<div class="col-sm-1"  translate="MemberNote_Memo"></div>
+		<div class="col-sm-1"  translate="MemberNote_IsActive"></div>
+		<div class="col-sm-1"  translate="MemberNote_CreditSum"></div>
+	</div>
+	<div class="row" ng-repeat="item in c.vm.ResultList">
+        <div class="col-sm-1">
+        	<input type="checkbox" name="Input.SelectedValues" value="{{item.Id}}" ng-true-value="{{item.Id}}" ng-model="c.vm.Input.SelectedValues[$index]"/>
+        </div>
+		<div class="col-sm-1">{{::item.MemberName}}</div>
+		<div class="col-sm-1"><a ${Url.State("forward:Edit(id:item.Id)")}>{{::item.Seq}}</a></div>
+		<div class="col-sm-1">{{::item.ActionTime|Display}}</div>
+		<div class="col-sm-1">{{::item.Note}}</div>
+		<div class="col-sm-1">{{::item.UserName}}</div>
+		<div class="col-sm-1">{{::item.Result|Display:'MemberNote_ResultEnum'}}</div>
+		<div class="col-sm-1">{{::item.NoteClass|Display:'MemberNote_NoteClassEnum'}}</div>
+		<div class="col-sm-1">{{::item.Memo}}</div>
+		<div class="col-sm-1">{{::item.IsActive|Display}}</div>
+		<div class="col-sm-1">{{::item.CreditSum}}</div>
+	</div>
+	<div class="row">
+		<div class="col-sm-9" pager-input="Input.Pager" pager-model="c.vm.Input.Pager" pager-sizemax="200" pager-short="false" ajax-url='' ajax-bind='parent'></div>
+	</div>
+</div>
+<div class="center-block" ><p>
+	<button translate="Add"  type="button" ${Url.State("forward:Add")} class="btn btn-default"/>
+	<button translate="Delete"  type="button" ajax-url='${Url.Action("Delete")}' ajax-confirm-multi="c.vm.Input.SelectedValues" class="btn btn-default"/>
+</p></div>
+
+
+         
+

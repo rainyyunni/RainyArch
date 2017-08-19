@@ -1,0 +1,7 @@
+<viewdata model="MvcHtmlString"/>	
+<div >
+${Model}
+
+</div>
+         
+

@@ -1,0 +1,338 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProductVersion>
+    </ProductVersion>
+    <SchemaVersion>2.0</SchemaVersion>
+    <ProjectGuid>{27194A28-8B1E-48FF-B436-78262198070F}</ProjectGuid>
+    <ProjectTypeGuids>{E53F8FEA-EAE0-44A6-8774-FFD645390401};{349c5851-65df-11da-9384-00065b846f21};{fae04ec0-301f-11d3-bf4b-00c04f79efbc}</ProjectTypeGuids>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>NetNgArch.Web</RootNamespace>
+    <AssemblyName>NetNgArch.Web</AssemblyName>
+    <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
+    <MvcBuildViews>false</MvcBuildViews>
+    <UseIISExpress>false</UseIISExpress>
+    <SolutionDir Condition="$(SolutionDir) == '' Or $(SolutionDir) == '*Undefined*'">..\</SolutionDir>
+    <RestorePackages>true</RestorePackages>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="Iesi.Collections, Version=1.0.1.0, Culture=neutral, PublicKeyToken=aa95f207798dfdb4, processorArchitecture=MSIL">
+      <HintPath>..\packages\Iesi.Collections.3.2.0.4000\lib\Net35\Iesi.Collections.dll</HintPath>
+    </Reference>
+    <Reference Include="NHibernate">
+      <HintPath>..\packages\NHibernate.3.3.3.4001\lib\Net35\NHibernate.dll</HintPath>
+    </Reference>
+    <Reference Include="SharpArch.Domain, Version=2.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\Solution References\sharp-architecture-2.0.0-binaries-only\SharpArch.Domain.dll</HintPath>
+    </Reference>
+    <Reference Include="SharpArch.NHibernate">
+      <HintPath>..\..\Solution References\sharp-architecture-2.0.0-binaries-only\SharpArch.NHibernate.dll</HintPath>
+    </Reference>
+    <Reference Include="SharpArch.Web.Mvc">
+      <HintPath>..\..\Solution References\sharp-architecture-2.0.0-binaries-only\SharpArch.Web.Mvc.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Web.Mvc, Version=3.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL" />
+    <Reference Include="System.Web.WebPages, Version=1.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL" />
+    <Reference Include="System.Web.Helpers, Version=1.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL" />
+    <Reference Include="Microsoft.CSharp" />
+    <Reference Include="System" />
+    <Reference Include="System.Drawing" />
+    <Reference Include="System.Web.DynamicData" />
+    <Reference Include="System.Web.ApplicationServices" />
+    <Reference Include="System.ComponentModel.DataAnnotations" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Web" />
+    <Reference Include="System.Web.Extensions" />
+    <Reference Include="System.Web.Abstractions" />
+    <Reference Include="System.Web.Routing" />
+    <Reference Include="System.Configuration" />
+    <Reference Include="System.Web.Services" />
+    <Reference Include="System.EnterpriseServices" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="CZ\CZAreaRegistration.cs" />
+    <Compile Include="Global.asax.cs" />
+    <Compile Include="GN\GNAreaRegistration.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="TA\TAAreaRegistration.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Content\themes\base\images\ui-bg_flat_0_aaaaaa_40x100.png" />
+    <Content Include="Content\themes\base\images\ui-bg_flat_75_ffffff_40x100.png" />
+    <Content Include="Content\themes\base\images\ui-bg_glass_55_fbf9ee_1x400.png" />
+    <Content Include="Content\themes\base\images\ui-bg_glass_65_ffffff_1x400.png" />
+    <Content Include="Content\themes\base\images\ui-bg_glass_75_dadada_1x400.png" />
+    <Content Include="Content\themes\base\images\ui-bg_glass_75_e6e6e6_1x400.png" />
+    <Content Include="Content\themes\base\images\ui-bg_glass_95_fef1ec_1x400.png" />
+    <Content Include="Content\themes\base\images\ui-bg_highlight-soft_75_cccccc_1x100.png" />
+    <Content Include="Content\themes\base\images\ui-icons_222222_256x240.png" />
+    <Content Include="Content\themes\base\images\ui-icons_2e83ff_256x240.png" />
+    <Content Include="Content\themes\base\images\ui-icons_454545_256x240.png" />
+    <Content Include="Content\themes\base\images\ui-icons_888888_256x240.png" />
+    <Content Include="Content\themes\base\images\ui-icons_cd0a0a_256x240.png" />
+    <Content Include="Content\themes\base\jquery-ui.css" />
+    <Content Include="Content\themes\base\jquery.ui.accordion.css" />
+    <Content Include="Content\themes\base\jquery.ui.all.css" />
+    <Content Include="Content\themes\base\jquery.ui.autocomplete.css" />
+    <Content Include="Content\themes\base\jquery.ui.base.css" />
+    <Content Include="Content\themes\base\jquery.ui.button.css" />
+    <Content Include="Content\themes\base\jquery.ui.core.css" />
+    <Content Include="Content\themes\base\jquery.ui.datepicker.css" />
+    <Content Include="Content\themes\base\jquery.ui.dialog.css" />
+    <Content Include="Content\themes\base\jquery.ui.menu.css" />
+    <Content Include="Content\themes\base\jquery.ui.progressbar.css" />
+    <Content Include="Content\themes\base\jquery.ui.resizable.css" />
+    <Content Include="Content\themes\base\jquery.ui.selectable.css" />
+    <Content Include="Content\themes\base\jquery.ui.slider.css" />
+    <Content Include="Content\themes\base\jquery.ui.spinner.css" />
+    <Content Include="Content\themes\base\jquery.ui.tabs.css" />
+    <Content Include="Content\themes\base\jquery.ui.theme.css" />
+    <Content Include="Content\themes\base\jquery.ui.tooltip.css" />
+    <Content Include="Content\themes\base\minified\images\ui-bg_flat_0_aaaaaa_40x100.png" />
+    <Content Include="Content\themes\base\minified\images\ui-bg_flat_75_ffffff_40x100.png" />
+    <Content Include="Content\themes\base\minified\images\ui-bg_glass_55_fbf9ee_1x400.png" />
+    <Content Include="Content\themes\base\minified\images\ui-bg_glass_65_ffffff_1x400.png" />
+    <Content Include="Content\themes\base\minified\images\ui-bg_glass_75_dadada_1x400.png" />
+    <Content Include="Content\themes\base\minified\images\ui-bg_glass_75_e6e6e6_1x400.png" />
+    <Content Include="Content\themes\base\minified\images\ui-bg_glass_95_fef1ec_1x400.png" />
+    <Content Include="Content\themes\base\minified\images\ui-bg_highlight-soft_75_cccccc_1x100.png" />
+    <Content Include="Content\themes\base\minified\images\ui-icons_222222_256x240.png" />
+    <Content Include="Content\themes\base\minified\images\ui-icons_2e83ff_256x240.png" />
+    <Content Include="Content\themes\base\minified\images\ui-icons_454545_256x240.png" />
+    <Content Include="Content\themes\base\minified\images\ui-icons_888888_256x240.png" />
+    <Content Include="Content\themes\base\minified\images\ui-icons_cd0a0a_256x240.png" />
+    <Content Include="Content\themes\base\minified\jquery-ui.min.css" />
+    <Content Include="Content\themes\base\minified\jquery.ui.accordion.min.css" />
+    <Content Include="Content\themes\base\minified\jquery.ui.autocomplete.min.css" />
+    <Content Include="Content\themes\base\minified\jquery.ui.button.min.css" />
+    <Content Include="Content\themes\base\minified\jquery.ui.core.min.css" />
+    <Content Include="Content\themes\base\minified\jquery.ui.datepicker.min.css" />
+    <Content Include="Content\themes\base\minified\jquery.ui.dialog.min.css" />
+    <Content Include="Content\themes\base\minified\jquery.ui.menu.min.css" />
+    <Content Include="Content\themes\base\minified\jquery.ui.progressbar.min.css" />
+    <Content Include="Content\themes\base\minified\jquery.ui.resizable.min.css" />
+    <Content Include="Content\themes\base\minified\jquery.ui.selectable.min.css" />
+    <Content Include="Content\themes\base\minified\jquery.ui.slider.min.css" />
+    <Content Include="Content\themes\base\minified\jquery.ui.spinner.min.css" />
+    <Content Include="Content\themes\base\minified\jquery.ui.tabs.min.css" />
+    <Content Include="Content\themes\base\minified\jquery.ui.theme.min.css" />
+    <Content Include="Content\themes\base\minified\jquery.ui.tooltip.min.css" />
+    <Content Include="CZ\MemberNote\MemberNoteCtrl.js" />
+    <Content Include="Global.asax" />
+    <Content Include="GN\Corp\CorpCtrl.js" />
+    <Content Include="GN\Dept\DeptCtrl.js" />
+    <Content Include="GN\User\UserCtrl.js" />
+    <Content Include="Home\HomeCtrl.js" />
+    <Content Include="Home\MainFrameLoggedIn.htm" />
+    <Content Include="Index.htm" />
+    <Content Include="Scripts\angular-cookies.js" />
+    <Content Include="Scripts\angular-cookies.min.js" />
+    <Content Include="Scripts\angular-translate-loader-static-files.js" />
+    <Content Include="Scripts\angular-translate-loader-static-files.min.js" />
+    <Content Include="Scripts\angular-translate-storage-cookie.js" />
+    <Content Include="Scripts\angular-translate-storage-cookie.min.js" />
+    <Content Include="Scripts\angular-translate-storage-local.js" />
+    <Content Include="Scripts\angular-translate-storage-local.min.js" />
+    <Content Include="Scripts\angular-translate.js" />
+    <Content Include="Scripts\angular-translate.min.js" />
+    <Content Include="Scripts\angular-ui-router.js" />
+    <Content Include="Scripts\angular-ui-router.min.js" />
+    <Content Include="Scripts\angular.js" />
+    <Content Include="Scripts\angular.min.js" />
+    <Content Include="Scripts\App_Common.js" />
+    <Content Include="Scripts\App_Common.min.js" />
+    <Content Include="Scripts\CustomValidation.js" />
+    <Content Include="Scripts\CustomValidation.min.js" />
+    <Content Include="Scripts\GlobalDict.js" />
+    <Content Include="Scripts\GlobalDict.min.js" />
+    <Content Include="Scripts\jcs-auto-validate.js" />
+    <Content Include="Scripts\lang\dict-zh-cn.js" />
+    <Content Include="Scripts\md5-min.js" />
+    <Content Include="Scripts\md5.js" />
+    <Content Include="Scripts\ofclib.js" />
+    <Content Include="Scripts\open-flash-chart.swf" />
+    <Content Include="Scripts\ProjectBase_Ajax.js" />
+    <Content Include="Scripts\ProjectBase_Ajax.min.js" />
+    <Content Include="Scripts\ProjectBase_Common.js" />
+    <Content Include="Scripts\ProjectBase_Common.min.js" />
+    <Content Include="Scripts\ProjectBase_UI.js" />
+    <Content Include="Scripts\swfobject.js" />
+    <Content Include="Scripts\tpl\pbui.DialogSample.htm" />
+    <Content Include="Scripts\tpl\pbui.Alert.htm" />
+    <Content Include="Scripts\tpl\pbui.AuthFailure.htm" />
+    <Content Include="Scripts\tpl\pbui.Confirm.htm" />
+    <Content Include="Shared\Directive\AjaxNavbar.htm" />
+    <Content Include="Shared\Directive\AjaxNavbar.js" />
+    <Content Include="Shared\Directive\FuncList.js" />
+    <Content Include="Shared\ErrorLayout.htm" />
+    <Content Include="Shared\Directive\Pager.js" />
+    <Content Include="Shared\Directive\Pager.htm" />
+    <Content Include="TA\TaskItem\TaskItemCtrl.js" />
+    <Content Include="TA\Task\TaskCtrl.js" />
+    <Content Include="Web.config">
+      <SubType>Designer</SubType>
+    </Content>
+    <None Include="GN\Corp\Edit.cshtml" />
+    <None Include="GN\Dept\Edit.cshtml" />
+    <None Include="GN\Dept\List.cshtml" />
+    <None Include="GN\User\Edit.cshtml" />
+    <None Include="GN\User\List.cshtml" />
+    <None Include="GN\User\Search.cshtml" />
+    <None Include="Home\Login.cshtml" />
+    <None Include="Shared\Directive\FuncList.cshtml" />
+    <None Include="TA\TaskItem\Edit.cshtml" />
+    <None Include="TA\TaskItem\List.cshtml" />
+    <None Include="TA\TaskItem\Search.cshtml" />
+    <None Include="TA\Task\Edit.cshtml" />
+    <None Include="TA\Task\List.cshtml" />
+    <None Include="TA\Task\Search.cshtml" />
+    <None Include="Web.config_spark">
+      <SubType>Designer</SubType>
+    </None>
+    <Content Include="Web.Debug.config">
+      <DependentUpon>Web.config</DependentUpon>
+    </Content>
+    <None Include="Web.Debug.config_spark">
+      <DependentUpon>Web.config_spark</DependentUpon>
+    </None>
+    <Content Include="Web.Release.config">
+      <DependentUpon>Web.config</DependentUpon>
+    </Content>
+    <None Include="Web.Release.config_spark">
+      <DependentUpon>Web.config_spark</DependentUpon>
+    </None>
+  </ItemGroup>
+  <ItemGroup />
+  <ItemGroup>
+    <Content Include="packages.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="CZ\MemberNote\Edit.spark">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="CZ\MemberNote\List.spark">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="CZ\MemberNote\Search.spark" />
+    <None Include="GN\Corp\Edit.spark" />
+    <None Include="GN\Dept\Edit.spark" />
+    <None Include="GN\Dept\List.spark">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="GN\User\Edit.spark" />
+    <None Include="GN\User\List.spark">
+      <SubType>Designer</SubType>
+    </None>
+    <Content Include="GN\User\PassEdit.htm" />
+    <None Include="GN\User\Search.spark" />
+    <None Include="Home\MainFrame.cshtml" />
+    <None Include="Home\Login.spark">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="Home\MainFrame.spark">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="Scripts\lang\en.json" />
+    <None Include="Scripts\lang\jcs-auto-validate_en-us.json" />
+    <None Include="Scripts\lang\jcs-auto-validate_zh-cn.json" />
+    <None Include="Scripts\lang\jcs-auto-validate_zh-tw.json" />
+    <None Include="Scripts\lang\zh-cn.json" />
+    <None Include="Shared\Directive\FuncList.spark" />
+    <None Include="TA\TaskItem\Edit.spark" />
+    <None Include="TA\TaskItem\List.spark" />
+    <None Include="TA\TaskItem\Search.spark" />
+    <None Include="TA\Task\Edit.spark" />
+    <None Include="TA\Task\List.spark" />
+    <None Include="TA\Task\Search.spark" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="NHibernate.config">
+      <SubType>Designer</SubType>
+    </Content>
+    <None Include="run.log" />
+    <Content Include="Shared\ContentLayout.htm">
+      <SubType>Designer</SubType>
+    </Content>
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\NetNgArch.BusinessDelegate\NetNgArch.BusinessDelegate.csproj">
+      <Project>{238EC0DB-7EE8-45BE-AA15-FD553D7C15B7}</Project>
+      <Name>NetNgArch.BusinessDelegate</Name>
+      <Private>True</Private>
+    </ProjectReference>
+    <ProjectReference Include="..\NetNgArch.Data\NetNgArch.Data.csproj">
+      <Project>{4FE88352-3FD0-4342-9A7F-088CF35B798D}</Project>
+      <Name>NetNgArch.Data</Name>
+      <Private>True</Private>
+    </ProjectReference>
+    <ProjectReference Include="..\NetNgArch.Domain\NetNgArch.Domain.csproj">
+      <Project>{72CC8538-3B25-446C-8321-DEADDD1C9F2B}</Project>
+      <Name>NetNgArch.Domain</Name>
+      <Private>True</Private>
+    </ProjectReference>
+    <ProjectReference Include="..\NetNgArch.Web.Mvc\NetNgArch.Web.Mvc.csproj">
+      <Project>{ACA18AEB-6F0E-4F28-9E57-B28FB3B02D3A}</Project>
+      <Name>NetNgArch.Web.Mvc</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\ProjectBase\ProjectBase.csproj">
+      <Project>{C8F52AEF-DB1C-4B32-8BB5-65511E572452}</Project>
+      <Name>ProjectBase</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Shared\_global.spark">
+      <SubType>Designer</SubType>
+    </None>
+  </ItemGroup>
+  <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
+  <Import Project="$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v10.0\WebApplications\Microsoft.WebApplication.targets" />
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target> -->
+  <Target Name="MvcBuildViews" AfterTargets="AfterBuild" Condition="'$(MvcBuildViews)'=='true'">
+    <AspNetCompiler VirtualPath="temp" PhysicalPath="$(WebProjectOutputDir)" />
+  </Target>
+  <ProjectExtensions>
+    <VisualStudio>
+      <FlavorProperties GUID="{349c5851-65df-11da-9384-00065b846f21}">
+        <WebProjectProperties>
+          <UseIIS>False</UseIIS>
+          <AutoAssignPort>True</AutoAssignPort>
+          <DevelopmentServerPort>1041</DevelopmentServerPort>
+          <DevelopmentServerVPath>/</DevelopmentServerVPath>
+          <IISUrl>http://localhost/NetNgArch.Web</IISUrl>
+          <NTLMAuthentication>False</NTLMAuthentication>
+          <UseCustomServer>False</UseCustomServer>
+          <CustomServerUrl>
+          </CustomServerUrl>
+          <SaveServerSettingsInUserFile>False</SaveServerSettingsInUserFile>
+        </WebProjectProperties>
+      </FlavorProperties>
+    </VisualStudio>
+  </ProjectExtensions>
+  <Import Project="$(SolutionDir)\.nuget\nuget.targets" />
+</Project>

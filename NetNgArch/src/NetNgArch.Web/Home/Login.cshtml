@@ -1,0 +1,44 @@
+﻿@model LoginAttemptViewModel
+  <div  pb-initvm='@Html.vmJson()' class="jumbotron" style='background:url(@Url.Content("~/Content/images/czhome.jpg"));background-size:100% 100%;'>
+  	<div class="row"><div class="col-sm-offset-6 col-sm-5">
+  	<div class="panel">
+  	  <div class="panel-heading row">
+    	<h2 translate class="col-sm-offset-4 col-sm-3">Login</h2>
+  	</div>
+  	<div class="panel-body">
+      @using (Html.NgForm("c.frmLogin", null, "form-horizontal", new { role = "form" }))
+      {
+          <div class="form-group">
+              @Html.NgLabelFor(m=>m.CorpCode,"col-sm-3 control-label")
+              <div class="col-sm-8">
+                  @Html.NgTextBoxFor(m=>m.CorpCode,"form-control")
+              </div>
+          </div>
+          <div class="form-group">
+              @Html.NgLabelFor(m=>m.Code,"col-sm-3 control-label")
+              <div class="col-sm-8">
+                  @Html.NgTextBoxFor(m=>m.Code,"form-control")
+              </div>
+          </div>
+          <div class="form-group">
+              @Html.NgLabelFor(m=>m.Password,"col-sm-3 control-label")
+              <div class="col-sm-8  has-feedback">
+                  @Html.NgPasswordFor(m=>m.Password,"form-control",new{ng_keydown="c.password_keydown($event);"})
+                  <span class="glyphicon glyphicon-ok form-control-feedback"></span>
+              </div>
+	           
+          </div>
+          <div class="form-group">
+              <div class="col-sm-offset-2 col-sm-8"><button id="btnLogin" type="button"  ng-click="c.btnLogin_click();" translate="Login" class="btn btn-primary btn-block"></button></div>
+          </div>
+
+          <div class="form-group">
+              <button  type="button"  ng-click="c.setLang('zh-cn');" translate="Chinese"></button>
+              <button  type="button"  ng-click="c.setLang('en');" translate="English"></button>
+          </div>
+      }
+    	</div>
+    </div>
+</div></div></div>
+
+

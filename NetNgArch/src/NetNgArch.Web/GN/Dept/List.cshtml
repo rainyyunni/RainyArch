@@ -1,0 +1,56 @@
+@model DeptListVM
+@using (Html.NgForm("c.frmSearch", "List", null, new { role = "form" }))
+{
+    <div  id="tbl">
+        <div class="row"  pb-sort-input="Input.OrderExpression" pb-sort-model="c.vm.Input.OrderExpression" ajax-url='' ajax-bind='parent'>
+            <div class="col-sm-1" translate="Select"></div>
+            <div class="col-sm-1"  pb-sort-expr="Code"><span translate="Dept_Code"></span></div>
+            <div class="col-sm-1"  pb-sort-expr="Name"><span  translate="Dept_Name"></span></div>
+            <div class="col-sm-2"  translate="Operation"></div>
+        </div>
+        <div class="row" ng-repeat="item in c.vm.ResultList track by $index" ng-if="item" ng-hide="c.vm.EditInput==item">
+            <div class="col-sm-1">
+                <input type="checkbox" name="Input.SelectedValues" value="{{item.Id}}" ng-true-value="{{item.Id}}" ng-model="c.vm.Input.SelectedValues[$index]"/>
+            </div>
+            <div class="col-sm-1"><a @Url.State("forward:Edit(id:item.Id)")>{{item.Code}}</a></div>
+            <div class="col-sm-1">{{item.Name}}</div>
+            <div class="col-sm-2" >
+                <button translate="Edit"  type="button" class="btn btn-default btn-xs" ng-click="c.btnEditInLine_click(item,$index)"/>
+                <button translate="Delete"  type="button" class="btn btn-default btn-xs" ng-click="c.btnDeleteInLine_click($index)"/>
+            </div>
+        </div>
+        <div class="row" ng-hide="c.tmp.IsInLine" id="divNewRow">
+            <div class="col-sm-1">
+            </div>
+            <div class="col-sm-1"></div>
+            <div class="col-sm-1"></div>
+            <div class="col-sm-2" >
+                <button translate="Add"  type="button" class="btn btn-default btn-xs" ng-click="c.btnAddInLine_click()"/>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-sm-9" pager-input="Input.Pager" pager-model="c.vm.Input.Pager" pager-sizemax="200" pager-short="false" ajax-url='' ajax-bind='parent'></div>
+        </div>
+    </div>
+    <div class="row" >
+        <button translate="Add"  type="button" @Url.State("forward:Add") class="btn btn-default" pb-func="Dept.List"/>
+        <button translate="Delete"  type="button" ajax-url='@Url.Action("Delete")' ajax-confirm-multi="c.vm.Input.SelectedValues" class="btn btn-default"/>
+    </div>
+}
+<div id="divStandBy">
+	<div id="divEdit" class="row" ng-show="c.tmp.IsInLine">
+    @using (Html.NgForm("c.frmEdit", "SaveInLine", null, new { role = "form" }))
+    {
+        <div class="col-sm-1">
+            @Html.NgHiddenFor(m=>m.EditInput.Id)
+        </div>
+        <div class="col-sm-1">@Html.NgTextBoxFor(m=>m.EditInput.Code,"form-control")</div>
+        <div class="col-sm-1">@Html.NgTextBoxFor(m=>m.EditInput.Name,"form-control")</div>
+        <div class="col-sm-2" >			
+            <button  id="btnSave" translate="Save"  type="button" class="btn btn-default btn-xs" ng-click='c.btnSaveInLine_click()'/>
+            <button translate="Cancel"  type="button" class="btn btn-default btn-xs" ng-click='c.btnCancel_click()'/>
+        </div>
+    }
+  </div>    
+</div>
+

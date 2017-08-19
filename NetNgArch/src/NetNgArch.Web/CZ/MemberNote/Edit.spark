@@ -1,0 +1,54 @@
+<viewdata model="MemberNoteEditVM" />
+  <%Html.NgForm("c.frmEdit","Save");%>
+<div class="form-horizontal">
+	${Html.NgHiddenFor(m=>m.Input.Id)}
+	<div class="form-group">
+		${Html.NgLabelFor(m=>m.Input.Member,"col-sm-1 control-label")}
+		<div class="col-sm-4">${Html.NgSelectFor(m=>m.Input.Member,null,"-choose-","form-control",new{ng_options='member.Id as member.RefText for member in c.vm.Members'})}</div>
+	</div>
+	<div class="form-group">
+		${Html.NgLabelFor(m=>m.Input.Seq,"col-sm-1 control-label")}
+		<div class="col-sm-4">${Html.NgTextBoxFor(m=>m.Input.Seq,"form-control")}</div>
+	</div>
+	<div class="form-group">
+		${Html.NgLabelFor(m=>m.Input.ActionTime,"col-sm-1 control-label")}
+		<div class="col-sm-4">${Html.NgTextBoxFor(m=>m.Input.ActionTime,"form-control")}</div>
+	</div>
+	<div class="form-group">
+		${Html.NgLabelFor(m=>m.Input.Note,"col-sm-1 control-label")}
+		<div class="col-sm-4">${Html.NgTextBoxFor(m=>m.Input.Note,"form-control")}</div>
+	</div>
+	<div class="form-group">
+		${Html.NgLabelFor(m=>m.Input.User,"col-sm-1 control-label")}
+		<div class="col-sm-4">${Html.NgSelectFor(m=>m.Input.User,"c.vm.Users","--choose--","form-control")}</div>
+	</div>
+	<div class="form-group">
+		${Html.NgLabelFor(m=>m.Input.Result,"col-sm-1 control-label")}
+		<div class="col-sm-4">${Html.NgSelectFor(m=>m.Input.Result,null,"-choose-","form-control")}</div>
+	</div>
+	<div class="form-group">
+		${Html.NgLabelFor(m=>m.Input.NoteClass,"col-sm-1 control-label")}
+		<div class="col-sm-4">${Html.NgSelectFor(m=>m.Input.NoteClass,null,"-choose-","form-control")}</div>
+	</div>
+	<div class="form-group">
+		${Html.NgLabelFor(m=>m.Input.Memo,"col-sm-1 control-label")}
+		<div class="col-sm-4">${Html.NgTextBoxFor(m=>m.Input.Memo,"form-control")}</div>
+	</div>
+	<div class="form-group">
+		${Html.NgLabelFor(m=>m.Input.IsActive,"col-sm-1 control-label")}
+		<div class="col-sm-4">${Html.NgCheckBoxFor(m=>m.Input.IsActive,"form-control")}</div>
+	</div>
+	<div class="form-group">
+    ${Html.NgLabelFor(m=>m.Input.CreditSum,"col-sm-1 control-label")}
+		<div class="col-sm-4">${Html.NgTextBoxFor(m=>m.Input.CreditSum,"form-control")}</div>
+	</div>
+	<div class="form-group">
+    	<button translate="Save" type="button" ajax-url=''  class="btn btn-default"/>
+    </div>
+</div>
+</form>
+
+
+
+
+

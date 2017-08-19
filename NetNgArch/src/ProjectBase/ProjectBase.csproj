@@ -1,0 +1,230 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProductVersion>8.0.30703</ProductVersion>
+    <SchemaVersion>2.0</SchemaVersion>
+    <ProjectGuid>{C8F52AEF-DB1C-4B32-8BB5-65511E572452}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>ProjectBase</RootNamespace>
+    <AssemblyName>ProjectBase</AssemblyName>
+    <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+    <SolutionDir Condition="$(SolutionDir) == '' Or $(SolutionDir) == '*Undefined*'">..\</SolutionDir>
+    <RestorePackages>true</RestorePackages>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="AutoMapper">
+      <HintPath>..\packages\AutoMapper.2.2.0\lib\net40\AutoMapper.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="Castle.Core">
+      <HintPath>..\packages\Castle.Core.3.1.0\lib\net40-client\Castle.Core.dll</HintPath>
+    </Reference>
+    <Reference Include="Castle.Windsor">
+      <HintPath>..\packages\Castle.Windsor.3.1.0\lib\net40\Castle.Windsor.dll</HintPath>
+    </Reference>
+    <Reference Include="CommonServiceLocator.WindsorAdapter">
+      <HintPath>..\packages\CommonServiceLocator.WindsorAdapter.1.0\lib\NET35\CommonServiceLocator.WindsorAdapter.dll</HintPath>
+    </Reference>
+    <Reference Include="Dynamic">
+      <HintPath>..\packages\DynamicQuery.1.0\lib\35\Dynamic.dll</HintPath>
+    </Reference>
+    <Reference Include="Iesi.Collections">
+      <HintPath>..\packages\Iesi.Collections.3.2.0.4000\lib\Net35\Iesi.Collections.dll</HintPath>
+    </Reference>
+    <Reference Include="itextsharp">
+      <HintPath>..\..\Solution References\itextsharp.dll</HintPath>
+    </Reference>
+    <Reference Include="log4net">
+      <HintPath>..\packages\log4net.2.0.0\lib\net40-full\log4net.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.Practices.ServiceLocation">
+      <HintPath>..\packages\CommonServiceLocator.1.0\lib\NET35\Microsoft.Practices.ServiceLocation.dll</HintPath>
+    </Reference>
+    <Reference Include="Newtonsoft.Json">
+      <HintPath>..\packages\Newtonsoft.Json.4.5.10\lib\net40\Newtonsoft.Json.dll</HintPath>
+    </Reference>
+    <Reference Include="NHibernate">
+      <HintPath>..\packages\NHibernate.3.3.3.4001\lib\Net35\NHibernate.dll</HintPath>
+    </Reference>
+    <Reference Include="SharpArch.Domain">
+      <HintPath>..\..\Solution References\sharp-architecture-2.0.0-binaries-only\SharpArch.Domain.dll</HintPath>
+      <Private>False</Private>
+    </Reference>
+    <Reference Include="SharpArch.NHibernate">
+      <HintPath>..\..\Solution References\sharp-architecture-2.0.0-binaries-only\SharpArch.NHibernate.dll</HintPath>
+      <Private>False</Private>
+    </Reference>
+    <Reference Include="SharpArch.Web.Mvc, Version=2.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\Solution References\sharp-architecture-2.0.0-binaries-only\SharpArch.Web.Mvc.dll</HintPath>
+      <Private>False</Private>
+    </Reference>
+    <Reference Include="System" />
+    <Reference Include="System.ComponentModel.DataAnnotations" />
+    <Reference Include="System.configuration" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Drawing" />
+    <Reference Include="System.Web" />
+    <Reference Include="System.Web.Extensions" />
+    <Reference Include="System.Web.Mvc, Version=3.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>C:\Program Files\Microsoft ASP.NET\ASP.NET MVC 3\Assemblies\System.Web.Mvc.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Web.Routing" />
+    <Reference Include="System.Web.WebPages, Version=1.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL" />
+    <Reference Include="Microsoft.CSharp" />
+    <Reference Include="System.Windows.Forms" />
+    <Reference Include="System.XML" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="BusinessDelegate\AutoMapperProfile.cs" />
+    <Compile Include="BusinessDelegate\BaseBusinessDelegate.cs" />
+    <Compile Include="BusinessDelegate\CastleWindorComponentRegistrar.cs" />
+    <Compile Include="BusinessDelegate\CommonBD.cs" />
+    <Compile Include="BusinessDelegate\BizException.cs" />
+    <Compile Include="BusinessDelegate\IApplicationStorage.cs" />
+    <Compile Include="Data\BaseNHibernateLinqDao.cs" />
+    <Compile Include="Utils\Equality.cs" />
+    <Compile Include="Utils\PdfMaker.cs" />
+    <Compile Include="Utils\QueryExtension.cs" />
+    <Compile Include="Data\UtilQuery.cs" />
+    <Compile Include="Domain\IClassByClassMapping.cs" />
+    <Compile Include="Domain\IUtilQuery.cs" />
+    <Compile Include="Domain\RefTextAttribute.cs" />
+    <Compile Include="Utils\NetArchException.cs" />
+    <Compile Include="Utils\QuerySelectorBuilder.cs" />
+    <Compile Include="Utils\Res.cs" />
+    <Compile Include="Utils\Enum.cs" />
+    <Compile Include="Data\NHibernateExceptionTranslator.cs" />
+    <Compile Include="Data\NhibernateMapByCode\Convention\EnumConvention.cs" />
+    <Compile Include="Data\NhibernateMapByCode\Convention\ManyToManyConventions.cs" />
+    <Compile Include="Data\NhibernateMapByCode\Convention\NamingConventions.cs" />
+    <Compile Include="Data\NHibernateSessionModified.cs" />
+    <Compile Include="Domain\BaseCustomCollection.cs" />
+    <Compile Include="Domain\IBusinessDelegate.cs" />
+    <Compile Include="Domain\BaseDomainObject.cs" />
+    <Compile Include="Domain\ICommonBD.cs" />
+    <Compile Include="Domain\IDao.cs" />
+    <Compile Include="Domain\IExceptionTranslator.cs" />
+    <Compile Include="Domain\NamedIntEntity.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Utils\Pager.cs" />
+    <Compile Include="Utils\PredicateBuilder.cs" />
+    <Compile Include="Utils\ProjectHierarchy.cs" />
+    <Compile Include="Utils\SortStruc.cs" />
+    <Compile Include="Utils\Util.cs" />
+    <Compile Include="Web.Mvc\Angular\ClientDataTypeValidationProvider.cs" />
+    <Compile Include="Web.Mvc\GlobalConstant.cs" />
+    <Compile Include="Web.Mvc\Angular\UrlHelperExtension.cs" />
+    <Compile Include="Web.Mvc\Angular\RadioButtonExtension.cs" />
+    <Compile Include="Web.Mvc\Angular\CustomModelMetadataProvider.cs" />
+    <Compile Include="Web.Mvc\Angular\HtmlHelperExtension.cs" />
+    <Compile Include="Web.Mvc\Angular\InputExtensions.cs" />
+    <Compile Include="Web.Mvc\Angular\LabelExtensions.cs" />
+    <Compile Include="Web.Mvc\Angular\SelectExtensions.cs" />
+    <Compile Include="Web.Mvc\Angular\TextAreaExtensions.cs" />
+    <Compile Include="Web.Mvc\BaseAuthAttribute.cs" />
+    <Compile Include="Web.Mvc\BaseMvcApplication.cs" />
+    <Compile Include="Web.Mvc\BaseController.cs" />
+    <Compile Include="Web.Mvc\AdminException.cs" />
+    <Compile Include="Web.Mvc\ClientDataTypeValidationProvider.cs" />
+    <Compile Include="Web.Mvc\AjaxHelperExtension.cs" />
+    <Compile Include="Web.Mvc\ClientScriptResult.cs" />
+    <Compile Include="Web.Mvc\AjaxScriptResult.cs" />
+    <Compile Include="Web.Mvc\CustomRazorViewEngine.cs" />
+    <Compile Include="Web.Mvc\DisplayNameKeyAttribute.cs" />
+    <Compile Include="Web.Mvc\DecimalFormatAttribute.cs" />
+    <Compile Include="Web.Mvc\CustomModelMetadataProvider.cs" />
+    <Compile Include="Web.Mvc\ListInput.cs" />
+    <Compile Include="Web.Mvc\Messages.Designer.cs">
+      <DependentUpon>Messages.resx</DependentUpon>
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+    </Compile>
+    <Compile Include="Web.Mvc\Messages.zh-CN.Designer.cs">
+      <DependentUpon>Messages.zh-CN.resx</DependentUpon>
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+    </Compile>
+    <Compile Include="Web.Mvc\DefaultModelBinder.cs" />
+    <Compile Include="Web.Mvc\BaseViewModel.cs" />
+    <Compile Include="Web.Mvc\AuthFailureException.cs" />
+    <Compile Include="Web.Mvc\WebApplicationStorage.cs" />
+    <Compile Include="Web.Mvc\TransactionAttribute.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Web.Mvc\ValidationMessages.zh-CN.Designer.cs">
+      <DependentUpon>ValidationMessages.zh-CN.resx</DependentUpon>
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+    </Compile>
+    <Compile Include="Web.Mvc\EmailAddressAttribute.cs" />
+    <Compile Include="Domain\DORef.cs" />
+    <Compile Include="Web.Mvc\DisplayExtension.cs" />
+    <Compile Include="Web.Mvc\HtmlHelperExtension.cs" />
+    <Compile Include="Web.Mvc\ValidationMessages.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>ValidationMessages.resx</DependentUpon>
+    </Compile>
+    <Compile Include="Desktop\BaseApplication.cs" />
+    <Compile Include="Desktop\SimpleApplicationStorage.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="packages.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="Web.Mvc\Angular\RichClientJsonResult.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Web.Mvc\Messages.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>Messages.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Web.Mvc\Messages.zh-CN.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>Messages.zh-CN.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Web.Mvc\ValidationMessages.zh-CN.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>ValidationMessages.zh-CN.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Web.Mvc\ValidationMessages.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>ValidationMessages.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="Test\" />
+  </ItemGroup>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <Import Project="$(SolutionDir)\.nuget\nuget.targets" />
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+</Project>

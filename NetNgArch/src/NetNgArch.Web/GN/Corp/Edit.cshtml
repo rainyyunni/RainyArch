@@ -1,0 +1,29 @@
+@model CorpEditVM 
+@using (Html.NgForm("c.frmEdit", "Save"))
+{
+    <div class="form-horizontal">
+        @Html.NgHiddenFor(m=>m.Input.Id)
+		
+        <div class="form-group">
+            @Html.NgLabelFor(m=>m.Input.Code,"col-sm-1 control-label")
+            <div class="col-sm-4">@Html.NgTextBoxFor(m=>m.Input.Code,"form-control")</div>
+        </div>
+		
+        <div class="form-group">
+            @Html.NgLabelFor(m=>m.Input.Name,"col-sm-1 control-label")
+            <div class="col-sm-4">@Html.NgTextBoxFor(m=>m.Input.Name,"form-control")</div>
+        </div>
+		
+        <div class="form-group">
+            @Html.NgLabelFor(m=>m.Input.Phone,"col-sm-1 control-label")
+            <div class="col-sm-4">@Html.NgTextBoxFor(m=>m.Input.Phone,"form-control",new{name="",ng_model="c.vm.Input.Phone"})</div>
+        </div>
+
+        <div class="form-group">
+            <button translate="Save" type="button" ajax-url='' class="btn btn-default"/>
+        </div>
+    </div>
+}
+
+
+

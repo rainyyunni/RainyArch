@@ -1,0 +1,9 @@
+﻿.projectbase-processing 
+{
+	z-index:10;
+	position: absolute;
+	color:#708090;
+	border:1px solid #bed6e2;
+	background:url(../images/Processing.gif) no-repeat transparent 50% 50%;
+	opacity:0.3; filter: alpha(opacity=30); background-color:#ffffec;
+}

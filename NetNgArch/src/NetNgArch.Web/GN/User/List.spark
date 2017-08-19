@@ -1,0 +1,31 @@
+<viewdata model="UserListVM"/>	
+<div class="tbl tbl-stripped" >
+	<div class="row"  pb-sort-input="Input.OrderExpression" pb-sort-model="c.vm.Input.OrderExpression" ajax-url='' ajax-bind='parent'>
+        <div class="col-sm-1" translate="Select"></div>
+		<div class="col-sm-2"  pb-sort-expr="Code" ><span translate="User_Code"></span></div>
+		<div class="col-sm-3"  pb-sort-expr="Name" ><span translate="User_Name"></span></div>
+		<div class="col-sm-2"  translate="User_CellPhone"></div>
+		<div class="col-sm-1"  nowrap translate="User_IsActive"></div>
+
+	</div>
+	<div class="row" ng-repeat="item in c.vm.ResultList">
+        <div class="col-sm-1">
+        	<input type="checkbox" name="Input.SelectedValues" value="{{item.Id}}" ng-true-value="{{item.Id}}" ng-model="c.vm.Input.SelectedValues[$index]"/>
+        </div>
+		<div class="col-sm-2"><a ${Url.State("forward:Edit(id:item.Id)")}>{{::item.Code}}</a></div>
+		<div class="col-sm-3">{{::item.Name}}</div>
+		<div class="col-sm-2">{{::item.CellPhone}}</div>
+		<div class="col-sm-1">{{::item.IsActive|Display}}</div>
+
+	</div>
+	<div class="row">
+		<div class="col-sm-9" pager-input="Input.Pager" pager-model="c.vm.Input.Pager" pager-sizemax="200" pager-short="false" ajax-url='' ajax-bind='parent'></div>
+	</div>
+</div>
+<div class="row" >
+	<button translate="Add"  type="button" ${Url.State("forward:Add(deptId:c.vm.DeptId)")} class="btn btn-default"/>
+	<button translate="Delete"  type="button" ajax-url='${Url.Action("Delete")}' ajax-confirm-multi="c.vm.Input.SelectedValues" class="btn btn-default"/>
+</div>
+
+         
+

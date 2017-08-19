@@ -1,0 +1,43 @@
+@model TaskListVM
+<div class="table-responsive"><table class="table table-striped table-bordered table-hover" >
+	<thead><tr  pb-sort-input="Input.OrderExpression" pb-sort-model="c.vm.Input.OrderExpression" ajax-url='' ajax-bind='parent'>
+        <th><pb-checkall list-model="c.vm.resultList" list-prop="id" selected-model="c.vm.input.selectedValues"></pb-checkall>{{'Select'|translate}}</th>
+		<th  pb-sort-expr="Name"><span  translate="Task_Name"></span></th>
+		<th  nowrap pb-sort-expr="User"><span  translate="Task_User"></span></th>
+		<th  nowrap pb-sort-expr="CreateDate"><span  translate="Task_CreateDate"></span></th>
+		<th  nowrap pb-sort-expr="PlanBeginDate"><span  translate="Task_PlanBeginDate"></span></th>
+		<th  nowrap pb-sort-expr="PlanEndDate"><span  translate="Task_PlanEndDate"></span></th>
+		<th  nowrap pb-sort-expr="BeginDate"><span  translate="Task_BeginDate"></span></th>
+		<th  nowrap pb-sort-expr="EndDate"><span  translate="Task_EndDate"></span></th>
+		<th  nowrap pb-sort-expr="Status"><span  translate="Task_Status"></span></th>
+
+	</tr></thead>
+	<tbody><tr ng-repeat="item in c.vm.ResultList">
+        <th class="col-sm-1">
+        	<input type="checkbox" name="Input.SelectedValues" value="{{item.Id}}" ng-true-value="{{item.Id}}" ng-model="c.vm.Input.SelectedValues[$index]"/>
+        </th>
+		<td><a @Url.State("forward:Edit(id:item.Id)")>{{::item.Name}}</a></td>
+		<td>{{::item.User}}</td>
+		<td>{{::item.CreateDate|Display:'yyyy-MM-dd HH'}}</td>
+		<td>{{::item.PlanBeginDate|Display}}</td>
+		<td>{{::item.PlanEndDate|Display}}</td>
+		<td>{{::item.BeginDate|Display}}</td>
+		<td>{{::item.EndDate|Display}}</td>
+		<td>{{::item.Status|Display:'Task_StatusEnum'}}</td>
+
+	</tr></tbody>
+</table></div>
+<div class="row text-center">
+	<div pager-input="Input.Pager" pager-model="c.vm.Input.Pager" pager-sizemax="200" pager-short="false" ajax-url='' ajax-bind='parent'></div>
+</div>
+<div class="row text-center">
+    <button translate="Add"  type="button" @Url.State("forward:Add") class="btn btn-default"/>
+    <button translate="Delete"  type="button" ajax-url='@Url.Action("Delete")' ajax-confirm-multi="c.vm.Input.SelectedValues" class="btn btn-default"/>
+</div>
+@using (Html.NgForm("c.frmList", "List", null, new { role = "form" }))
+{
+    <div ng-click="c.btnOK_click()">eeee</div>
+}
+
+         
+

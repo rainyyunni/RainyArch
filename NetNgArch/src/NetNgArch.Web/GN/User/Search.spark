@@ -1,0 +1,14 @@
+  <viewdata model="UserSearchVM" />
+
+  <%Html.NgForm("c.frmSearch","List",null,new{role="form",id="frmSearch",ajax_bind="divMain"});%>
+  <div class="row">
+    	<div class="col-sm-2 col-md-2">
+        ${Html.NgSelectFor(m=>m.Input.Dept,"c.vm.Depts","-all-","form-control",new{size=30,ng_change="c.dept_change()"})}
+       </div>
+      <div id="divMain" class="col-sm-10 col-md-10" ui-view></div>
+   </div>
+  </form>
+
+  
+
+

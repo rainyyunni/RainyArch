@@ -1,0 +1,54 @@
+@model TaskEditVM
+@using (Html.NgForm("c.frmEdit", "Save"))
+{
+    <div class="form-horizontal">
+        @Html.NgHiddenFor(m=>m.Input.Id)
+		
+        <div class="form-group">
+            @Html.NgLabelFor(m=>m.Input.Name,"col-sm-1 control-label")
+            <div class="col-sm-4">@Html.NgTextBoxFor(m=>m.Input.Name,"form-control")</div>
+        </div>
+		
+        <div class="form-group">
+            @Html.NgLabelFor(m=>m.Input.User,"col-sm-1 control-label")
+            <div class="col-sm-4">@Html.NgSelectFor(m => m.Input.User, "c.vm.Users", "-choose-", "form-control", new { pb_EnforceMatch = "" })</div>
+        </div>
+		
+        <div class="form-group">
+            @Html.NgLabelFor(m=>m.Input.CreateDate,"col-sm-1 control-label")
+            <div class="col-sm-4">@Html.NgTextBoxFor(m=>m.Input.CreateDate,"form-control")</div>
+        </div>
+		
+        <div class="form-group">
+            @Html.NgLabelFor(m=>m.Input.PlanBeginDate,"col-sm-1 control-label")
+            <div class="col-sm-4">@Html.NgTextBoxFor(m=>m.Input.PlanBeginDate,"form-control")</div>
+        </div>
+		
+        <div class="form-group">
+            @Html.NgLabelFor(m=>m.Input.PlanEndDate,"col-sm-1 control-label")
+            <div class="col-sm-4">@Html.NgTextBoxFor(m=>m.Input.PlanEndDate,"form-control")</div>
+        </div>
+		
+        <div class="form-group">
+            @Html.NgLabelFor(m=>m.Input.BeginDate,"col-sm-1 control-label")
+            <div class="col-sm-4">@Html.NgTextBoxFor(m=>m.Input.BeginDate,"form-control")</div>
+        </div>
+		
+        <div class="form-group">
+            @Html.NgLabelFor(m=>m.Input.EndDate,"col-sm-1 control-label")
+            <div class="col-sm-4">@Html.NgTextBoxFor(m=>m.Input.EndDate,"form-control")</div>
+        </div>
+		
+        <div class="form-group">
+            @Html.NgLabelFor(m=>m.Input.Status,"col-sm-1 control-label")
+            <div class="col-sm-4">@Html.NgSelectFor(m => m.Input.Status, null, "-choose-", "form-control", new { pb_AddOptions = "-1" })</div>
+        </div>
+
+        <div class="form-group">
+            <button translate="Save" type="button" ajax-url=''  class="btn btn-default"/>
+        </div>
+    </div>
+}
+
+
+

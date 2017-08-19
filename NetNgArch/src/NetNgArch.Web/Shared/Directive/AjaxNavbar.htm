@@ -1,0 +1,13 @@
+﻿<div class="row">
+    <div class="col-sm-10">
+       <ol class="breadcrumb">
+          <li ng-repeat="item in d.AjaxNavStack"><a href="" ng-click="d.AjaxNavTo(item.State,item.StateParams);">{{item.State.data.TranslatedName}}</a></li>
+        </ol>
+    </div>
+    <div class="col-sm-2">
+        <ol class="breadcrumb">
+          <li><a href="" ng-click="d.AjaxNavRefresh();" translate="Navrefresh"></a></li>
+          <li><a href="" ng-click="d.AjaxNavBack();"  translate="Navback"></a></li>
+        </ol>
+    </div>
+</div>

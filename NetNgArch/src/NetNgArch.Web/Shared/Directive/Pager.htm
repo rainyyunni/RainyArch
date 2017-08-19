@@ -1,0 +1,20 @@
+﻿<nav ng-if="m.PageCount>0">
+	<ul class="pagination">
+    	<li ng-class="m.PageNum==1?'disabled':''"><a href="" ng-click="d.firstpage_click()" translate="FirstPage"></a></li>
+        <li ng-class="m.PageNum==1?'disabled':''"><a href="" ng-click="d.prevpage_click()" translate="PrevPage"></a></li>
+        <li ng-class="m.PageNum==m.PageCount?'disabled':''"><a href="" ng-click="d.nextpage_click()"  translate="NextPage"></a></li>
+        <li ng-class="m.PageNum==m.PageCount?'disabled':''"><a href="" ng-click="d.lastpage_click()"  translate="LastPage"></a></li>
+		<li><span>
+          		<input style="line-height:normal;border-width:1px;" ng-model="d.goPageNum" type="number" max="{{m.PageCount}}" min="0" name="{{::d.inputName_PageNum}}" />/&nbsp;{{m.PageCount}}
+          		<span ng-click="d.go_click()" class="glyphicon glyphicon-circle-arrow-right"></span>
+        </span></li>
+        <li ><span>
+          		{{'EachPage'|translate}}
+          		<select name="{{::d.inputName_PageSize}}" ng-if="d.pagerShort==null||d.pagerShort=='false'" ng-change="d.pagesize_change()" ng-model="m.PageSize" ng-options="v for v in ::d.pagesizeItems " >
+                </select>
+        </span></li>
+        <li ><span>
+        	{{'Total'|translate}}&nbsp;<span>{{m.ItemCount}}</span>&nbsp;{{'Record'|translate}}
+        </span></li>
+	</ul>
+</nav>

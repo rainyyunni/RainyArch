@@ -1,0 +1,37 @@
+@model TaskSearchVM
+
+@using (Html.NgForm("c.frmSearch", "List", null, new { role = "form" }))
+{
+    <div class="form-inline">
+        @*   [todo:以下查询区里的控件只是例子，应根据界面详细设计进行增删或修改]
+            <div class="form-group">
+                @Html.NgLabelFor(m=>m.Input.DORef)
+                @Html.NgSelectFor(m=>m.Input.DORef,"c.vm.DORefs","","form-control")
+            </div>
+            <div class="form-group">
+                @Html.NgLabelFor(m=>m.Input.String)
+                @Html.NgTextBoxFor(m=>m.Input.String,"form-control")
+            </div>
+            <div class="form-group">
+                @Html.NgLabelFor(m=>m.Input.Int)
+                @Html.NgTextBoxFor(m=>m.Input.Int,"form-control")
+            </div>
+            <div class="form-group">
+                @Html.NgLabelFor(m=>m.Input.Boolean)
+                @Html.NgRadioButtonFor(m=>m.Input.Boolean,true)<span translate>true</span>
+                @Html.NgRadioButtonFor(m=>m.Input.Boolean,false)<span translate>false</span>
+                @Html.NgRadioButtonFor(m=>m.Input.Boolean,null)<span translate>any</span>
+            </div>
+           *@
+        <div class="form-group">
+            <button type="button" translate="Search" ajax-url='' ajax-bind="divMain" class="btn btn-default"/>
+        </div>
+    </div>
+    <br/>
+}
+    <div id="divMain" ui-view></div>
+
+
+  
+
+

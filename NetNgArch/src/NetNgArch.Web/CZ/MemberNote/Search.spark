@@ -1,0 +1,35 @@
+  <viewdata model="MemberNoteSearchVM" />
+
+  <%Html.NgForm("c.frmSearch","List",null,new{role="form"});%>
+    <div class="form-inline">
+    	<div class="form-group">
+    		${Html.NgLabelFor(m=>m.Input.Member)}
+        ${Html.NgSelectFor(m=>m.Input.Member,"c.vm.Members","","form-control")}
+       </div>
+       <div class="form-group">
+       		${Html.NgLabelFor(m=>m.Input.Note)}
+          ${Html.NgTextBoxFor(m=>m.Input.Note,"form-control")}
+       </div>
+       <div class="form-group">
+            ${Html.NgLabelFor(m=>m.Input.Seq)}
+            ${Html.NgTextBoxFor(m=>m.Input.Seq,"form-control")}
+       </div>
+       	<div class="form-group">
+	       	${Html.NgLabelFor(m=>m.Input.IsActive)}
+          ${Html.NgRadioButtonFor(m=>m.Input.IsActive,true)}<span translate>true</span>
+          ${Html.NgRadioButtonFor(m=>m.Input.IsActive,false)}<span translate>false</span>
+          ${Html.NgRadioButtonFor(m=>m.Input.IsActive,null)}<span translate>any</span>
+			</div>
+       <div class="form-group">
+            <button type="button" translate="Search" ajax-url='' ajax-bind="divMain" class="btn btn-default"/>
+ 		  </div>
+ 	</div>
+    <br/>
+    <div id="divMain" ui-view></div>
+  </form>
+
+
+
+  
+
+

@@ -1,0 +1,41 @@
+@model UserEditVM
+@using (Html.NgForm("c.frmEdit", "Save"))
+{
+    <div class="form-horizontal">
+        @Html.NgHiddenFor(m=>m.Input.Id)
+	
+        <div class="form-group">
+            @Html.NgLabelFor(m=>m.Input.Dept,"col-sm-1 control-label")
+            <div class="col-sm-4">@Html.NgSelectFor(m=>m.Input.Dept,"c.vm.Depts","-choose-","form-control")</div>
+        </div>
+  
+        <div class="form-group">
+            @Html.NgLabelFor(m=>m.Input.Code,"col-sm-1 control-label")
+            <div class="col-sm-4">@Html.NgTextBoxFor(m=>m.Input.Code,"form-control")</div>
+        </div>
+		
+        <div class="form-group">
+            @Html.NgLabelFor(m=>m.Input.Name,"col-sm-1 control-label")
+            <div class="col-sm-4">@Html.NgTextBoxFor(m=>m.Input.Name,"form-control")</div>
+        </div>
+		
+        <div class="form-group">
+            @Html.NgLabelFor(m=>m.Input.CellPhone,"col-sm-1 control-label")
+            <div class="col-sm-4">@Html.NgTextBoxFor(m=>m.Input.CellPhone,"form-control")</div>
+        </div>
+		
+        <div class="form-group">
+            @Html.NgLabelFor(m=>m.Input.IsActive,"col-sm-1 control-label")
+            <div class="col-sm-4">@Html.NgCheckBoxFor(m=>m.Input.IsActive,"form-control")</div>
+        </div>
+        <div class="form-group">
+            <pb-functree input-model="c.vm.Input" tree-model="c.tmp_treeModel" disabled="!c.vm.CanChangeUserFunc"></pb-functree>
+        </div>
+        <div class="form-group">
+            <button id="btnSave" translate="Save" type="button" ng-click="c.btnSave_click()"  class="btn btn-default"/>
+        </div>
+    </div>
+}
+
+
+
