@@ -6,6 +6,7 @@ You can use the application prototypes (on top of the frameworks) to get a quick
 Just download (the source), set up, build and run, then it is yours.
 With the prototype running on your server, you've finished the first round iteration of your application's agile development.
 (See www.51chunzhen.com for detailed introduction and the prototype on the run.)
+
 The frameworks provide simple and robust programming interfaces and patterns so that the prototypes can smoothly evolve and scale up to a full-featured application to meet your customers' requirements.
 The prototypes are built on top of the frameworks. But if you're not interested in the prototypes, you can use the frameworks alone and develop your own applications on top.
 
@@ -26,12 +27,12 @@ In fact, the prototypes even contain a desktop client sample to show how the ser
 ## Why RainyArch?
 1. **Agile development**. The prototypes get the first round iteration of your application development done within a day. 
 Customers and engineers will directly see the system running and they can discuss requirements and design by actually using the evolving application from the very beginning and in every subsequent iteration. 
-They can really work together based on a same thing ¨C the target software, instead of using some mockup like static pages for customers and a pile of incomplete code files for engineers. And that is right one of the principles of Agile Development.
+They can really work together based on a same thing - the target software, instead of using some mockup like static pages for customers and a pile of incomplete code files for engineers. And that is right one of the principles of Agile Development.
 
 More for Agile Development, RainyArch also comes along with automation tools to generate database objects and CURD code files from UI to backend DAO all from a same design document. 
 Add those auto-generated stuffs to the project and build, all primitive functions will be running on a clicking. It's really agile, isn't it?
 
-2. **Double platforms**. Coding experiences will be the same for Java and .Net platform. The two server-side frameworks employ identical architecture and design patterns, and provide same programming interfaces and coding patterns to the application level. Application code on one platform has its counterpart on another platform even on line-to-line basis. With that and the same client-side framework, developers can easily do projects on both platforms.
+2. **Double platforms**. Coding experiences will be the same for Java and .Net platform. The two server-side frameworks employ identical architectures and design patterns, and provide same programming interfaces and coding patterns to the application level. Application code on one platform has its counterpart on another platform even on line-to-line basis. With that and the same client-side framework, developers can easily do projects on both platforms.
 
 3. **Framework on frameworks**. As top-level frameworks, RainyArch encapsulates and integrates popular general frameworks such as Hibernate, IOC, MVC, Angular, and employs design patterns and concepts and best practices, to make the programming interfaces simpler but more powerful.  
 
