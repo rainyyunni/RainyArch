@@ -26,6 +26,8 @@ import org.springframework.web.context.support.AnnotationConfigWebApplicationCon
 import org.springframework.web.filter.CharacterEncodingFilter;
 import org.springframework.web.servlet.DispatcherServlet;
 
+import projectbase.bd.AutoMapperProfile;
+import projectbase.bd.SpringComponentRegistrar;
 import projectbase.data.HibernateExceptionTranslator;
 import projectbase.data.HibernateSessionModified;
 import projectbase.data.hibernatemapbycode.convention.DOClassAnnotationAppender;
@@ -62,7 +64,6 @@ public abstract class BaseMvcApplication implements WebApplicationInitializer,
 		InitMvc();
 		InitializeServiceLocator();
 		InitAutoMapper();
-		Util.Init(servletContext);
 		HibernateInitializer.Instance().InitializeHibernateOnce(
 				this::InitialiseHibernateSessions);
 		InitOther(servletContext);
@@ -125,7 +126,7 @@ public abstract class BaseMvcApplication implements WebApplicationInitializer,
 		 AutoMapperProfile.Configure();
 	 }
 	protected void InitOther(ServletContext servletContext) {
-		HibernateExceptionTranslator.InitWebStorage(servletContext);
+		HibernateExceptionTranslator.InitStorage(new WebApplicationStorage(servletContext));
 		Util.DictMap();
 	}
 
@@ -213,6 +214,7 @@ public abstract class BaseMvcApplication implements WebApplicationInitializer,
 
 	@Override
 	public final void init(ServletConfig config) throws ServletException {
+		Util.InitStorage(new WebApplicationStorage(config.getServletContext()));
 	}
 	@Override
 	public final ServletConfig getServletConfig() {

@@ -1,46 +1,45 @@
-(function (String, angular) {
+﻿(function (String, angular) {
     'use strict';
 
     var pbm = angular.module('projectbase', ['ui.router', 'ui.bootstrap', 'jcs-autoValidate', 'pascalprecht.translate', 'ngCookies', 'ngAnimate']);
   //application-wide logic
-    pbm.controller("BaseCtrl", ['$rootScope', '$scope', '$window', '$state', 'pb','pbui' ,'$translate','$log', 'App_Dict', 'App_MenuData',
-                                function ($rootScope, $scope, $window, $state, pb,pbui, $translate,$log, App_Dict, App_MenuData) {
+    pbm.controller("BaseCtrl", ['$rootScope', '$scope', '$window', '$state','$transitions', 'pb','pbui' ,'$translate','$log', 'App_Dict', 'App_MenuData','App_FuncTree',
+                                function ($rootScope, $scope, $window, $state,$transitions, pb,pbui, $translate,$log, App_Dict, App_MenuData,App_FuncTree) {
     	var c = this;
-    	$rootScope.Dict = App_Dict; //字典常量
-    	$rootScope.pbvar={};
+    	$rootScope.Dict=App_Dict;
+    	$rootScope.pbvar={};//pb通过$rootScope.pbvar绑定全局数据到pbui
     	$rootScope.pbvar.ShowProcessing=false;
     	$rootScope.pbvar.ProcessingRect={};
+    	
     	c.Lang = 'zh-cn'; //上次翻译使用的语言
     	c.SetLang = function (lang) {
     		c.Lang = lang;
     	};
-    	$rootScope.$on('$stateChangeStart',
-    			function (event, toState, toParams, fromState, fromParams) {
-            pb.AjaxNavRegister(toState, toParams, fromState, fromParams,true);
-	        pbui.PutProcessing("_view");
-	        pbui.PutProcessing(false);
-    	});
-    	$rootScope.$on('$stateChangeError',
-    			function (event, toState, toParams, fromState, fromParams, error) {
-    		event.preventDefault();
-    		if (error && error.isRcResult == false) {
+    	$state.defaultErrorHandler(function(error) {
+      		if (error && error.isRcResult == false) {
     			//already done ExecuteErrorResult
     		} else {
-    			$log.error(error.stack);
+    			$log.error(error);
     		}
 	        pbui.PutProcessing(false);
     	});
-       $rootScope.$on('$stateChangeSuccess',
-    	    function (event, toState, toParams, fromState, fromParams) {
-    	        c.SyncMenuToState(toState);
-    	        pb.AjaxNavRegister(toState, toParams, fromState, fromParams);
-    	        c.TranslateStateName(toState);
-    	        pbui.PutProcessing(false);
-    	    });
-
-       c.TranslateStateName = function (state) {
-    	   if (state.data.TranslatedName != null && state.data.Lang == c.Lang) return;
-    	   $translate(state.name).then(function (translated) {
+    	$transitions.onStart({}, function(trans) {
+    		pb.AjaxNavRegister(trans,true);
+		    pbui.PutProcessing("_view");
+		    pbui.PutProcessing(false);
+    	  });
+    	$transitions.onSuccess({}, function(trans) {
+	        c.SyncMenuToState(trans.to());
+	        pb.AjaxNavRegister(trans);
+	        c.TranslateStateName(trans.to(), trans.params());
+	        pbui.PutProcessing(false);
+    	  });
+       c.TranslateStateName = function (state,stateParam) {
+           if (state.data.TranslatedName != null && state.data.Lang == c.Lang) return;
+           var key = state.name;
+           var navTranslate = stateParam.UrlTranslate;
+    	   if (navTranslate) key = key + '?'+navTranslate;
+    	   $translate(key).then(function (translated) {
     		   state.data.TranslatedName = translated;
     		   state.data.Lang = c.Lang;
     	   }, function () {
@@ -51,16 +50,17 @@
     		   });
     	   });
        };
-       c.InitMenu = function (forbiddenMenuFuncList) {
-    	   c.menuData = App_MenuData;
+       c.InitMenu = function (forbiddenFuncList,menuData) {
+           c.forbiddenFuncList = forbiddenFuncList;
+    	   c.menuData = menuData||App_MenuData;
     	   c.currentSubMenus = null;
-    	   var fcodes = forbiddenMenuFuncList ? forbiddenMenuFuncList.toLowerCase() : '';
+    	   var fcodes = forbiddenFuncList ? forbiddenFuncList.toLowerCase() : '';
     	   angular.forEach(c.menuData, function (topmenuitem, index) {
     		   topmenuitem.status = fcodes.indexOf(topmenuitem.funcCode.toLowerCase()) >= 0 ? 'disabled' : '';
     		   angular.forEach(topmenuitem.subMenus, function (submenuitem, subindex) {
     			   var nav = submenuitem.nav || 'root';
     			   if (submenuitem.stateParam) {
-    				   submenuitem.sref = submenuitem.stateName + '({' + submenuitem.stateParam + ',"ajax-nav":"' + nav + '"})';
+     				   submenuitem.sref = submenuitem.stateName + '({' + submenuitem.stateParam + ',"ajax-nav":"' + nav + '"})';
     			   } else {
     				   submenuitem.sref = submenuitem.stateName + '({' + '"ajax-nav":"' + nav + '"})';
     			   }
@@ -91,6 +91,44 @@
     	   $window.alert('bingo');
        };
     } ]);
+    //<<<<<<<------------Default implementation--------------------------------
+    pbm.constant("App_Dict",{}); 
+    pbm.factory('App_FuncTree', [function () {
+        var forbiddenFuncList = null;
+        var forbiddenElementVisible = false;
+        var GetUncheckedListString = function (treeModel) {
+            var s = [];
+            angular.forEach(treeModel.funcList, function (val, idx) {
+                if (treeModel.selectedList[idx] == false &&
+                    (angular.isUndefined(treeModel.disableList[idx]) || treeModel.disableList[idx] == false)) {
+                    s.push(val);
+                }
+            });
+            s = s.join(',');
+            return s;
+        };
+        var SetElementStatusByFunc = function (element, elementfunccode) {
+         		if (forbiddenFuncList!=null&&forbiddenFuncList.indexOf(',' + elementfunccode.toLowerCase() + ',') < 0) return;
+    			if(forbiddenElementVisible){
+    				element.prop('disabled', true);
+    			}else{
+    				element.css('display','none');
+    			}
+        };
+        var SetForbiddenFuncList = function (fcodes) {
+            forbiddenFuncList = fcodes.toLowerCase();
+        };
+        var SetForbiddenElementVisible = function (visible) {
+            forbiddenElementVisible = visible;
+        };
+        return { 
+        	GetUncheckedListString: GetUncheckedListString,
+        	SetElementStatusByFunc: SetElementStatusByFunc,
+        	SetForbiddenFuncList: SetForbiddenFuncList,
+        	SetForbiddenElementVisible: SetForbiddenElementVisible
+        };
+    }]);
+    //----------------------------------------------->>>>>>>
 //begin---------filter-----------------------------------------------------------------------------------
     pbm.filter("Dict", ['$filter', 'App_Dict', function ($filter, App_Dict) {
         return function (value, dictName) {
@@ -101,11 +139,47 @@
             return value;
         };
     } ]);
+    //将列表中加上一项：项数据为javascript对象{Id:1,RefText:'label'}}.只控件中加一项，原列表数据不受影响。
+    pbm.filter("RefSelectEnforceMatch", ['$filter', 'PBPlugIn', function ($filter, PBPlugIn) {
+        var newlist = null;
+        return function (listvalue, itemobject) {
+            if (newlist) return newlist;
+            if (PBPlugIn.RefListContainItem(listvalue, itemobject)) {
+                newlist = listvalue;
+                return newlist;
+            } 
+            newlist = angular.copy(listvalue);
+            newlist[listvalue.length] = itemobject;
+            return newlist;
+        };
+    } ]);
+    //将列表中加上一项或多项：项数据为javascript对象{labelasprop:valueasvalue}.只控件中加项，原列表数据不受影响。
+    pbm.filter("SelectAddOptions", ['$filter', 'PBPlugIn', function ($filter, PBPlugIn) {
+        var newlist = null;
+        return function (listvalue, itemobject) {
+            if (newlist) return newlist;
+            newlist = angular.copy(listvalue);
+            if (!angular.isObject(itemobject)) {
+                var opnobj = PBPlugIn.GetMoreOptionsDefault();
+                for (var prop in opnobj) {
+                    if (itemobject == opnobj[prop]) {
+                        itemobject = {};
+                        itemobject[prop] = opnobj[prop];
+                        break;
+                    }
+                }
+            }
+            for (var prop in itemobject) {
+                newlist[prop] = itemobject[prop];
+            }
+            return newlist;
+        };
+    } ]);
     pbm.filter("Display", ['$filter', 'App_Dict', function ($filter, App_Dict) {//统一显示处理的接口
         return function (value, dictNameOrFormatOrFracSize, begin, end) {
             if (angular.isUndefined(value)) return '';
             if (angular.isNumber(value) && dictNameOrFormatOrFracSize) {
-                if (angular.isString(dictNameOrFormatOrFracSize)) {//second param is dictname
+                if (angular.isString(dictNameOrFormatOrFracSize) && App_Dict[dictNameOrFormatOrFracSize]) {//second param is dictname
                     return $filter('Dict')(value, dictNameOrFormatOrFracSize);
                 } else if (angular.isNumber(dictNameOrFormatOrFracSize)) {
                     return $filter('number')(value, dictNameOrFormatOrFracSize);
@@ -142,47 +216,41 @@
         return directiveDefinitionObject;
     } ]);
     //<----------------custom validator------------------------------------------------------------
-    pbm.directive('equalto', ['$parse', function ($parse) {
+    pbm.directive('pbValgroup', [function () {
+        return {
+            restrict: "A",
+            require: "ngModel",
+            link: function (scope, ele, attrs, ngModelController) {
+                ngModelController.pb_valgroup=attrs["pbValgroup"];
+            }
+        };
+    } ]);
+    pbm.directive('pbEqualto', ['$parse', function ($parse) {
         return {
             restrict: "A",
             require: "ngModel",
             link: function (scope, ele, attrs, ngModelController) {
                 ngModelController.$validators.equalto = function (modelValue, viewValue) {
                     var value = modelValue || viewValue;
-                    return value == $parse(attrs["equalto"])(scope);
+                    return value == $parse(attrs["pbEqualto"])(scope);
                 };
             }
         };
     } ]);
-    pbm.directive('maxByteLength', [function () {
+    pbm.directive('pbMaxByteLength', [function () {
         return {
             restrict: "A",
             require: "ngModel",
             link: function (scope, ele, attrs, ngModelController) {
                 ngModelController.$validators.maxByteLength = function (modelValue, viewValue) {
                     var value = modelValue || viewValue;
-                    return value == '' || value.getBytesLength() <= attrs["maxByteLength"];
+                    return value == '' || value.getBytesLength() <= attrs["pbMaxByteLength"];
                 };
             }
         };
     } ]);
-    pbm.directive('unique', ['pb', 'App_UniqueCheckerUri', '$q', function (pb, App_UniqueCheckerUri, $q) {
-        return {
-            restrict: "A",
-            require: "ngModel",
-            link: function (scope, ele, attrs, ngModelController) {
-                ngModelController.$asyncValidators.unique = function(modelValue, viewValue) {
-                    var value = modelValue || viewValue;
-                    return pb.AjaxSubmit(null, { value: value }, { "ajax-url": App_UniqueCheckerUri + attrs["unique"] })
-                        .then(function(response) {
-                            return response.data ? true : $q.reject();
-                        }, function() {
-                            return $q.reject();
-                        });
-                };
-            }
-        };
-    } ]);
+    
+    //------------------------------------
     //this function need the parameter stringvalue to be something in order of yearmonthday no matter what the delimeter is.
     function IsValidDate(stringvalue) {
         var year = stringvalue.substr(0, 4);

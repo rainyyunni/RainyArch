@@ -46,10 +46,23 @@ public class UrlHelper {
 		stack.push(action);
 		request.setAttribute(GlobalConstant.Attr_RequestAction, action);
 	}
+    public static String Deprefix(HttpServletRequest request,String stateName)
+    {
+    	String cp=request.getServletContext().getContextPath();
+        if (cp.length()>1 && stateName.startsWith(cp))
+        {
+            stateName = stateName.substring(cp.length());
+        }
+        return stateName;
+    }
 	public static String GetPathInfo(HttpServletRequest request){
 		Action action=(Action)request.getAttribute(GlobalConstant.Attr_RequestAction);
 		if(action==null) return null;
 		return action.getPathInfo();
+	}
+	public String ContextPrefix(){
+		String cp=request.getServletContext().getContextPath();
+		return cp.length()==1?"":cp;
 	}
     public String Action(String actionName) {
         return GenerateUrl(actionName, null, (Map<String,Object>)null /* routeValues */);

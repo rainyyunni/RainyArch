@@ -18,6 +18,11 @@ public class RichClientJsonResult extends JsonResult {
 		this.setData(r);
 		setJsonRequestBehavior(JsonRequestBehavior.AllowGet);
 	}
+    public boolean IsErrorResult(){
+    	if(this.getData()!=null && this.getData() instanceof RichClientJsonResult.Result )
+        return !((RichClientJsonResult.Result)this.getData()).getIsRcResult();
+    	return false;
+    }
 	@Getter@Setter
     public class Result{
     	private boolean isRcResult;

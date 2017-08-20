@@ -1,12 +1,10 @@
 ﻿(function (String, angular) {
     'use strict';
 
-    var pbm = angular.module('projectbase');
-
-    pbm.directive("ajaxNavbar", ['pb', '$state', '$stateParams',function factory(pb, $state, $stateParams) {
+    app.directive("ajaxNavbar", ['pb','APP_ContextPrefix', function factory(pb,APP_ContextPrefix) {
         var directiveDefinitionObject = {
             priority: 0,
-            templateUrl: "/Shared/Directive/AjaxNavbar.htm",
+            templateUrl: APP_ContextPrefix+"/Shared/Directive/AjaxNavbar.htm",
             // transclude: false,
             restrict: 'EA',
             scope: true,

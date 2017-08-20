@@ -1,0 +1,10 @@
+        <div class="modal-header">
+            <h3 class="modal-title"  translate>{{::dc.Title}}</h3>
+        </div>
+        <div class="modal-body">
+            <label for="DialogSample"/><input type="text" id="DialogSample" ng-model="dc.InputText"/>
+        </div>
+        <div class="modal-footer">
+            <button class="btn btn-primary" type="button" ng-click="dc.save()" translate>Save</button>
+            <button class="btn btn-warning" type="button" ng-click="dc.cancel()"  translate>Cancel</button>
+        </div>

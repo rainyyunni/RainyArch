@@ -32,6 +32,7 @@ import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.handler.HandlerInterceptorAdapter;
 import org.springframework.web.method.HandlerMethod;
 
+import projectbase.bd.AutoMapperProfile;
 import projectbase.domain.IDBErrorForUser;
 import projectbase.domain.IExceptionTranslator;
 import projectbase.mvc.result.ActionResult;
@@ -332,26 +333,40 @@ public class BaseController extends HandlerInterceptorAdapter implements Handler
 	 */
 	public ActionResult ClientRedirect(String target) {
 		if(target.startsWith("/")) return RcJson(RichClientJsonResult.Command_Redirect,target);
-		return ClientRedirectToAction(target, this.getClass());
+		return ClientRedirectToAction(target);
 	}
-	@Deprecated
-	public ActionResult ClientRedirectToAction(String action) {
-		return ClientRedirectToAction(action, this.getClass());
-	}
+//	@Deprecated
+//	public ActionResult ClientRedirectToAction(String action) {
+//		return ClientRedirectToAction(action, this.getClass());
+//	}
 
-	public ActionResult ClientRedirectToAction(String action,
-			Class<?> controllerClass) {
+	public ActionResult ClientRedirectToAction(String action) {
 		UrlHelper helper=new UrlHelper(request,false);
 		String url=helper.Action(action);
 		return RcJson(RichClientJsonResult.Command_Redirect,url);
 	}
-
-    public ActionResult ClientReloadApp(String action,
-			Class<?> controllerClass)
+    public ActionResult ClientReloadApp(String appPageAction)
+    {
+    	return ClientReloadApp(appPageAction,null,null);
+    }
+    public ActionResult ClientReloadApp(String appPageAction,String qs)
+    {
+    	return ClientReloadApp(appPageAction,qs,null);
+    }
+	/**
+	 * 给客户端的命令,提示客户端重新加载app并切换到指定state
+	 * @param appPageAction:app页面对应的action
+	 * @param state:"以/开头为绝对state名"
+	 * @return
+	 */
+    public ActionResult ClientReloadApp(String appPageAction,String qs,String state)
     {
 		UrlHelper helper=new UrlHelper(request,false);
-		String url=helper.Action(action, controllerClass.getSimpleName());
-
+		String url=helper.Action(appPageAction);
+		if(StringUtils.isNotEmpty(qs)) url=url+"?"+qs;
+    	if(StringUtils.isNotEmpty(qs) && !state.startsWith("/"))
+    		state=helper.Action(state);
+    	if(StringUtils.isNotEmpty(state)) url=url+"#"+state;
         return RcJson(RichClientJsonResult.Command_AppPage, url);
     }
 	/**

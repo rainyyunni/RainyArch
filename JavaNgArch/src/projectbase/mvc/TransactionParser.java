@@ -9,6 +9,7 @@ import org.springframework.web.servlet.DispatcherServlet;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.handler.HandlerInterceptorAdapter;
 
+import projectbase.mvc.result.RichClientJsonResult;
 import projectbase.sharparch.hibernate.HibernateSession;
 import projectbase.sharparch.hibernate.SessionFactoryKeyHelper;
 
@@ -33,7 +34,11 @@ public class TransactionParser extends HandlerInterceptorAdapter{
 				.CurrentFor(effectiveFactoryKey).getTransaction();
 
 			if (currentTransaction.isActive()) {
-				currentTransaction.commit();
+				if (modelAndView.getView() instanceof RichClientJsonResult && ((RichClientJsonResult)modelAndView.getView()).IsErrorResult() ) {
+					currentTransaction.rollback();
+				}else{
+					currentTransaction.commit();
+				}
 			}
 	}
 

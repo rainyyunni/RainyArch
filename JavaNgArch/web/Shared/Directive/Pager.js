@@ -1,12 +1,10 @@
 ﻿(function (String, angular) {
     'use strict';
 
-    var pbm = angular.module('projectbase');
-
-    pbm.directive("pagerInput", ['pb', '$timeout',function factory(pb, $timeout) {
+    app.directive("pagerInput", ['pb', '$timeout','APP_ContextPrefix',function factory(pb, $timeout,APP_ContextPrefix) {
         var directiveDefinitionObject = {
             priority: 0,
-            templateUrl: "/Shared/Directive/Pager.htm",
+            templateUrl: APP_ContextPrefix+"/Shared/Directive/Pager.htm",
             // transclude: false,
             restrict: 'A',
             scope: {
@@ -16,6 +14,9 @@
             controller: ['$scope', '$element', '$attrs', '$transclude',function ($scope, $element, $attrs, $transclude) {
                 var d = this;
                 var m = $scope.m;
+                if(m==null){
+                	m={pageNum:1,pageSize:0,pageCount:0};
+                }
                 d.inputName_PageNum = $attrs["pagerInput"] + ".pageNum";
                 d.inputName_PageSize = $attrs["pagerInput"] + ".pageSize";
                 d.submitData = function () {

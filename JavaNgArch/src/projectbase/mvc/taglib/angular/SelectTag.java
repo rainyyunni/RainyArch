@@ -57,12 +57,24 @@ public class SelectTag extends org.springframework.web.servlet.tags.form.SelectT
 		boolean isDictEnum=DictEnum.class.isAssignableFrom(modelclass);
 		if (isDictEnum){
             String ngoptions = "value as label for (label, value) in " + GlobalConstant.DictJsName+"."+modelclass.getSimpleName();
+            if(getDynamicAttributes()!=null && getDynamicAttributes().containsKey("pb-AddOptions")){
+            	ngoptions = ngoptions + "|SelectAddOptions:" + (String)getDynamicAttributes().get("pb-AddOptions");;
+            }
             tagWriter.writeAttribute("ng-options", ngoptions);
     		if(this.getDynamicAttributes()==null || this.getDynamicAttributes().get("ng-model")==null){
     			tagWriter.writeAttribute("ng-model", GetNgModel(pageContext,getPath()));
     		}
     		writeOptionalAttribute(tagWriter, "name", getName());
         }else{
+        	String ngmodel="";
+    		if(getDynamicAttributes()==null || getDynamicAttributes().get("ng-model")==null){
+    			ngmodel=getPath();
+    			tagWriter.writeAttribute("ng-model", GetNgModel(pageContext,getPath())+".id");
+    			writeOptionalAttribute(tagWriter, "name", getName()+".id");
+    		}else{
+    			ngmodel=(String)getDynamicAttributes().get("ng-model");
+    			writeOptionalAttribute(tagWriter, "name", getName());
+    		}
         	if(getDynamicAttributes()==null ||(getDynamicAttributes()!=null && !getDynamicAttributes().containsKey("ng-options")))
 	        {
 	            if (selectList==null)
@@ -72,15 +84,15 @@ public class SelectTag extends org.springframework.web.servlet.tags.form.SelectT
 	            else
 	            {
 	                String ngoptions = "item.id as item.refText for item in " + selectList ;
+	                if(getDynamicAttributes()!=null && getDynamicAttributes().containsKey("pb-EnforceMatch")){
+	                	ngoptions = ngoptions + "|RefSelectEnforceMatch:" + ngmodel;
+	                }
+	                if(getDynamicAttributes()!=null && getDynamicAttributes().containsKey("pb-AddOptions")){
+	                	ngoptions = ngoptions + "|SelectAddOptions:" + (String)getDynamicAttributes().get("pb-AddOptions");;
+	                }
 	                tagWriter.writeAttribute("ng-options", ngoptions);
 	            }
 	        }
-    		if(this.getDynamicAttributes()==null || this.getDynamicAttributes().get("ng-model")==null){
-    			tagWriter.writeAttribute("ng-model", GetNgModel(pageContext,getPath()+".id"));
-    			writeOptionalAttribute(tagWriter, "name", getName()+".id");
-    		}else{
-    			writeOptionalAttribute(tagWriter, "name", getName());
-    		}
         }
 		writeOptionalAttribute(tagWriter, "id", resolveId()+(isDictEnum?"":"_id"));
 		writeOptionalAttributes(tagWriter);

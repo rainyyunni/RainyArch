@@ -1,4 +1,4 @@
-(function (String, angular) {
+﻿(function (String, angular) {
     'use strict';
 
     var pbm = angular.module('projectbase');
@@ -124,7 +124,7 @@
         };
         return directiveDefinitionObject;
     }]);
-    //begin-------checkall-------------------------------------------------------------------------------------
+    //begin-------processing-------------------------------------------------------------------------------------
     pbm.directive("pbProcessingMask", [function () {
         var directiveDefinitionObject = {
             priority: 0,
@@ -143,110 +143,129 @@
     } ]);
     
     //<------------------------pbui service--------------------------------------------------
-    var pbuiFn=['$uibModal','$q','$translate','$uibPosition','$rootScope','$window','$log',
-                function($uibModal,$q,$translate,$uibPosition,$rootScope,$window,$log){
-    	var AlertModal=function(msg,size,animationsEnabled){
-    		animationsEnabled=animationsEnabled||true;
-    		var modalInstance = $uibModal.open({
-			       animation: animationsEnabled,
-			       size: size,
-			       resolve: {
-			         msg: function(){return msg;}
-			       },
-			       templateUrl: '/Scripts/tpl/pbui.Alert.htm',
-			       controller: ['$scope', '$uibModalInstance','msg', function($scope, $uibModalInstance,msg){
-			    	   		$scope.msg=msg;
-			    	   		$scope.ok = function () {
-			    	   			$uibModalInstance.close(true);
-			    	   		};
-			       }]
-		     });
-    		 return modalInstance.result;
-    	};
-    	var ConfirmModal=function(msg,params,size,animationsEnabled){
-    		animationsEnabled=animationsEnabled||true;
-    		var modalInstance = $uibModal.open({
-			       animation: animationsEnabled,
-			       size: size,
-			       resolve: {
-			         msg: function(){return msg;},
-			         params:function(){return params;}
-			       },
-			       templateUrl: '/Scripts/tpl/pbui.Confirm.htm',
-			       controller: ['$scope', '$uibModalInstance','msg','params','$translate', 
-			                    function($scope, $uibModalInstance,msg,params,$translate){
-				   		$translate(msg).then(function (msg) {
-				   			$scope.msg=params?msg.replace('{0}',params):msg;
-						},function (msg) {
-							$scope.msg=params?msg.replace('{0}',params):msg;
-						});
-		    	   		$scope.msg=msg;
-		    	   		$scope.ok = function () {
-		    	   			$uibModalInstance.close(true);
-		    	   		};
-	
-		    	   		$scope.cancel = function () {
-		    	   			$uibModalInstance.dismiss(false);
-		    	   		};
-			       }]
-		     });
-    		 return modalInstance.result;
-    	};
-    	var ShowCommandModal=function(command,msg,size,animationsEnabled){
-    		animationsEnabled=animationsEnabled||true;
-    		var modalInstance = $uibModal.open({
-			       animation: animationsEnabled,
-			       size: size,
-			       resolve: {
-			         msg: function(){return msg;}
-			       },
-			       templateUrl: '/Scripts/tpl/pbui.'+command+'.htm',
-			       controller: ['$scope', '$uibModalInstance','msg', function($scope, $uibModalInstance,msg){
-			    	   		$scope.msg=msg;
-			    	   		$scope.ok = function () {
-			    	   			$uibModalInstance.close(true);
-			    	   		};
-			       }]
-		     });
-    		 return modalInstance.result;
-    	};
-    	var PutProcessing=function(elementId){
-    		if(!elementId){
-    			$rootScope.pbvar.ShowProcessing=false;
-    			return;
-    		}
-    		var element;
-    		if(elementId=='_view')elementId=$rootScope.pbvar.DefaultViewMaskId;
-    		element=$window.document.querySelector('#'+elementId);
-    		if(!element){
-    			$rootScope.pbvar.ShowProcessing=false;
-    			$log.error('no element for '+elementId);
-    			return;
-    		}
-    		var pos=$uibPosition.position(element);
-    	    $rootScope.pbvar.ProcessingRect.width=pos.width+'px';
-    	    $rootScope.pbvar.ProcessingRect.height=pos.height>30?pos.height+'px':50+'px';
-    	    var top=0, left=0;
-    	    while(element.tagName!='HTML'){
-    	        pos=$uibPosition.position(element);
-    	        left += pos.left;
-    	        top += pos.top;
-    	        element=$uibPosition.offsetParent(element);
-    	    }
-    	    $rootScope.pbvar.ProcessingRect.top=top+'px';
-    	    $rootScope.pbvar.ProcessingRect.left=left+'px';
-    	    $rootScope.pbvar.ShowProcessing=true;
-    	};
-		return {
-			 Alert:AlertModal,
-			 Confirm:ConfirmModal,
-			 ShowCommand:ShowCommandModal,
-			 PutProcessing:PutProcessing
-		};
-	}];
-    
     pbm.provider('pbui',function(){
     	var me=this;
+    	var TplPath='../Scripts/tpl';
+    	me.SetTplPath=function(path){
+    		TplPath=path;
+    	};
+        var pbuiFn=['$uibModal','$q','$translate','$uibPosition','$rootScope','$window','$log',
+                    function($uibModal,$q,$translate,$uibPosition,$rootScope,$window,$log){
+        	var AlertModal=function(msg,size,animationsEnabled){
+        		animationsEnabled=animationsEnabled||true;
+        		var modalInstance = $uibModal.open({
+    			       animation: animationsEnabled,
+    			       size: size,
+    			       resolve: {
+    			         msg: function(){return msg;}
+    			       },
+    			       templateUrl: TplPath+'/pbui.Alert.htm',
+    			       controller: ['$scope', '$uibModalInstance','msg', function($scope, $uibModalInstance,msg){
+    			    	   		$scope.msg=msg;
+    			    	   		$scope.ok = function () {
+    			    	   			$uibModalInstance.close(true);
+    			    	   		};
+    			       }]
+    		     });
+        		 return modalInstance.result;
+        	};
+        	var ConfirmModal=function(msg,msgParams,size,animationsEnabled){
+        		animationsEnabled=animationsEnabled||true;
+        		var modalInstance = $uibModal.open({
+    			       animation: animationsEnabled,
+    			       size: size,
+    			       resolve: {
+    			         msg: function(){return msg;},
+    			         msgParams: function () { return msgParams; }
+    			       },
+    			       templateUrl: TplPath+'/pbui.Confirm.htm',
+    			       controller: ['$scope', '$uibModalInstance', 'msg', 'msgParams', '$translate',
+    			                    function ($scope, $uibModalInstance, msg, msgParams, $translate) {
+    				   		$translate(msg).then(function (msg) {
+    				   		    $scope.msg = msgParams ? msg.replace('{0}', msgParams) : msg;
+    						},function (msg) {
+    						    $scope.msg = msgParams ? msg.replace('{0}', msgParams) : msg;
+    						});
+    		    	   		$scope.msg=msg;
+    		    	   		$scope.ok = function () {
+    		    	   			$uibModalInstance.close(true);
+    		    	   		};
+    	
+    		    	   		$scope.cancel = function () {
+    		    	   			$uibModalInstance.dismiss(false);
+    		    	   		};
+    			       }]
+    		     });
+        		 return modalInstance.result;
+        	};
+        	var ShowCommandModal=function(command,msg,size,animationsEnabled){
+        		animationsEnabled=animationsEnabled||true;
+        		var modalInstance = $uibModal.open({
+    			       animation: animationsEnabled,
+    			       size: size,
+    			       resolve: {
+    			         msg: function(){return msg;}
+    			       },
+    			       templateUrl: TplPath+'/pbui.'+command+'.htm',
+    			       controller: ['$scope', '$uibModalInstance','msg', function($scope, $uibModalInstance,msg){
+    			    	   		$scope.msg=msg;
+    			    	   		$scope.ok = function () {
+    			    	   			$uibModalInstance.close(true);
+    			    	   		};
+    			       }]
+    		     });
+        		 return modalInstance.result;
+        	};
+            var DialogModal = function (templateUrl, paramObj, controller,size, animationsEnabled) {
+               animationsEnabled = animationsEnabled || true;
+               var modalInstance = $uibModal.open({
+                   animation: animationsEnabled,
+                   size: size,
+                   resolve: {
+                       paramObj: function () { return paramObj; }
+                   },
+                   templateUrl: templateUrl,
+                   controllerAs:'dc',
+                   controller:controller
+               });
+               return modalInstance.result;
+           };
+        	var PutProcessing=function(elementId){
+        		if(!elementId){
+        			$rootScope.pbvar.ShowProcessing=false;
+        			return;
+        		}
+        		var element;
+        		if(elementId=='_view')elementId=$rootScope.pbvar.DefaultViewMaskId;
+        		element=$window.document.querySelector('#'+elementId);
+        		if(!element){
+        			$rootScope.pbvar.ShowProcessing=false;
+        			$log.error('no element for '+elementId);
+        			return;
+        		}
+        		var pos=$uibPosition.position(element);
+        	    $rootScope.pbvar.ProcessingRect.width=pos.width+'px';
+        	    $rootScope.pbvar.ProcessingRect.height=pos.height>30?pos.height+'px':50+'px';
+        	    var top=0, left=0;
+        	    while(element.tagName!='HTML'){
+        	        pos=$uibPosition.position(element);
+        	        left += pos.left;
+        	        top += pos.top;
+        	        element=$uibPosition.offsetParent(element);
+        	    }
+        	    $rootScope.pbvar.ProcessingRect.top=top+'px';
+        	    $rootScope.pbvar.ProcessingRect.left=left+'px';
+        	    $rootScope.pbvar.ShowProcessing=true;
+        	};
+    		return {
+    			 Alert:AlertModal,
+    			 Confirm:ConfirmModal,
+    			 ShowCommand:ShowCommandModal,
+    			 Dialog: DialogModal,
+    			 PutProcessing:PutProcessing
+    		};
+    	}];
+        
     	me.$get = pbuiFn;
     });
 

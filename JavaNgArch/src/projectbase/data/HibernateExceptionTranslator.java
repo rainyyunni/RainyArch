@@ -10,6 +10,7 @@ import javax.servlet.ServletContext;
 import org.hibernate.JDBCException;
 import projectbase.sharparch.hibernate.HibernateQuery;
 import projectbase.utils.Util;
+import projectbase.bd.IApplicationStorage;
 import projectbase.domain.DBDuplicateException;
 import projectbase.domain.DBReferencedException;
 import projectbase.domain.DBUserDefinedException;
@@ -18,7 +19,7 @@ import projectbase.domain.IExceptionTranslator;
 
 public class HibernateExceptionTranslator extends HibernateQuery implements
 		IExceptionTranslator {
-	private static ServletContext _appState;
+	private static IApplicationStorage _appState;
 	private static String _key_For_DBErrorMap = "Key_For_DBErrorMap";
 	private static Map<String, String> emptyServerMap=new HashMap<String, String>();
 
@@ -26,19 +27,19 @@ public class HibernateExceptionTranslator extends HibernateQuery implements
 		return emptyServerMap;//LoadDBErrorMap();
 	}
 
-	public static void InitWebStorage(ServletContext appState) {
+	public static void InitStorage(IApplicationStorage appState) {
 		_appState = appState;
 	}
 
 	@SuppressWarnings("unchecked")
 	protected Map<String, String> LoadDBErrorMap() {
-		if (_appState.getAttribute(_key_For_DBErrorMap) == null) {
+		if (_appState.Get(_key_For_DBErrorMap) == null) {
 			List<Object[]> list = (List<Object[]>) UtilQuery.StatelessGetBySql(
 					"select Code,Message from GN_ErrorMsgMap");
-			_appState.setAttribute(_key_For_DBErrorMap, Util.<String,String>ListToMap(list));
+			_appState.Set(_key_For_DBErrorMap, Util.<String,String>ListToMap(list));
 		}
 		return (Map<String, String>) _appState
-				.getAttribute(_key_For_DBErrorMap);
+				.Get(_key_For_DBErrorMap);
 	}
 
 	public Exception Translate(Exception exception) {

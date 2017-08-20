@@ -1,12 +1,10 @@
 ﻿(function (String, angular) {
     'use strict';
 
-    var pbm = angular.module('projectbase');
-
-    pbm.directive("pbFunctree", ['pb', '$state', '$stateParams',function factory(pb, $state, $stateParams) {
+    app.directive("pbFunctree", ['pb','APP_ContextPrefix', function factory(pb,APP_ContextPrefix) {
         var directiveDefinitionObject = {
             priority: 0,
-            templateUrl: "/do/shared/Common/FuncList?action",
+            templateUrl: APP_ContextPrefix+"/do/shared/Common/FuncList?action",
             // transclude: false,
             restrict: 'EA',
             scope: {

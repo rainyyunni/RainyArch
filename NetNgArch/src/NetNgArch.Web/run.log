@@ -1,14 +1,12 @@
-2017-05-11 11:00:45,840 [62] WARN ProjectBase.Data.UtilQuery+<>c__DisplayClass5.<CheckSqlInjection>b__3(C:\Work\Research\RainyArch\NetNgArch\src\ProjectBase\Data\UtilQuery.cs:269) - changing word found in native sql:update gn_user set loginmark=null
+2016-02-23 15:25:34,592 [145] WARN ProjectBase.Data.UtilQuery+<>c__DisplayClass5.<CheckSqlInjection>b__3(C:\Work\Research\RainyArch\NetNgArch\src\ProjectBase\Data\UtilQuery.cs:247) - changing word found in native sql:update gn_user set loginmark=null
 
-2017-05-11 11:04:55,628 [21] WARN ProjectBase.Data.UtilQuery.CheckSqlInjection(C:\Work\Research\RainyArch\NetNgArch\src\ProjectBase\Data\UtilQuery.cs:275) - single quote found in native sql:select isnull(a.ConstName+'.'+b.ConstName,''),b.ItemName from GN_DictItem b inner join GN_Dict a on b.DictID=a.ID
+2016-02-23 15:25:38,782 [142] WARN ProjectBase.Data.UtilQuery+<>c__DisplayClass5.<CheckSqlInjection>b__3(C:\Work\Research\RainyArch\NetNgArch\src\ProjectBase\Data\UtilQuery.cs:247) - changing word found in native sql:update gn_user set loginmark=null where id=1
 
-2017-05-11 11:06:15,307 [32] WARN ProjectBase.Data.UtilQuery+<>c__DisplayClass5.<CheckSqlInjection>b__3(C:\Work\Research\RainyArch\NetNgArch\src\ProjectBase\Data\UtilQuery.cs:269) - changing word found in native sql:update gn_user set loginmark=null where id=1
+2016-02-23 17:28:44,681 [142] WARN ProjectBase.Data.UtilQuery+<>c__DisplayClass5.<CheckSqlInjection>b__3(C:\Work\Research\RainyArch\NetNgArch\src\ProjectBase\Data\UtilQuery.cs:247) - changing word found in native sql:update gn_user set loginmark=null where id=1
 
-2017-05-11 11:20:34,812 [22] WARN ProjectBase.Data.UtilQuery+<>c__DisplayClass5.<CheckSqlInjection>b__3(C:\Work\Research\RainyArch\NetNgArch\src\ProjectBase\Data\UtilQuery.cs:269) - changing word found in native sql:update gn_user set loginmark=null where id=1
+2016-02-23 17:54:45,642 [142] WARN ProjectBase.Data.UtilQuery+<>c__DisplayClass5.<CheckSqlInjection>b__3(C:\Work\Research\RainyArch\NetNgArch\src\ProjectBase\Data\UtilQuery.cs:247) - changing word found in native sql:update gn_user set loginmark=null where id=1
 
-2017-05-11 11:21:41,422 [32] WARN ProjectBase.Data.UtilQuery+<>c__DisplayClass5.<CheckSqlInjection>b__3(C:\Work\Research\RainyArch\NetNgArch\src\ProjectBase\Data\UtilQuery.cs:269) - changing word found in native sql:update gn_user set loginmark=null where id=1
+2016-02-23 19:42:21,790 [152] WARN ProjectBase.Data.UtilQuery+<>c__DisplayClass5.<CheckSqlInjection>b__3(C:\Work\Research\RainyArch\NetNgArch\src\ProjectBase\Data\UtilQuery.cs:247) - changing word found in native sql:update gn_user set loginmark=null where id=1
 
-2017-05-11 11:45:22,271 [16] WARN ProjectBase.Data.UtilQuery+<>c__DisplayClass5.<CheckSqlInjection>b__3(C:\Work\Research\RainyArch\NetNgArch\src\ProjectBase\Data\UtilQuery.cs:269) - changing word found in native sql:update gn_user set loginmark=null where id=1
-
-2017-05-16 19:05:46,443 [19] WARN ProjectBase.Data.UtilQuery+<>c__DisplayClass5.<CheckSqlInjection>b__3(C:\Work\Research\RainyArch\NetNgArch\src\ProjectBase\Data\UtilQuery.cs:269) - changing word found in native sql:update gn_user set loginmark=null where id=1
+2016-02-23 20:09:42,780 [142] WARN ProjectBase.Data.UtilQuery+<>c__DisplayClass5.<CheckSqlInjection>b__3(C:\Work\Research\RainyArch\NetNgArch\src\ProjectBase\Data\UtilQuery.cs:247) - changing word found in native sql:update gn_user set loginmark=null where id=1
 

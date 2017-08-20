@@ -40,22 +40,23 @@ import org.apache.commons.lang3.time.DateFormatUtils;
 import org.apache.commons.lang3.time.DateUtils;
 import org.apache.log4j.Logger;
 import org.hibernate.Session;
-import org.springframework.util.Base64Utils;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 
+import projectbase.bd.IApplicationStorage;
 import projectbase.data.UtilQuery;
 import projectbase.domain.BaseDomainObject;
 import projectbase.domain.DORef;
 import projectbase.domain.DictEnum;
 import projectbase.mvc.DisplayExtension;
 import projectbase.mvc.GlobalConstant;
+import projectbase.mvc.WebApplicationStorage;
 import projectbase.sharparch.hibernate.HibernateQuery;
 
     public class Util extends HibernateQuery
     {
     	private static ObjectMapper om=new ObjectMapper();
-        private static ServletContext _appState;
+        private static IApplicationStorage _appState;
         private static String logRoot;
         private static String _key_For_FuncMap = "Key_For_FuncMap";
         private static String _key_For_FuncTree = "Key_For_FuncTree";
@@ -65,9 +66,9 @@ import projectbase.sharparch.hibernate.HibernateQuery;
 
 			if (logRoot == null){
 				String logroot = _appState
-						.getInitParameter(GlobalConstant.ContextParam_LogRoot);
+						.GetInitParameter(GlobalConstant.ContextParam_LogRoot);
 				if(logroot != null && !logroot.isEmpty()) {
-					logRoot = _appState.getRealPath(logroot);
+					logRoot = _appState.GetRealPath(logroot);
 				}
 			}
 			return logRoot;
@@ -112,24 +113,24 @@ import projectbase.sharparch.hibernate.HibernateQuery;
         {
 
                 if (_appState == null) throw new JavaArchException("Util has not been initiated yet!");
-                if (_appState.getAttribute(_key_For_FuncMap) == null)
+                if (_appState.Get(_key_For_FuncMap) == null)
                 {
                     //load from db and keep the map in memory
                 	List<Object[]> list = (List<Object[]>)UtilQuery.StatelessGetBySql("select Code,Id from GN_Func");
-                	_appState.setAttribute(_key_For_FuncMap,Util.<String,Integer>ListToMap(list));
+                	_appState.Set(_key_For_FuncMap,Util.<String,Integer>ListToMap(list));
 
 
-                    if (_appState.getAttribute(_key_For_FuncMap) == null)
-                    	_appState.setAttribute(_key_For_FuncMap,new HashMap<String, Integer>());
+                    if (_appState.Get(_key_For_FuncMap) == null)
+                    	_appState.Set(_key_For_FuncMap,new HashMap<String, Integer>());
                 }
-                return (Map<String, Integer>)_appState.getAttribute(_key_For_FuncMap);
+                return (Map<String, Integer>)_appState.Get(_key_For_FuncMap);
             }
 
         //generate html for func checkboxtree once 
         public static String FuncTree()
         {
                 if (_appState == null) throw new JavaArchException("Util has not been initiated yet!");
-                if (_appState.getAttribute(_key_For_FuncTree) == null)
+                if (_appState.Get(_key_For_FuncTree) == null)
                 {
                     //load from db and keep the tree in memory
                     List<Object[]> list = (List<Object[]>)UtilQuery.StatelessGetBySql("select Id,Level,Code,Name from GN_Func Order by Level");
@@ -186,13 +187,13 @@ import projectbase.sharparch.hibernate.HibernateQuery;
                     }
                     html = html + "</div>";
                     html = html0 +"\"funcList\":["+ids.substring(1) + "],"+"\"levelList\":["+levels.substring(1) + "]}'>\n" + html;
-                    _appState.setAttribute(_key_For_FuncTree,html);
+                    _appState.Set(_key_For_FuncTree,html);
                 }
 
-                return (String)_appState.getAttribute(_key_For_FuncTree);
+                return (String)_appState.Get(_key_For_FuncTree);
             }
 
-        public static void Init(ServletContext appState)
+        public static void InitStorage(IApplicationStorage appState)
         {
             _appState = appState;
         }
@@ -410,10 +411,10 @@ import projectbase.sharparch.hibernate.HibernateQuery;
         //将客户端指定目录下所有后缀为Ctrl.js的脚本文件合并为一个字符串返回
         public static String NgControllerJs(String webroot)
         {
-        	String debug=_appState.getInitParameter(GlobalConstant.ContextParam_Debug);
+        	String debug=_appState.GetInitParameter(GlobalConstant.ContextParam_Debug);
             if (debug==null || debug.equalsIgnoreCase("false")) return "";
             if(StringUtils.isEmpty(webroot))
-            	webroot =_appState.getInitParameter("WebJsDebug");
+            	webroot =_appState.GetInitParameter("WebJsDebug");
             try{
 	            Object[] filePaths=Files.find(Paths.get(webroot),5,(p,b)->p.toString().endsWith("Ctrl.js")).toArray();
 	            String scripts = "";
