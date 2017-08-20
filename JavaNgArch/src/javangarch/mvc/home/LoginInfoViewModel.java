@@ -57,12 +57,11 @@ import lombok.Setter;
 			return loginUser.getName();
 		}
         //所有无权限的菜单项的funccode列表字符串，逗号分隔，逗号开头结尾
-        public String getForbiddenMenuFuncList()
+        public String getForbiddenFuncList()
         {
             Collection<String> all =CollectionUtils.union(CollectionUtils.union(corpFuncCodes,deptFuncCodes),userFuncCodes);
-            String s = ","+all.stream().filter(o -> o.startsWith("M_")).reduce("",(codes,funccode)->codes + funccode + ",");
+            String s = ","+all.stream().reduce("",(codes,funccode)->codes + funccode + ",");
             return s;
         }
-
     }
 

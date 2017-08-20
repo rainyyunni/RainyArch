@@ -1,10 +1,11 @@
 //<-----------------App setup-----------------------
-//<--------------框架上的应用定义的全局变量，方便于脚本中引用各组件,仅此两个，不要再定义其他的全局变量，需要时应该定义命名对象
-var app = angular.module("app", ['projectbase']);
+//除app和def外，不要再定义其他的全局变量，均应定义命名对象
+var app = angular.module("app", ['projectbase']);//应用对象，全局变量
 //--------------Config StatesDefiner and Define Common States -------------------------------->
-var def = new PB_Global_StateDefiner(app);
+var def = new PB_Global_StateDefiner(app);//用于定义State的全局变量
 def.SetDefaultLayout('/Shared/ContentLayout');
 def.SetAjaxNavRootState('/home/Home/MainFrameLoggedIn');
+def.SetUrlContextPrefix('');
 def.SetUrlMappingPrefix('/do');
 def.LayoutState('/Shared/ContentLayout.htm');
 def.LayoutState('/Shared/ErrorLayout.htm');
@@ -12,25 +13,11 @@ def.LayoutState('/Shared/ErrorLayout.htm');
 //<-----------保存应用级别的全部全局变量与配置--------------------------
 app.constant('App_DefaultState','/home/Home/ShowLogin');
 app.constant('App_UniqueCheckerUri','/do/shared/Common/CheckUnique?name=');
-		
-//menu text should be unique
-app.constant('App_MenuData', [
-               { text: 'Sample', funcCode: 'M_Sample', stateRef: '', subMenus: [
-                                                            { text: 'Task', funcCode: 'M_Task', stateName: '/ta/Task/SrcCode'},
-                                                            { text: 'TaskItem', funcCode: 'M_TaskItem', stateName: '/ta/TaskItem/SrcCode' }]               
-               },
-               { text: 'System', funcCode: 'M_System', subMenus: [
-                                                            { text: 'Corp', funcCode: 'M_Corp', stateName: '/gn/Corp/MultiViewsSample' },
-                                                            { text: 'Dept', funcCode: 'M_Dept', stateName: '/gn/Dept/SrcCode' },
-                                                            { text: 'User', funcCode: 'M_User', stateName: '/gn/User/List'}]
-               },
-               { text: 'Personal', funcCode: 'M_Personal', subMenus: [
-                                                                { text: 'ChangePass', funcCode: 'M_Pass', stateName: '/gn/User/PassEdit'}]
-               }
-]);
-//----------------------config components-------------------------------------------------------------------------------
-app.config(['$stateProvider', '$urlRouterProvider', '$httpProvider', '$translateProvider', 'pbProvider','App_DefaultState',
-            function ($stateProvider, $urlRouterProvider, $httpProvider, $translateProvider, pbProvider,App_DefaultState) {
+app.constant('APP_ContextPrefix','');
+//----------------------------------------------------------------------->
+//<----------------------config components
+app.config(['$stateProvider', '$urlRouterProvider', '$httpProvider', '$translateProvider', 'pbProvider','pbuiProvider','App_DefaultState','APP_ContextPrefix',
+            function ($stateProvider, $urlRouterProvider, $httpProvider, $translateProvider, pbProvider,pbuiProvider,App_DefaultState,APP_ContextPrefix) {
     $httpProvider.defaults.headers.common["X-Requested-With"] = "XMLHttpRequest";
     $httpProvider.defaults.headers.post["Content-Type"] = "application/x-www-form-urlencoded";
    // $httpProvider.interceptors.push('ResponseCheckerForUiRouter');
@@ -40,24 +27,26 @@ app.config(['$stateProvider', '$urlRouterProvider', '$httpProvider', '$translate
     var lang = window.localStorage.lang || 'zh-cn';
     $translateProvider.preferredLanguage(lang);
     $translateProvider.useStaticFilesLoader({
-        prefix: '/Scripts/lang/',
+        prefix: APP_ContextPrefix+'/Scripts/lang/',
         suffix: '.json'
     });
 
     $urlRouterProvider.otherwise(App_DefaultState);
     def.RegisterStates($stateProvider);
+    pbuiProvider.SetTplPath(APP_ContextPrefix+'/Scripts/tpl');
 }]);
-app.run(['validator','myCustomErrorMessageResolver', 'myCustomElementModifier','defaultErrorMessageResolver','$rootScope','$state','$stateParams',
-function(validator,myCustomErrorMessageResolver, myCustomElementModifier,defaultErrorMessageResolver,$rootScope,$state,$stateParams) {
+app.run(['validator','myCustomErrorMessageResolver', 'myCustomElementModifier','defaultErrorMessageResolver','App_FuncTree','APP_ContextPrefix',
+function(validator,myCustomErrorMessageResolver, myCustomElementModifier,defaultErrorMessageResolver,App_FuncTree,APP_ContextPrefix) {
     validator.registerDomModifier(myCustomElementModifier.key, myCustomElementModifier);
     validator.setDefaultElementModifier(myCustomElementModifier.key);
     validator.defaultFormValidationOptions.forceValidation=true;
-    defaultErrorMessageResolver.setI18nFileRootPath("/Scripts/lang");
+    defaultErrorMessageResolver.setI18nFileRootPath(APP_ContextPrefix+"/Scripts/lang");
     defaultErrorMessageResolver.setCulture("zh-cn");
     validator.setErrorMessageResolver(myCustomErrorMessageResolver.resolve);
-    $rootScope.$state=$state;
-    $rootScope.$stateParams=$stateParams;
+    App_FuncTree.SetForbiddenElementVisible(true);
 }]);
+//---------------------------------------------------------------------------------------------->
+//<----------------------customize and extend framework components
 app.factory('myCustomErrorMessageResolver', ['$q','defaultErrorMessageResolver','$translate','$window','$log', 
                                              function($q,defaultErrorMessageResolver,$translate,$window,$log) {
     /**
@@ -75,12 +64,12 @@ app.factory('myCustomErrorMessageResolver', ['$q','defaultErrorMessageResolver',
     var resolve = function(errorType, el) {
         var p = defaultErrorMessageResolver.resolve(errorType, el);
         var msg;
-        if(el.attr('valmsg')){
+        if(el.attr('pb-valmsg')){
 	        try{
-	        	var valmsg=angular.fromJson(el.attr('valmsg'));
+	        	var valmsg=angular.fromJson(el.attr('pb-valmsg'));
 	        	msg=valmsg[errorType];
 	        }catch(e){
-	        	$log.error("valmsg's value is invalid, should be a json string:"+el.attr('valmsg'));
+	        	$log.error("pb-valmsg's value is invalid, should be a json string:"+el.attr('pb-valmsg'));
 	        }
         }
         var translatekey=el.attr('translatekey');
@@ -113,8 +102,7 @@ app.factory('myCustomElementModifier', [function() {
              */
     makeValid = function(el) {
         el.css('border-color', 'green');
-    }
-      , 
+    }, 
     
     /**
              * @ngdoc function
@@ -129,16 +117,42 @@ app.factory('myCustomElementModifier', [function() {
              */
     makeInvalid = function(el, errorMsg) {
         el.css('border-color', 'red');
-    }
-    ;
-    
-    return {
-        makeValid: makeValid,
-        makeInvalid: makeInvalid,
-        key: 'myCustomModifierKey'
+    },
+    makeDefault = function (el) {
+          el.css('border-color', 'blue');
     };
+
+      return {
+          makeValid: makeValid,
+          makeInvalid: makeInvalid,
+          makeDefault: makeDefault,
+          key: 'myCustomModifierKey'
+      };
 }]);
-app.factory('App_FuncTree', function () {
+app.factory('PBPlugIn', ['PBPlugIn_Default','$window',function (PBPlugIn_Default,$window) {
+	var ext={};
+	angular.extend(ext,PBPlugIn_Default);
+	ext.ShowResultMessage = function (msgKey) {
+    	$window.alert('coding here for your own global method "ShowMessage" with msgKey='+msgKey);
+    };
+    ext.RefListContainItem = function (list, item) {
+        for (var i = 0; i < list.length; i++) {
+            if (list[i].id == item.id) {
+                return true;
+            }
+        }
+        return false;
+    };
+    ext.GetMoreOptionsDefault = function () {
+        return {"全部":-1};
+    };
+    return ext;
+} ]);
+//----------------------------------------------->
+//<---------------------------------------全局功能
+app.factory('App_FuncTree', [function () {
+    var forbiddenFuncList = null;
+    var forbiddenElementVisible = false;
     var GetUncheckedListString = function (treeModel) {
         var s = [];
         angular.forEach(treeModel.funcList, function (val, idx) {
@@ -150,5 +164,42 @@ app.factory('App_FuncTree', function () {
         s = s.join(',');
         return s;
     };
-    return { GetUncheckedListString: GetUncheckedListString };
-});
+    var SetElementStatusByFunc = function (element, elementfunccode) {
+     		if (forbiddenFuncList!=null&&forbiddenFuncList.indexOf(',' + elementfunccode.toLowerCase() + ',') < 0) return;
+			if(forbiddenElementVisible){
+				element.prop('disabled', true);
+			}else{
+				element.css('display','none');
+			}
+    };
+    var SetForbiddenFuncList = function (fcodes) {
+        forbiddenFuncList = fcodes.toLowerCase();
+    };
+    var SetForbiddenElementVisible = function (visible) {
+        forbiddenElementVisible = visible;
+    };
+    return { 
+    	GetUncheckedListString: GetUncheckedListString,
+    	SetElementStatusByFunc: SetElementStatusByFunc,
+    	SetForbiddenFuncList: SetForbiddenFuncList,
+    	SetForbiddenElementVisible: SetForbiddenElementVisible
+    };
+}]);
+app.directive('appUnique', ['pb', 'App_UniqueCheckerUri', '$q', function (pb, App_UniqueCheckerUri, $q) {
+    return {
+        restrict: "A",
+        require: "ngModel",
+        link: function (scope, ele, attrs, ngModelController) {
+            ngModelController.$asyncValidators.unique = function(modelValue, viewValue) {
+                var value = modelValue || viewValue;
+                return pb.AjaxSubmit(null, { value: value }, { "ajax-url": App_UniqueCheckerUri + attrs["appUnique"] })
+                    .then(function(response) {
+                        return response.data ? true : $q.reject();
+                    }, function() {
+                        return $q.reject();
+                    });
+            };
+        }
+    };
+} ]);
+//-------------------------------------------------->>>>>>>>>>

@@ -17,7 +17,7 @@
   	</context-param>
   	<context-param>
 		<param-name>WebJsDebug</param-name>
-		<param-value>C:\Work\Research\RainyArch\JavaNgArch\web</param-value>
+		<param-value>C:\Work\GitHub\RainyArch\JavaNgArch\web</param-value>
   	</context-param>
   	<!--  -->
 

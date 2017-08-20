@@ -20,14 +20,15 @@
     <script src="/Scripts/angular-translate-storage-local.js"></script>
     <script src="/Scripts/angular-ui-router.js"></script>
     <script src="/Scripts/jcs-auto-validate.js"></script>
-    <script src="/Scripts/ui-bootstrap-tpls-1.2.4.js"></script>
+    <script src="/Scripts/ui-bootstrap-tpls-2.2.0.js"></script>
    <script src="/Scripts/md5-min.js"></script>
 
     <script src="/Scripts/ProjectBase_Common.js"></script>
    <script src="/Scripts/ProjectBase_Ajax.js"></script>
    <script src="/Scripts/ProjectBase_UI.js"></script>
-   <script src="/Scripts/lang/dict-zh-cn.js"></script>
 	<script src="/Scripts/App_Common.js"></script>
+	<script src="/Scripts/App_Menu.js"></script>
+	<script src="/Scripts/lang/dict-zh-cn.js"></script>
 	<script src="/do/shared/Common/NgControllerJs?action"></script>
    <script>
    //make sure this be the last-loaded script
@@ -53,7 +54,7 @@
     <script src="/Scripts/angular-translate-storage-local.min.js"></script>
     <script src="/Scripts/angular-ui-router.min.js"></script>
     <script src="/Scripts/jcs-auto-validate.js"></script>
-    <script src="/Scripts/ui-bootstrap-tpls-1.2.4.js"></script>
+    <script src="/Scripts/ui-bootstrap-tpls-2.2.0.js"></script>
    <script src="/Scripts/md5-min.js"></script>
    <!--  -->
     <script src="/Scripts/ProjectBase_Common.min.js"></script>
@@ -61,6 +62,8 @@
    <script src="/Scripts/ProjectBase_UI.min.js"></script>
    <script src="/Scripts/lang/dict-zh-cn.js"></script>
 	<script src="/Scripts/App_Common.min.js"></script>
+	<script src="/Scripts/App_Menu.js"></script>
+	<script src="/Scripts/lang/dict-zh-cn.js"></script>
 	<script src="/Scripts/RunTimeCtrls.min.js"></script>
    <script>
    //make sure this be the last-loaded script
@@ -83,7 +86,7 @@
 					<img alt="Brand" src="/Content/images/czlogo_small.jpg" width="100" height="35"></img>
 				</a>
 	    	</div>
-	    	<ul class="nav navbar-nav" ng-if="!baseCtrl.vm.loginCorpName">
+	    	<ul class="nav navbar-nav" ng-show="!baseCtrl.vm.loginCorpName">
 	    		<h4 class="text-right" translate>ToChildren</h4>
 	    	</ul>
 	    	<div class="navbar-collapse" ng-class="tvCtrl.navbarCollapsed?'collapse':''">

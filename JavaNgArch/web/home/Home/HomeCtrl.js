@@ -25,30 +25,28 @@ def.RootState('/home/Home/ShowLogin').Controller(['pb','serverVm','serverResult'
 	};
 }]).ForceViewByAction();
 
-app.controller("LeftViewCtrl", ['pb','$scope',function (pb,$scope) {
+app.controller("LeftViewCtrl", ['pb','$scope','$transitions',function (pb,$scope,$transitions) {
 	var c=this;
-    $scope.$on('$stateChangeSuccess', 
-    	    function(event, toState, toParams, fromState, fromParams) {
-    	        	c.showView=(toState.name!="/home/Home/ShowLogin");
+	$transitions.onSuccess({},function(trans) {
+    	        	c.showView=(trans.to().name!="/home/Home/ShowLogin");
     	        	$scope.$parent.baseCtrl.showLeftView=c.showView;
     	    });	
 }]);
-app.controller("TopViewCtrl", ['pb','$scope','$state',function (pb, $scope,$state) {
+app.controller("TopViewCtrl", ['pb','$scope','$state','$transitions','App_MenuData','App_FuncTree',function (pb, $scope,$state,$transitions,App_MenuData,App_FuncTree) {
     var c = this;
     c.showView = true;
     c.navbarCollapsed=true;
     c.vm={input:{code:"test",password:"1"}};//不是state又没使用init-vm,则需要编程初始化vm
-    $scope.$on('$stateChangeSuccess',
-	    	    function (event, toState, toParams, fromState, fromParams) {
-	    	        c.showView = (toState.name != "/home/Home/ShowLogin");
+    $transitions.onStart({},function(trans) {
+	    	        c.showView = (trans.to().name != "/home/Home/ShowLogin");
 	    	        if (c.showView && ($scope.baseCtrl.vm==undefined ||$scope.baseCtrl.vm.loginCorpName == undefined)) {
-	    	            pb.CallAction('/do/home/Home/MainFrame',null, function (result) {
+	    	            return pb.CallAction('/do/home/Home/MainFrame',null, function (result) {
 	    	                $scope.baseCtrl.vm = result.data.ViewModel;
 	    	                if(result.data.ViewModel==null) {
-	    	                	$state.go('/home/Home/ShowLogin');
-	    	                	return;
+	    	                	return trans.router.stateService.target('/home/Home/ShowLogin');
 	    	                }
-	    	                $scope.baseCtrl.InitMenu(result.data.ViewModel.forbiddenMenuFuncList);
+	    	                $scope.baseCtrl.InitMenu(result.data.ViewModel.forbiddenMenuFuncList,App_MenuData);
+	    	                App_FuncTree.SetForbiddenFuncList(result.data.ViewModel.forbiddenFuncList);
 	    	            });
 	    	        }
 	    	    });

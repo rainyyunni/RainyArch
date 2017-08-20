@@ -13,3 +13,6 @@ NetNgArch/src/NetNgArch.suo
 NetNgArch/Solution References/FluentNHibernate.1.3.0.727
 JavaNgArch/DB/local_db.sql
 JavaNgArch/DB/javangarch_serverdb.sql
+JavaNgArch/.classpath
+JavaNgArch/.project
+JavaNgArch/.settings

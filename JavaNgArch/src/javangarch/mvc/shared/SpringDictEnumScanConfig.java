@@ -12,7 +12,7 @@ import org.springframework.context.annotation.FilterType;
 @Configuration
 @ComponentScan(basePackages = {"javangarch.domain.bdinterface.dictenum"},
 useDefaultFilters=false,
-includeFilters = @Filter(type = FilterType.CUSTOM, value = projectbase.mvc.AutoMapperProfile.class)
+includeFilters = @Filter(type = FilterType.CUSTOM, value = projectbase.bd.AutoMapperProfile.class)
 )
 public class SpringDictEnumScanConfig {
 }

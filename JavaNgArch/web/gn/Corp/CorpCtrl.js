@@ -7,7 +7,7 @@ def.tmp.Layout.Controller(['pb', '$scope','$rootScope',function (pb, $scope,$roo
 		c.tmp.MsgFromEdit=args;
 	});
 }]);
-def.tmp.BranchView('Edit', "id").Controller(['pb', 'serverVm', '$scope','$rootScope','$translate',function (pb, serverVm, $scope,$rootScope,$translate) {
+def.tmp.BranchView('Edit', "id").Controller(['pb', 'serverVm_Edit', '$scope','$rootScope','$translate',function (pb, serverVm, $scope,$rootScope,$translate) {
 	var c = pb.Super(this, serverVm, $scope);
 	
 	c.btnDeleteRow_click= function (idx) {

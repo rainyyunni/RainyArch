@@ -2,19 +2,11 @@
 (function (String, angular) {
     'use strict';
 
-angular.module('projectbase').constant("App_Dict",{
+angular.module('app').constant("App_Dict",{
 
 TrueDisplay:'是',
 FalseDisplay:'否',
-MemberNote_NoteClassEnum:{
-"暂存":0,
-"重要1":1
-},
-MemberNote_ResultEnum:{
-"未处理":0,
-"审核中":1,
-"已记录":2
-},
+
 Task_StatusEnum: {
     "自动": 0,
     "完成": 1,

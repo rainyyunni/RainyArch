@@ -17,7 +17,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 
 import projectbase.domain.ICommonBD;
 import projectbase.mvc.Auth;
-import projectbase.mvc.AutoMapperProfile;
+import projectbase.bd.AutoMapperProfile;
 import projectbase.mvc.Transaction;
 import projectbase.mvc.WebConfigurationManager;
 import projectbase.mvc.result.ActionResult;
