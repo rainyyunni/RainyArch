@@ -6,7 +6,7 @@
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     <meta http-equiv="X-UA-Compatible" content="IE=edge"/>
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no"/>
-    <title>WebApp开发框架+成品系统 软件产品义卖  纯真年代 </title>
+    <title>WebApp开发框架+成品应用原型   纯真年代 </title>
 	<link href="/Content/css/bootstrap.css" rel="stylesheet" />
 	<link href="/Content/css/bootstrap-theme.css" rel="stylesheet" />
 	<link href="/Content/css/Site.css" rel="stylesheet" />
@@ -40,7 +40,7 @@
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     <meta http-equiv="X-UA-Compatible" content="IE=edge"/>
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no"/>
-    <title>WebApp开发框架+成品系统 软件产品义卖  纯真年代 </title>
+    <title>WebApp开发框架+成品应用原型   纯真年代 </title>
 	<link href="/Content/css/bootstrap.css" rel="stylesheet" />
 	<link href="/Content/css/bootstrap-theme.css" rel="stylesheet" />
 	<link href="/Content/css/Site.css" rel="stylesheet" />
@@ -87,8 +87,12 @@
 				</a>
 	    	</div>
 	    	<ul class="nav navbar-nav" ng-show="!baseCtrl.vm.loginCorpName">
-	    		<h4 class="text-right" translate>ToChildren</h4>
-	    	</ul>
+	    		<li><h4 class="text-right" translate>ToChildren</h4></li>
+        	</ul>
+        	<ul class="nav navbar-nav" ng-show="!baseCtrl.vm.loginCorpName">
+	    		<li><a href="#" class="btn-small" ng-click="tvCtrl.setLang('zh-cn');" translate="Chinese"></a></li>
+        		<li><a href="#"  class="btn-small" ng-click="tvCtrl.setLang('en');" translate="English"></a></li>
+        	</ul>
 	    	<div class="navbar-collapse" ng-class="tvCtrl.navbarCollapsed?'collapse':''">
 	    		<ul class="nav navbar-nav" ng-if="baseCtrl.vm.loginCorpName">
 	    			<li uib-dropdown ng-repeat="item in baseCtrl.menuData" ng-class="item.status">
@@ -132,37 +136,37 @@
 	<div class="row"><div class="col-sm-offset-1 col-sm-10">
 		<div ng-if="baseCtrl.showLeftView">
 			<div ng-include="'/home/Home/RainyArch.htm'"></div>
-			<div ng-include="'/home/Home/Service.htm'"></div>
-			<div ng-include="'/home/Home/Training.htm'"></div>
+			<!-- <div ng-include="'/home/Home/Service.htm'"></div>
+			<div ng-include="'/home/Home/Training.htm'"></div> -->
 		</div>
-		<h2>RainyArch产品架构图</h2>
+		<h2 translate="Diagram"></h2>
 	  <uib-tabset  active="active">
     <uib-tab index="0" heading="NetNgArch">
-<img class="img-responsive" src="/home/Home/RainyArch_Net.jpg"></img>
+<img class="img-responsive" src="/home/Home/RainyArch_Net_{{baseCtrl.Lang}}.jpg"></img>
 </uib-tab>
     <uib-tab index="1" heading="JavaNgArch">
-<img class="img-responsive" src="/home/Home/RainyArch_Java.jpg"></img>
+<img class="img-responsive" src="/home/Home/RainyArch_Java_{{baseCtrl.Lang}}.jpg"></img>
 </uib-tab>
 </uib-tabset>
 <ul>
-<li>上图蓝色部分为框架代码主要结构,ProjectBase. 浅蓝色部分为框架上的项目应用业务功能（可直接使用，在其中继续添加功能模块）															
-<li>上图黑白文本部分为添加功能模块时编程人员需编写的代码结构，可见其在本框架的支持下成为轻量级的部分工作，且仅与业务相关，而不需考虑技术问题。															
+<li translate="Diagram1">														
+<li translate="Diagram2">															
 </ul>
-<h2>两端MVC双向一体的简捷编程模式</h2>
-<img class="img-responsive" src="/home/Home/RainyArch_Mvc.jpg"></img>
+<h2 translate="MvcDiagram"></h2>
+<img class="img-responsive" src="/home/Home/RainyArch_Mvc_{{baseCtrl.Lang}}.jpg"></img>
 <ul>
-<li>1.在页面放置state链接，当点击时要转换state，框架先查找state的定义
-<li>2.框架根据state定义请求服务器的相应页面文件或调用服务器action方法
-<li>3.服务器返回view
-<li>4.服务器返回vm
-<li>5.serverVm由框架自动绑定到clientVm(c.vm)上, clientVm的结构和数据值完全包含serverVm
-<li>6.无js的自动点击提交clientVm到服务器的action。
-<li>7.服务器返回的结果由客户端框架自动处理。
-<li>8.在客户端事件中处理和提交clientVm到服务器的action。
-<li>9.服务器返回的结果由客户端异步脚本接收并处理。
-<li>10.操作错误、服务器验证错、访问权限错等由框架自动处理
+<li translate="MvcDiagram1">
+<li translate="MvcDiagram2">
+<li translate="MvcDiagram3">
+<li translate="MvcDiagram4">
+<li translate="MvcDiagram5">
+<li translate="MvcDiagram6">
+<li translate="MvcDiagram7">
+<li translate="MvcDiagram8">
+<li translate="MvcDiagram9">
+<li translate="MvcDiagram10">
 </ul>
-<p class="h2"><span class="label label-success">作者：朱艳萍 13920846704</span></p>
+<p class="h2"><span class="label label-success" translate="Author"></span></p>
 </div>
 </div>
 

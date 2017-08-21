@@ -2,10 +2,10 @@
 <p:viewdata model="LoginAttemptViewModel" serialize="true"/>
   <uib-tabset  justified="true">
     <uib-tab index="0" >
-    <uib-tab-heading><strong>WebApp开发——砌砖还是买楼</strong></uib-tab-heading>
+    <uib-tab-heading><strong translate=RainyArchIntro></strong></uib-tab-heading>
 	<div ng-include="'/home/Home/RainyArch.htm'"></div>
 	</uib-tab>
-    <uib-tab index="1" ><uib-tab-heading><strong>所见即所得——用吧!</strong></uib-tab-heading>
+    <uib-tab index="1" ><uib-tab-heading><strong translate="Tryit"></strong></uib-tab-heading>
   
   <div  pb-initvm='${vmJson}' class="jumbotron" style="background:url(/Content/images/czhome.jpg);background-size:100% 100%;">
   	<div class="row"><div class="col-sm-offset-6 col-sm-5">
@@ -50,13 +50,13 @@
 
 
 </uib-tab>
-	<uib-tab index="2" ><uib-tab-heading><strong>所得胜所见——助力开发</strong></uib-tab-heading>
+<!--	<uib-tab index="2" ><uib-tab-heading><strong>所得胜所见——助力开发</strong></uib-tab-heading>
 		<div ng-include="'/home/Home/Service.htm'"></div>
 	</uib-tab>
 	<uib-tab index="3" >
     <uib-tab-heading><strong>自由码农成长计划——招生招聘</strong></uib-tab-heading>
 	<div ng-include="'/home/Home/Training.htm'"></div>
-	</uib-tab>
+	</uib-tab>-->
   </uib-tabset>
 
 

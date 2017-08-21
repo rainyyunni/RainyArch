@@ -32,7 +32,7 @@ app.controller("LeftViewCtrl", ['pb','$scope','$transitions',function (pb,$scope
     	        	$scope.$parent.baseCtrl.showLeftView=c.showView;
     	    });	
 }]);
-app.controller("TopViewCtrl", ['pb','$scope','$state','$transitions','App_MenuData','App_FuncTree',function (pb, $scope,$state,$transitions,App_MenuData,App_FuncTree) {
+app.controller("TopViewCtrl", ['pb','$scope','$state','$transitions','App_MenuData','App_FuncTree','$translate',function (pb, $scope,$state,$transitions,App_MenuData,App_FuncTree,$translate) {
     var c = this;
     c.showView = true;
     c.navbarCollapsed=true;
@@ -63,6 +63,10 @@ app.controller("TopViewCtrl", ['pb','$scope','$state','$transitions','App_MenuDa
 	c.btnLogout_click=function(){
 		$scope.baseCtrl.vm={};
 		pb.CallAction('/do/home/Home/Logout');
+	};
+	c.setLang=function(lang){
+		$scope.baseCtrl.SetLang(lang);
+		$translate.use(lang);
 	};
  
 }]);

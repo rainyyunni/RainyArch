@@ -11,7 +11,9 @@
     	$rootScope.pbvar.ShowProcessing=false;
     	$rootScope.pbvar.ProcessingRect={};
     	
-    	c.Lang = 'zh-cn'; //上次翻译使用的语言
+    	$translate.onReady(function(){
+    		c.Lang = $translate.use(); //上次翻译使用的语言
+    	});
     	c.SetLang = function (lang) {
     		c.Lang = lang;
     	};
