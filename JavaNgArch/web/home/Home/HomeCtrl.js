@@ -1,7 +1,7 @@
 def.ns="";
 def.RootState('/home/Home/MainFrameLoggedIn.htm').NoController();
-def.RootState('/home/Home/ShowLogin').Controller(['pb','serverVm','serverResult','$translate',
-                                         function (pb,  serverVm,  serverResult,  $translate) {
+def.RootState('/home/Home/ShowLogin').Controller(['pb','serverVm','serverResult','$translate','$scope',
+                                         function (pb,  serverVm,  serverResult,  $translate,$scope) {
 	var c=this;
 	pb.ExecuteResult(serverResult,c);
 	
@@ -21,6 +21,7 @@ def.RootState('/home/Home/ShowLogin').Controller(['pb','serverVm','serverResult'
 	};
 
 	c.setLang=function(lang){
+		$scope.baseCtrl.SetLang(lang);
 		$translate.use(lang);
 	};
 }]).ForceViewByAction();

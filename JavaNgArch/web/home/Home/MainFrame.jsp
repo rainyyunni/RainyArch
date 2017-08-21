@@ -2,7 +2,7 @@
 <p:viewdata model="LoginInfoViewModel" />
 <!DOCTYPE html>
 <html ng-app="app" lang="zh-CN">
-   <head>
+    <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     <meta http-equiv="X-UA-Compatible" content="IE=edge"/>
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no"/>
@@ -36,7 +36,7 @@
    </script>
    
   </head>
-  <%--  <head>
+ <%--  <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     <meta http-equiv="X-UA-Compatible" content="IE=edge"/>
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no"/>
@@ -60,7 +60,6 @@
     <script src="/Scripts/ProjectBase_Common.min.js"></script>
    <script src="/Scripts/ProjectBase_Ajax.min.js"></script>
    <script src="/Scripts/ProjectBase_UI.min.js"></script>
-   <script src="/Scripts/lang/dict-zh-cn.js"></script>
 	<script src="/Scripts/App_Common.min.js"></script>
 	<script src="/Scripts/App_Menu.js"></script>
 	<script src="/Scripts/lang/dict-zh-cn.js"></script>
