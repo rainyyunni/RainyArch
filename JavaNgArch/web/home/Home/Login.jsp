@@ -5,7 +5,7 @@
     <uib-tab-heading><strong translate=RainyArchIntro></strong></uib-tab-heading>
 	<div ng-include="'/home/Home/RainyArch.htm'"></div>
 	</uib-tab>
-    <uib-tab index="1" ><uib-tab-heading><strong translate="Tryit"></strong></uib-tab-heading>
+    <uib-tab index="1" ><uib-tab-heading><strong translate="TryRainyArch"></strong></uib-tab-heading>
   
   <div  pb-initvm='${vmJson}' class="jumbotron" style="background:url(/Content/images/czhome.jpg);background-size:100% 100%;">
   	<div class="row"><div class="col-sm-offset-6 col-sm-5">

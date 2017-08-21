@@ -86,7 +86,7 @@
 "MvcDiagram9":"9.服务器返回的结果由客户端异步脚本接收并处理。",
 "MvcDiagram10":"10.操作错误、服务器验证错、访问权限错等由框架自动处理",
 "RainyArchIntro":"RainyArch强力支持敏捷开发",
-"Tryit":"所见即所得 —— 用吧!",
+"TryRainyArch":"所见即所得 —— 用吧!",
 "WhatIsRainyArch":"软件开发，是一行行千头万绪地堆代码，还是在成熟高质的现成品上增量开发?",
 "WhatIsRainyArchmore":"RainyArch是一套应用开发框架及建立在其上的应用系统原型，用于支持使用Java、.Net和Javascript进行软件系统敏捷开发。",
 "Opensource":"开源",
