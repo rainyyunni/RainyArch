@@ -10,7 +10,7 @@ With the prototype running on your server, you've finished the first round itera
 The frameworks provide simple and robust programming interfaces and patterns so that the prototypes can smoothly evolve and scale up to a full-featured application to meet your customers' requirements.
 The prototypes are built on top of the frameworks. But if you're not interested in the prototypes, you can use the frameworks alone and develop your own applications on top.
 
-## What are in RainyArch?
+## What's in RainyArch?
 RainyArch contains two application prototypes and three frameworks.
 
 1. java web project JavaNgArch  - a web application with a Mysql database.
