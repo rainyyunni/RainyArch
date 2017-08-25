@@ -5,7 +5,7 @@ var app = angular.module("app", ['projectbase']);//应用对象，全局变量
 var def = new PB_Global_StateDefiner(app);//用于定义State的全局变量
 def.SetDefaultLayout('/Shared/ContentLayout');
 def.SetAjaxNavRootState('/home/Home/Introduction');
-def.SetUrlContextPrefix('/docs');
+def.SetUrlContextPrefix('/RainyArch/web');
 def.SetUrlMappingPrefix('');
 def.LayoutState('/Shared/ContentLayout.htm');
 def.LayoutState('/Shared/ErrorLayout.htm');
@@ -13,7 +13,7 @@ def.LayoutState('/Shared/ErrorLayout.htm');
 //<-----------保存应用级别的全部全局变量与配置--------------------------
 app.constant('App_DefaultState','/home/Home/Introduction');
 app.constant('App_UniqueCheckerUri','/do/shared/Common/CheckUnique?name=');
-app.constant('APP_ContextPrefix','/docs');
+app.constant('APP_ContextPrefix','/RainyArch/web');
 //----------------------------------------------------------------------->
 //<----------------------config components
 app.config(['$stateProvider', '$urlRouterProvider', '$httpProvider', '$translateProvider', 'pbProvider','pbuiProvider','App_DefaultState','APP_ContextPrefix',
