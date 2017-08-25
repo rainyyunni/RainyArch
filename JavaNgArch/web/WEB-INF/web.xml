@@ -16,8 +16,8 @@
 		<param-value>true</param-value>
   	</context-param>
   	<context-param>
-		<param-name>WebJsDebug</param-name>
-		<param-value>C:\Work\GitHub\RainyArch\JavaNgArch\web</param-value>
+		<param-name>JsDebugRoot</param-name>
+		<param-value>/</param-value>
   	</context-param>
   	<!--  -->
 

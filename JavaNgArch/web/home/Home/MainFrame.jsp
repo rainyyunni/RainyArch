@@ -7,29 +7,29 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge"/>
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no"/>
     <title>WebApp开发框架+成品应用原型   纯真年代 </title>
-	<link href="/Content/css/bootstrap.css" rel="stylesheet" />
-	<link href="/Content/css/bootstrap-theme.css" rel="stylesheet" />
-	<link href="/Content/css/Site.css" rel="stylesheet" />
-	<script src="/Scripts/angular.js"></script>
-	<script src="/Scripts/lang/angular-locale_zh-cn.js"></script>
-	<script src="/Scripts/angular-animate.js"></script>
-    <script src="/Scripts/angular-cookies.js"></script>
-    <script src="/Scripts/angular-translate.js"></script>
-    <script src="/Scripts/angular-translate-loader-static-files.js"></script>
-    <script src="/Scripts/angular-translate-storage-cookie.js"></script>
-    <script src="/Scripts/angular-translate-storage-local.js"></script>
-    <script src="/Scripts/angular-ui-router.js"></script>
-    <script src="/Scripts/jcs-auto-validate.js"></script>
-    <script src="/Scripts/ui-bootstrap-tpls-2.2.0.js"></script>
-   <script src="/Scripts/md5-min.js"></script>
+	<link href="${Url.ContextPrefix()}/Content/css/bootstrap.css" rel="stylesheet" />
+	<link href="${Url.ContextPrefix()}/Content/css/bootstrap-theme.css" rel="stylesheet" />
+	<link href="${Url.ContextPrefix()}/Content/css/Site.css" rel="stylesheet" />
+	<script src="${Url.ContextPrefix()}/Scripts/angular.js"></script>
+	<script src="${Url.ContextPrefix()}/Scripts/lang/angular-locale_zh-cn.js"></script>
+	<script src="${Url.ContextPrefix()}/Scripts/angular-animate.js"></script>
+    <script src="${Url.ContextPrefix()}/Scripts/angular-cookies.js"></script>
+    <script src="${Url.ContextPrefix()}/Scripts/angular-translate.js"></script>
+    <script src="${Url.ContextPrefix()}/Scripts/angular-translate-loader-static-files.js"></script>
+    <script src="${Url.ContextPrefix()}/Scripts/angular-translate-storage-cookie.js"></script>
+    <script src="${Url.ContextPrefix()}/Scripts/angular-translate-storage-local.js"></script>
+    <script src="${Url.ContextPrefix()}/Scripts/angular-ui-router.js"></script>
+    <script src="${Url.ContextPrefix()}/Scripts/jcs-auto-validate.js"></script>
+    <script src="${Url.ContextPrefix()}/Scripts/ui-bootstrap-tpls-2.2.0.js"></script>
+   <script src="${Url.ContextPrefix()}/Scripts/md5-min.js"></script>
 
-    <script src="/Scripts/ProjectBase_Common.js"></script>
-   <script src="/Scripts/ProjectBase_Ajax.js"></script>
-   <script src="/Scripts/ProjectBase_UI.js"></script>
-	<script src="/Scripts/App_Common.js"></script>
-	<script src="/Scripts/App_Menu.js"></script>
-	<script src="/Scripts/lang/dict-zh-cn.js"></script>
-	<script src="/do/shared/Common/NgControllerJs?action"></script>
+    <script src="${Url.ContextPrefix()}/Scripts/ProjectBase_Common.js"></script>
+   <script src="${Url.ContextPrefix()}/Scripts/ProjectBase_Ajax.js"></script>
+   <script src="${Url.ContextPrefix()}/Scripts/ProjectBase_UI.js"></script>
+	<script src="${Url.ContextPrefix()}/Scripts/App_Common.js"></script>
+	<script src="${Url.ContextPrefix()}/Scripts/App_Menu.js"></script>
+	<script src="${Url.ContextPrefix()}/Scripts/lang/dict-zh-cn.js"></script>
+	<script src="${Url.ContextPrefix()}/do/shared/Common/NgControllerJs?action"></script>
    <script>
    //make sure this be the last-loaded script
    def.RegisterImplicitControllers();
@@ -41,29 +41,29 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge"/>
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no"/>
     <title>WebApp开发框架+成品应用原型   纯真年代 </title>
-	<link href="/Content/css/bootstrap.css" rel="stylesheet" />
-	<link href="/Content/css/bootstrap-theme.css" rel="stylesheet" />
-	<link href="/Content/css/Site.css" rel="stylesheet" />
-	<script src="/Scripts/angular.min.js"></script>
-	<script src="/Scripts/lang/angular-locale_zh-cn.js"></script>
-	<script src="/Scripts/angular-animate.min.js"></script>
-    <script src="/Scripts/angular-cookies.min.js"></script>
-    <script src="/Scripts/angular-translate.min.js"></script>
-    <script src="/Scripts/angular-translate-loader-static-files.min.js"></script>
-    <script src="/Scripts/angular-translate-storage-cookie.min.js"></script>
-    <script src="/Scripts/angular-translate-storage-local.min.js"></script>
-    <script src="/Scripts/angular-ui-router.min.js"></script>
-    <script src="/Scripts/jcs-auto-validate.js"></script>
-    <script src="/Scripts/ui-bootstrap-tpls-2.2.0.js"></script>
-   <script src="/Scripts/md5-min.js"></script>
+	<link href="${Url.ContextPrefix()}/Content/css/bootstrap.css" rel="stylesheet" />
+	<link href="${Url.ContextPrefix()}/Content/css/bootstrap-theme.css" rel="stylesheet" />
+	<link href="${Url.ContextPrefix()}/Content/css/Site.css" rel="stylesheet" />
+	<script src="${Url.ContextPrefix()}/Scripts/angular.min.js"></script>
+	<script src="${Url.ContextPrefix()}/Scripts/lang/angular-locale_zh-cn.js"></script>
+	<script src="${Url.ContextPrefix()}/Scripts/angular-animate.min.js"></script>
+    <script src="${Url.ContextPrefix()}/Scripts/angular-cookies.min.js"></script>
+    <script src="${Url.ContextPrefix()}/Scripts/angular-translate.min.js"></script>
+    <script src="${Url.ContextPrefix()}/Scripts/angular-translate-loader-static-files.min.js"></script>
+    <script src="${Url.ContextPrefix()}/Scripts/angular-translate-storage-cookie.min.js"></script>
+    <script src="${Url.ContextPrefix()}/Scripts/angular-translate-storage-local.min.js"></script>
+    <script src="${Url.ContextPrefix()}/Scripts/angular-ui-router.min.js"></script>
+    <script src="${Url.ContextPrefix()}/Scripts/jcs-auto-validate.js"></script>
+    <script src="${Url.ContextPrefix()}/Scripts/ui-bootstrap-tpls-2.2.0.js"></script>
+   <script src="${Url.ContextPrefix()}/Scripts/md5-min.js"></script>
    <!--  -->
-    <script src="/Scripts/ProjectBase_Common.min.js"></script>
-   <script src="/Scripts/ProjectBase_Ajax.min.js"></script>
-   <script src="/Scripts/ProjectBase_UI.min.js"></script>
-	<script src="/Scripts/App_Common.min.js"></script>
-	<script src="/Scripts/App_Menu.js"></script>
-	<script src="/Scripts/lang/dict-zh-cn.js"></script>
-	<script src="/Scripts/RunTimeCtrls.min.js"></script>
+    <script src="${Url.ContextPrefix()}/Scripts/ProjectBase_Common.min.js"></script>
+   <script src="${Url.ContextPrefix()}/Scripts/ProjectBase_Ajax.min.js"></script>
+   <script src="${Url.ContextPrefix()}/Scripts/ProjectBase_UI.min.js"></script>
+	<script src="${Url.ContextPrefix()}/Scripts/App_Common.min.js"></script>
+	<script src="${Url.ContextPrefix()}/Scripts/App_Menu.js"></script>
+	<script src="${Url.ContextPrefix()}/Scripts/lang/dict-zh-cn.js"></script>
+	<script src="${Url.ContextPrefix()}/Scripts/RunTimeCtrls.min.js"></script>
    <script>
    //make sure this be the last-loaded script
    def.RegisterImplicitControllers();

@@ -2,10 +2,12 @@ package projectbase.utils;
 
 import java.io.BufferedWriter;
 import java.io.FileWriter;
+import java.io.IOException;
 import java.io.PrintWriter;
 import java.nio.charset.CharsetDecoder;
 import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
+import java.nio.file.LinkOption;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.security.NoSuchAlgorithmException;
@@ -69,8 +71,17 @@ import projectbase.sharparch.hibernate.HibernateQuery;
 						.GetInitParameter(GlobalConstant.ContextParam_LogRoot);
 				if(logroot != null && !logroot.isEmpty()) {
 					logRoot = _appState.GetRealPath(logroot);
+					Path p=Paths.get(logRoot);
+					if(Files.notExists(p, LinkOption.NOFOLLOW_LINKS)){
+						try {
+							Files.createDirectory(p);
+						} catch (IOException e) {
+							throw new RuntimeException(e);
+						}
+					}
 				}
 			}
+			
 			return logRoot;
         }
         public static void setLogRoot(String lr){
@@ -414,7 +425,8 @@ import projectbase.sharparch.hibernate.HibernateQuery;
         	String debug=_appState.GetInitParameter(GlobalConstant.ContextParam_Debug);
             if (debug==null || debug.equalsIgnoreCase("false")) return "";
             if(StringUtils.isEmpty(webroot))
-            	webroot =_appState.GetInitParameter("WebJsDebug");
+            	webroot =_appState.GetInitParameter("JsDebugRoot");
+            webroot=_appState.GetRealPath(webroot);
             try{
 	            Object[] filePaths=Files.find(Paths.get(webroot),5,(p,b)->p.toString().endsWith("Ctrl.js")).toArray();
 	            String scripts = "";
