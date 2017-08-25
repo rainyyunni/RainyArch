@@ -16,3 +16,8 @@ JavaNgArch/DB/javangarch_serverdb.sql
 JavaNgArch/.classpath
 JavaNgArch/.project
 JavaNgArch/.settings
+docs/.classpath
+docs/.project
+docs/.settings
+docs/web/META-INF/MANIFEST.MF
+docs/web/WEB-INF

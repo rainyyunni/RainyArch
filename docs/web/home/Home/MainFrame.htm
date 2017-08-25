@@ -1,0 +1,128 @@
+﻿<!DOCTYPE html>
+<html ng-app="app" lang="zh-CN">
+    <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no"/>
+    <title>RainyArch Document </title>
+	<link href="../../Scripts/../Content/css/bootstrap.css" rel="stylesheet" />
+	<link href="../../Content/css/bootstrap-theme.css" rel="stylesheet" />
+	<link href="../../Content/css/Site.css" rel="stylesheet" />
+	<script src="../../Scripts/angular.js"></script>
+	<script src="../../Scripts/lang/angular-locale_zh-cn.js"></script>
+	<script src="../../Scripts/angular-animate.js"></script>
+    <script src="../../Scripts/angular-cookies.js"></script>
+    <script src="../../Scripts/angular-translate.js"></script>
+    <script src="../../Scripts/angular-translate-loader-static-files.js"></script>
+    <script src="../../Scripts/angular-translate-storage-cookie.js"></script>
+    <script src="../../Scripts/angular-translate-storage-local.js"></script>
+    <script src="../../Scripts/angular-ui-router.js"></script>
+    <script src="../../Scripts/jcs-auto-validate.js"></script>
+    <script src="../../Scripts/ui-bootstrap-tpls-2.2.0.js"></script>
+   <script src="../../Scripts/md5-min.js"></script>
+
+    <script src="../../Scripts/ProjectBase_Common.js"></script>
+   <script src="../../Scripts/ProjectBase_Ajax.js"></script>
+   <script src="../../Scripts/ProjectBase_UI.js"></script>
+	<script src="../../Scripts/App_Common.js"></script>
+	<script src="../../Scripts/App_Menu.js"></script>
+	<script src="../../Scripts/lang/dict-zh-cn.js"></script>
+	<script src="../../Shared/Directive/AjaxNavbar.js"></script>
+	<script src="HomeCtrl.js"></script>
+	<script src="../../guide/Guide/GuideCtrl.js"></script>
+	<script src="../../api/Domain/DomainCtrl.js"></script>
+   <script>
+   //make sure this be the last-loaded script
+   def.RegisterImplicitControllers();
+   </script>
+   
+  </head>
+ <!--  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no"/>
+    <title>WebApp开发框架+成品应用原型   纯真年代 </title>
+	<link href="/Content/css/bootstrap.css" rel="stylesheet" />
+	<link href="/Content/css/bootstrap-theme.css" rel="stylesheet" />
+	<link href="/Content/css/Site.css" rel="stylesheet" />
+	<script src="/Scripts/angular.min.js"></script>
+	<script src="/Scripts/lang/angular-locale_zh-cn.js"></script>
+	<script src="/Scripts/angular-animate.min.js"></script>
+    <script src="/Scripts/angular-cookies.min.js"></script>
+    <script src="/Scripts/angular-translate.min.js"></script>
+    <script src="/Scripts/angular-translate-loader-static-files.min.js"></script>
+    <script src="/Scripts/angular-translate-storage-cookie.min.js"></script>
+    <script src="/Scripts/angular-translate-storage-local.min.js"></script>
+    <script src="/Scripts/angular-ui-router.min.js"></script>
+    <script src="/Scripts/jcs-auto-validate.js"></script>
+    <script src="/Scripts/ui-bootstrap-tpls-2.2.0.js"></script>
+   <script src="/Scripts/md5-min.js"></script>
+
+    <script src="/Scripts/ProjectBase_Common.min.js"></script>
+   <script src="/Scripts/ProjectBase_Ajax.min.js"></script>
+   <script src="/Scripts/ProjectBase_UI.min.js"></script>
+	<script src="/Scripts/App_Common.min.js"></script>
+	<script src="/Scripts/App_Menu.js"></script>
+	<script src="/Scripts/lang/dict-zh-cn.js"></script>
+	<script src="/Scripts/RunTimeCtrls.min.js"></script>
+   <script>
+   //make sure this be the last-loaded script
+   def.RegisterImplicitControllers();
+   </script>
+   
+  </head>-->
+  <style>.plh{line-height:25px;}</style>
+  <body ng-controller="BaseCtrl as baseCtrl" >
+ 	<nav class="navbar navbar-default" role="navigation"><!-- header -->
+		<div ui-view="topview" ng-controller="TopViewCtrl as tvCtrl" onload="tvCtrl.Html_Load();" class="container-fluid">
+			<div class="navbar-header">
+			      <button type="button" class="navbar-toggle" ng-click="tvCtrl.navbarCollapsed=!tvCtrl.navbarCollapsed" ng-class="tvCtrl.navbarCollapsed?'collapsed':''" aria-expanded="false">
+			        <span class="sr-only">Toggle navigation</span>
+			        <span class="icon-bar"></span>
+			        <span class="icon-bar"></span>
+			        <span class="icon-bar"></span>
+			      </button>
+				<a class="navbar-brand" href="http://www.51chunzhen.com">
+					<img alt="Brand" src="../../Content/images/rainyhead.jpg" width="35" height="35"></img>
+				</a>
+	    	</div>
+	    	<div class="navbar-collapse" ng-class="tvCtrl.navbarCollapsed?'collapse':''">
+	    		<ul class="nav navbar-nav">
+	    			<li uib-dropdown ng-repeat="item in baseCtrl.menuData" ng-class="item.status">
+	    				<a  ng-class="item.status" class="nav-link" role="button" ng-click="tvCtrl.lnkMenu_click(item)">{{::item.text|translate}}</span></a>
+	    			</li>
+	    		</ul>
+	    		<ul class="nav navbar-nav navbar-right">
+	    		<li><a href="" class="btn-small" ng-click="tvCtrl.setLang('zh-cn');" translate="Chinese"></a></li>
+        		<li><a href=""  class="btn-small" ng-click="tvCtrl.setLang('en');" translate="English"></a></li>
+        		</ul>
+	    	</div>
+	    </div>
+	</nav>
+	<div class="container-fluid">
+		<div class="row">
+		 	<div ui-view="leftview" ng-controller="LeftViewCtrl as lvCtrl" class="col-sm-2  visible-md-block visible-lg-block"><!-- left menu  -->
+		 		<div class="list-group" >
+					<a ng-class="subitem.status" class="list-group-item" ng-repeat="subitem in baseCtrl.currentSubMenus" ui-sref="{{::subitem.sref}}"  ui-sref-opts="{reload:true,inherit:false}">
+						{{::subitem.text|translate}}
+					</a>
+				</div>
+			</div>
+			<div id="divMainContentView" ui-view  class="col-sm-9"><!-- main content  -->
+			</div>
+		</div>
+	</div>
+
+
+<br>
+	<nav class="navbar navbar-default "><!-- footer -->
+		<div class="text-center">
+		<br>
+		<p translate>Author</p>
+		</div>
+	</nav>
+	<pb-processing-mask targetid="divMainContentView" ></pb-processing-mask>
+</body>
+</html>
+
+
