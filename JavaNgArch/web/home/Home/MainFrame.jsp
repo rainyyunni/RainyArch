@@ -94,12 +94,12 @@
         	</ul>
 	    	<div class="navbar-collapse" ng-class="tvCtrl.navbarCollapsed?'collapse':''">
 	    		<ul class="nav navbar-nav" ng-if="baseCtrl.vm.loginCorpName">
-	    			<li uib-dropdown ng-repeat="item in baseCtrl.menuData" ng-class="item.status">
-	    				<a  ng-class="item.status" class="dropdown-toggle"  uib-dropdown-toggle role="button">{{::item.text|translate}}<span class="caret"></span></a>
+	    			<li uib-dropdown ng-repeat="item in baseCtrl.MenuData" ng-class="item.Status">
+	    				<a  ng-class="item.Status" class="dropdown-toggle"  uib-dropdown-toggle role="button">{{::item.Text|translate}}<span class="caret"></span></a>
 	    				<ul class="dropdown-menu" uib-dropdown-menu  >
-				            <li ng-repeat="subitem in item.subMenus" ng-class="subitem.status">
-				            	<a ng-if="subitem.status!='disabled'" ui-sref="{{::subitem.sref}}" ui-sref-opts="{reload:true,inherit:false}" ng-click="tvCtrl.navbarCollapsed=true">{{::subitem.text|translate}}</a>
-				            	<a ng-if="subitem.status=='disabled'" >{{::subitem.text|translate}}</a>
+				            <li ng-repeat="subitem in item.SubMenus" ng-class="subitem.Status">
+				            	<a ng-if="subitem.Status!='disabled'" ui-sref="{{::subitem.Sref}}" ui-sref-opts="{reload:true,inherit:false}" ng-click="tvCtrl.navbarCollapsed=true">{{::subitem.Text|translate}}</a>
+				            	<a ng-if="subitem.Status=='disabled'" >{{::subitem.Text|translate}}</a>
 				            </li>
 				        </ul>
 	    			</li>
@@ -122,8 +122,8 @@
 		<div class="row">
 		 	<div ui-view="leftview" ng-controller="LeftViewCtrl as lvCtrl" ng-show="lvCtrl.showView"  class="col-sm-2  visible-md-block visible-lg-block"><!-- left menu  -->
 		 		<div class="list-group" >
-					<a ng-if="subitem.status!='disabled'" ng-class="subitem.status" class="list-group-item" ng-repeat="subitem in baseCtrl.currentSubMenus" ui-sref="{{::subitem.sref}}"  ui-sref-opts="{reload:true,inherit:false}">
-						{{::subitem.text|translate}}
+					<a ng-if="subitem.Status!='disabled'" ng-class="subitem.Status" class="list-group-item" ng-repeat="subitem in baseCtrl.CurrentSubMenus" ui-sref="{{::subitem.Sref}}"  ui-sref-opts="{reload:true,inherit:false}">
+						{{::subitem.Text|translate}}
 					</a>
 				</div>
 			</div>

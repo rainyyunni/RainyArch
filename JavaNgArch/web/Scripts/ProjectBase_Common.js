@@ -3,9 +3,11 @@
 
     var pbm = angular.module('projectbase', ['ui.router', 'ui.bootstrap', 'jcs-autoValidate', 'pascalprecht.translate', 'ngCookies', 'ngAnimate']);
   //application-wide logic
-    pbm.controller("BaseCtrl", ['$rootScope', '$scope', '$window', '$state','$transitions', 'pb','pbui' ,'$translate','$log', 'App_Dict', 'App_MenuData','App_FuncTree',
-                                function ($rootScope, $scope, $window, $state,$transitions, pb,pbui, $translate,$log, App_Dict, App_MenuData,App_FuncTree) {
+    pbm.controller("BaseCtrl", ['$rootScope', '$scope', '$window', '$state','$transitions', 'pb','pbui' ,'$translate','$log', 'PBPlugIn','App_Dict', 'App_MenuData','App_FuncTree','APP_ContextPrefix',
+                                function ($rootScope, $scope, $window, $state,$transitions, pb,pbui, $translate,$log,PBPlugIn, App_Dict, App_MenuData,App_FuncTree,APP_ContextPrefix) {
     	var c = this;
+    	
+    	$rootScope.APP_ContextPrefix=APP_ContextPrefix;   	
     	$rootScope.Dict=App_Dict;
     	$rootScope.pbvar={};//pb通过$rootScope.pbvar绑定全局数据到pbui
     	$rootScope.pbvar.ShowProcessing=false;
@@ -45,47 +47,43 @@
     		   state.data.TranslatedName = translated;
     		   state.data.Lang = c.Lang;
     	   }, function () {
-    		   var keys = state.name.split('/');
-    		   var l = keys.length;
-    		   $translate([keys[l - 1], keys[l - 2]]).then(function (translations) {
-    			   state.data.TranslatedName = translations[keys[l - 2]] + translations[keys[l - 1]];
-    		   });
+    		   PBPlugIn.TranslateStateName(state,stateParam);
     	   });
        };
        c.InitMenu = function (forbiddenFuncList,menuData) {
-           c.forbiddenFuncList = forbiddenFuncList;
-    	   c.menuData = menuData||App_MenuData;
-    	   c.currentSubMenus = null;
+           c.ForbiddenFuncList = forbiddenFuncList;
+    	   c.MenuData = menuData||App_MenuData;
+    	   c.CurrentSubMenus = null;
     	   var fcodes = forbiddenFuncList ? forbiddenFuncList.toLowerCase() : '';
-    	   angular.forEach(c.menuData, function (topmenuitem, index) {
-    		   topmenuitem.status = fcodes.indexOf(topmenuitem.funcCode.toLowerCase()) >= 0 ? 'disabled' : '';
-    		   angular.forEach(topmenuitem.subMenus, function (submenuitem, subindex) {
-    			   var nav = submenuitem.nav || 'root';
-    			   if (submenuitem.stateParam) {
-     				   submenuitem.sref = submenuitem.stateName + '({' + submenuitem.stateParam + ',"ajax-nav":"' + nav + '"})';
+    	   angular.forEach(c.MenuData, function (topmenuitem, index) {
+    		   topmenuitem.Status = (topmenuitem.FuncCode && fcodes.indexOf(topmenuitem.FuncCode.toLowerCase()) >= 0 )? 'disabled' : '';
+    		   angular.forEach(topmenuitem.SubMenus, function (submenuitem, subindex) {
+    			   var nav = submenuitem.Nav || 'root';
+    			   if (submenuitem.StateParam) {
+     				   submenuitem.Sref = submenuitem.StateName + '({' + submenuitem.StateParam + ',"ajax-nav":"' + nav + '"})';
     			   } else {
-    				   submenuitem.sref = submenuitem.stateName + '({' + '"ajax-nav":"' + nav + '"})';
+    				   submenuitem.Sref = submenuitem.StateName + '({' + '"ajax-nav":"' + nav + '"})';
     			   }
-    			   var state = $state.get(submenuitem.stateName);
+    			   var state = $state.get(submenuitem.StateName);
     			   if (state) {
     				   state.data.SubMenu = submenuitem;
     				   state.data.Menu = topmenuitem;
     			   }
-    			   submenuitem.status = fcodes.indexOf(submenuitem.funcCode.toLowerCase()) >= 0 ? 'disabled' : '';
+    			   submenuitem.Status = (submenuitem.FuncCode && fcodes.indexOf(submenuitem.FuncCode.toLowerCase()) >= 0) ? 'disabled' : '';
     		   });
     	   });
        };
        c.SyncMenuToState = function (activeState) {
-    	   angular.forEach(c.menuData, function (topmenuitem, index) {
-    		   if (!topmenuitem.status && topmenuitem == activeState.data.Menu) {
-    			   topmenuitem.status = 'active';
-    			   c.currentSubMenus = topmenuitem.subMenus;
+    	   angular.forEach(c.MenuData, function (topmenuitem, index) {
+    		   if (!topmenuitem.Status && topmenuitem == activeState.data.Menu) {
+    			   topmenuitem.Status = 'active';
+    			   c.CurrentSubMenus = topmenuitem.SubMenus;
     		   }
-    		   if (topmenuitem.status == 'active' && topmenuitem != activeState.data.Menu) topmenuitem.status = '';
+    		   if (topmenuitem.Status == 'active' && topmenuitem != activeState.data.Menu) topmenuitem.Status = '';
 
-    		   angular.forEach(topmenuitem.subMenus, function (submenuitem, subindex) {
-    			   if (!submenuitem.status && submenuitem == activeState.data.SubMenu) submenuitem.status = 'active';
-    			   if (submenuitem.status == 'active' && submenuitem != activeState.data.SubMenu) submenuitem.status = '';
+    		   angular.forEach(topmenuitem.SubMenus, function (submenuitem, subindex) {
+    			   if (!submenuitem.Status && submenuitem == activeState.data.SubMenu) submenuitem.Status = 'active';
+    			   if (submenuitem.Status == 'active' && submenuitem != activeState.data.SubMenu) submenuitem.Status = '';
     		   });
     	   });
        };

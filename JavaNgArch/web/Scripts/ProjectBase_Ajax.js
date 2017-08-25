@@ -298,6 +298,14 @@ PB_Global_StateDefiner=function(app){
 			me.tmpStates[ws.state.name]=ws.state;
 			return ws;
 		};
+		me.StaticState=function(name,params,parent){
+			if(!parent)parent=me.DefaultLayout;
+			var ws=me.CreateWrappedState(name,params,parent,true);
+			ws.state.controller=null;
+			ws.state.controllerAs=null;
+			me.tmpStates[ws.state.name]=ws.state;
+			return ws;
+		};
 		me.MultiViewsState=function(name,params,parent){
 			var isHtm=isViewRef(name);
 			if(!parent)parent=me.DefaultLayout;
@@ -969,6 +977,14 @@ pbm.factory('PBPlugIn_Default', ['$window','$translate','$state','pbui',function
 	var ShowErrorResultMessage=function(msgKey){
 		pbui.Alert(msgKey);
 	};
+	var TranslateStateName=function(state,stateParam){
+	   var keys = state.name.split('/');
+	   var l = keys.length;
+	   $translate([keys[l - 1], keys[l - 2]]).then(function (translations) {
+		   state.data.TranslatedName = translations[keys[l - 2]] + translations[keys[l - 1]];
+	   });
+	};
+	
     return {
         RefListContainItem: RefListContainItem,
         GetMoreOptionsDefault:GetMoreOptionsDefault,
@@ -976,7 +992,8 @@ pbm.factory('PBPlugIn_Default', ['$window','$translate','$state','pbui',function
         ExecuteErrorResult:ExecuteErrorResult,
         ExecuteHttpError:ExecuteHttpError,
         ShowResultMessage:ShowResultMessage,
-        ShowErrorResultMessage:ShowErrorResultMessage
+        ShowErrorResultMessage:ShowErrorResultMessage,
+        TranslateStateName:TranslateStateName
     };
 } ]); 
 //---------------------------------------------------------------------------------------------
