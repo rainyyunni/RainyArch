@@ -1,23 +1,28 @@
 JavaNgArch/.svn
 JavaNgArch/Deploy
 JavaNgArch/Doc
-NetNgArch/.svn
-NetNgArch/Deploy
-NetNgArch/Doc
+JavaNgArch/web/Scripts/ProjectBase/.svn
 JavaNgArch/web/WEB-INF/classes
-NetNgArch/src/ProjectBase/SharpArch
 JavaNgArch/web/test.htm
 JavaNgArch/web/test2.htm
-NetNgArch/src/NetNgArch.sln.DotSettings.user
-NetNgArch/src/NetNgArch.suo
-NetNgArch/Solution References/FluentNHibernate.1.3.0.727
 JavaNgArch/DB/local_db.sql
 JavaNgArch/DB/javangarch_serverdb.sql
 JavaNgArch/.classpath
 JavaNgArch/.project
 JavaNgArch/.settings
+
+NetNgArch/.svn
+NetNgArch/Deploy
+NetNgArch/Doc
+NetNgArch/NetNgArch.Web/Scripts/ProjectBase/.svn
+NetNgArch/src/ProjectBase/SharpArch
+NetNgArch/src/NetNgArch.sln.DotSettings.user
+NetNgArch/src/NetNgArch.suo
+NetNgArch/Solution References/FluentNHibernate.1.3.0.727
+
 docs/.classpath
 docs/.project
 docs/.settings
 docs/web/META-INF/MANIFEST.MF
 docs/web/WEB-INF
+docs/web/Scripts/ProjectBase/.svn

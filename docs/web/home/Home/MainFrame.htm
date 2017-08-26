@@ -8,21 +8,21 @@
 	<link href="../../Scripts/../Content/css/bootstrap.css" rel="stylesheet" />
 	<link href="../../Content/css/bootstrap-theme.css" rel="stylesheet" />
 	<link href="../../Content/css/Site.css" rel="stylesheet" />
-	<script src="/Scripts/angular.min.js"></script>
-	<script src="/Scripts/lang/angular-locale_zh-cn.js"></script>
-	<script src="/Scripts/angular-animate.min.js"></script>
-    <script src="/Scripts/angular-cookies.min.js"></script>
-    <script src="/Scripts/angular-translate.min.js"></script>
-    <script src="/Scripts/angular-translate-loader-static-files.min.js"></script>
-    <script src="/Scripts/angular-translate-storage-cookie.min.js"></script>
-    <script src="/Scripts/angular-translate-storage-local.min.js"></script>
-    <script src="/Scripts/angular-ui-router.min.js"></script>
-    <script src="/Scripts/jcs-auto-validate.js"></script>
-    <script src="/Scripts/ui-bootstrap-tpls-2.2.0.js"></script>
+	<script src="../../Scripts/angular.min.js"></script>
+	<script src="../../Scripts/lang/angular-locale_zh-cn.js"></script>
+	<script src="../../Scripts/angular-animate.min.js"></script>
+    <script src="../../Scripts/angular-cookies.min.js"></script>
+    <script src="../../Scripts/angular-translate.min.js"></script>
+    <script src="../../Scripts/angular-translate-loader-static-files.min.js"></script>
+    <script src="../../Scripts/angular-translate-storage-cookie.min.js"></script>
+    <script src="../../Scripts/angular-translate-storage-local.min.js"></script>
+    <script src="../../Scripts/angular-ui-router.min.js"></script>
+    <script src="../../Scripts/jcs-auto-validate.js"></script>
+    <script src="../../Scripts/ui-bootstrap-tpls-2.2.0.min.js"></script>
 
-    <script src="../../Scripts/ProjectBase_Common.js"></script>
-   <script src="../../Scripts/ProjectBase_Ajax.js"></script>
-   <script src="../../Scripts/ProjectBase_UI.js"></script>
+    <script src="../../Scripts/ProjectBase/ProjectBase_Common.js"></script>
+   <script src="../../Scripts/ProjectBase/ProjectBase_Ajax.js"></script>
+   <script src="../../Scripts/ProjectBase/ProjectBase_UI.js"></script>
 	<script src="../../Scripts/App_Common.js"></script>
 	<script src="../../Scripts/App_Menu.js"></script>
 	<script src="../../Scripts/lang/dict-zh-cn.js"></script>
@@ -37,7 +37,9 @@
    
   </head>
 
-  <style>.plh{line-height:25px;}</style>
+  <style>
+  	.plh{line-height:25px;}
+  </style>
   <body ng-controller="BaseCtrl as baseCtrl" >
  	<nav class="navbar navbar-default" role="navigation"><!-- header -->
 		<div ui-view="topview" ng-controller="TopViewCtrl as tvCtrl" onload="tvCtrl.Html_Load();" class="container-fluid">
@@ -54,8 +56,8 @@
 	    	</div>
 	    	<div class="navbar-collapse" ng-class="tvCtrl.navbarCollapsed?'collapse':''">
 	    		<ul class="nav navbar-nav">
-	    			<li uib-dropdown ng-repeat="item in baseCtrl.menuData" ng-class="item.status">
-	    				<a  ng-class="item.status" class="nav-link" role="button" ng-click="tvCtrl.lnkMenu_click(item)">{{::item.text|translate}}</span></a>
+	    			<li uib-dropdown ng-repeat="item in baseCtrl.MenuData" ng-class="item.Status">
+	    				<a  ng-class="item.Status" class="nav-link" role="button" ng-click="tvCtrl.lnkMenu_click(item)">{{item.Text|translate}}</span></a>
 	    			</li>
 	    		</ul>
 	    		<ul class="nav navbar-nav navbar-right">
@@ -69,8 +71,8 @@
 		<div class="row">
 		 	<div ui-view="leftview" ng-controller="LeftViewCtrl as lvCtrl" class="col-sm-2  visible-md-block visible-lg-block"><!-- left menu  -->
 		 		<div class="list-group" >
-					<a ng-class="subitem.status" class="list-group-item" ng-repeat="subitem in baseCtrl.currentSubMenus" ui-sref="{{::subitem.sref}}"  ui-sref-opts="{reload:true,inherit:false}">
-						{{::subitem.text|translate}}
+					<a ng-class="subitem.Status" class="list-group-item" ng-repeat="subitem in baseCtrl.CurrentSubMenus" ui-sref="{{::subitem.Sref}}"  ui-sref-opts="{reload:true,inherit:false}">
+						{{subitem.Text|translate}}
 					</a>
 				</div>
 			</div>

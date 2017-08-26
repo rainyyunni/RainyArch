@@ -129,7 +129,7 @@ app.factory('myCustomElementModifier', [function() {
           key: 'myCustomModifierKey'
       };
 }]);
-app.factory('PBPlugIn', ['PBPlugIn_Default','$window',function (PBPlugIn_Default,$window) {
+app.factory('PBPlugIn', ['PBPlugIn_Default','$window','$translate',function (PBPlugIn_Default,$window,$translate) {
 	var ext={};
 	angular.extend(ext,PBPlugIn_Default);
 	ext.ShowResultMessage = function (msgKey) {
@@ -142,6 +142,13 @@ app.factory('PBPlugIn', ['PBPlugIn_Default','$window',function (PBPlugIn_Default
             }
         }
         return false;
+    };
+    ext.TranslateStateName = function (state,stateParam) {
+		   var keys = state.name.split('/');
+		   var l = keys.length;
+		   $translate([state.data.Menu.Text, state.data.SubMenu.Text]).then(function (translations) {
+			   state.data.TranslatedName = translations[state.data.Menu.Text] +'-'+ translations[state.data.SubMenu.Text];
+		   });
     };
     ext.GetMoreOptionsDefault = function () {
         return {"全部":-1};

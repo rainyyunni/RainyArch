@@ -1,7 +1,5 @@
 {
 "Message":"-----------------------------------------------按钮文本和提示信息",
-"ProjectSetup":"Project Setup",
-"APIReference":"API Reference",
 "Sample":"Sample",
 "System":"System",
 "Personal":"Personal",
@@ -94,6 +92,13 @@
 "Why8more":"RainyArch frameworks are the outermost frameworks that encapsulate other frameworks and programming techniques, so that they can isolate updates/upgrades to other frameworks and embrace upcoming new techniques but still provide stable, compatible and consistent interfaces to application code. They minimize cost of learning and changing for developers.",
 "Why9":"Mature and improving",
 "Why9more":"The author has been doing programming and architecting work for more than 20 years, and has built frameworks for multi programming languages and platforms, which have all been employed in enterprise projects and got verified. With RainyArch being open source, hope it to be improved and augmented by a community and make developer enjoy programming and applications development get done with high quality.",
+
+"Menu":"-----------------------------------------------menu",
+"Introduction":"Introduction",
+"Guide":"Guide",
+"APIReference":"API Reference",
+"ProjectSetup":"Project Setup",
+
 
 "End":"End"
 }

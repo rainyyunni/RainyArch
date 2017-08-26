@@ -11,11 +11,11 @@ app.controller("TopViewCtrl", ['pb','$scope','$state','$translate','$transitions
     var c = this;
     c.navbarCollapsed=true;
     $scope.baseCtrl.InitMenu('',App_MenuData);
-    $scope.baseCtrl.currentSubMenus=App_MenuData[0].subMenus;
+    $scope.baseCtrl.CurrentSubMenus=App_MenuData[0].SubMenus;
 
 	c.lnkMenu_click=function(topmenu){
-		$scope.baseCtrl.currentSubMenus=topmenu.subMenus;
-		$state.go(topmenu.subMenus[0].stateName);
+		$scope.baseCtrl.CurrentSubMenus=topmenu.SubMenus;
+		$state.go(topmenu.SubMenus[0].StateName);
 	};
 
 	c.setLang=function(lang){

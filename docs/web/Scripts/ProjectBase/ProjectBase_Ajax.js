@@ -977,6 +977,14 @@ pbm.factory('PBPlugIn_Default', ['$window','$translate','$state','pbui',function
 	var ShowErrorResultMessage=function(msgKey){
 		pbui.Alert(msgKey);
 	};
+	var TranslateStateName=function(state,stateParam){
+	   var keys = state.name.split('/');
+	   var l = keys.length;
+	   $translate([keys[l - 1], keys[l - 2]]).then(function (translations) {
+		   state.data.TranslatedName = translations[keys[l - 2]] + translations[keys[l - 1]];
+	   });
+	};
+	
     return {
         RefListContainItem: RefListContainItem,
         GetMoreOptionsDefault:GetMoreOptionsDefault,
@@ -984,7 +992,8 @@ pbm.factory('PBPlugIn_Default', ['$window','$translate','$state','pbui',function
         ExecuteErrorResult:ExecuteErrorResult,
         ExecuteHttpError:ExecuteHttpError,
         ShowResultMessage:ShowResultMessage,
-        ShowErrorResultMessage:ShowErrorResultMessage
+        ShowErrorResultMessage:ShowErrorResultMessage,
+        TranslateStateName:TranslateStateName
     };
 } ]); 
 //---------------------------------------------------------------------------------------------
