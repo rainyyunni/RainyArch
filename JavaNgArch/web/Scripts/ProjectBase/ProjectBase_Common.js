@@ -40,12 +40,12 @@
     	  });
        c.TranslateStateName = function (state,stateParam) {
            if (state.data.TranslatedName != null && state.data.Lang == c.Lang) return;
+           state.data.Lang = c.Lang;
            var key = state.name;
            var navTranslate = stateParam.UrlTranslate;
     	   if (navTranslate) key = key + '?'+navTranslate;
     	   $translate(key).then(function (translated) {
     		   state.data.TranslatedName = translated;
-    		   state.data.Lang = c.Lang;
     	   }, function () {
     		   PBPlugIn.TranslateStateName(state,stateParam);
     	   });

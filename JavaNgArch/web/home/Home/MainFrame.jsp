@@ -23,9 +23,9 @@
     <script src="${Url.ContextPrefix()}/Scripts/ui-bootstrap-tpls-2.2.0.js"></script>
    <script src="${Url.ContextPrefix()}/Scripts/md5-min.js"></script>
 
-    <script src="${Url.ContextPrefix()}/Scripts/ProjectBase_Common.js"></script>
-   <script src="${Url.ContextPrefix()}/Scripts/ProjectBase_Ajax.js"></script>
-   <script src="${Url.ContextPrefix()}/Scripts/ProjectBase_UI.js"></script>
+    <script src="${Url.ContextPrefix()}/Scripts/ProjectBase/ProjectBase_Common.js"></script>
+   <script src="${Url.ContextPrefix()}/Scripts/ProjectBase/ProjectBase_Ajax.js"></script>
+   <script src="${Url.ContextPrefix()}/Scripts/ProjectBase/ProjectBase_UI.js"></script>
 	<script src="${Url.ContextPrefix()}/Scripts/App_Common.js"></script>
 	<script src="${Url.ContextPrefix()}/Scripts/App_Menu.js"></script>
 	<script src="${Url.ContextPrefix()}/Scripts/lang/dict-zh-cn.js"></script>
@@ -54,12 +54,12 @@
     <script src="${Url.ContextPrefix()}/Scripts/angular-translate-storage-local.min.js"></script>
     <script src="${Url.ContextPrefix()}/Scripts/angular-ui-router.min.js"></script>
     <script src="${Url.ContextPrefix()}/Scripts/jcs-auto-validate.js"></script>
-    <script src="${Url.ContextPrefix()}/Scripts/ui-bootstrap-tpls-2.2.0.js"></script>
+    <script src="${Url.ContextPrefix()}/Scripts/ui-bootstrap-tpls-2.2.0.min.js"></script>
    <script src="${Url.ContextPrefix()}/Scripts/md5-min.js"></script>
    <!--  -->
-    <script src="${Url.ContextPrefix()}/Scripts/ProjectBase_Common.min.js"></script>
-   <script src="${Url.ContextPrefix()}/Scripts/ProjectBase_Ajax.min.js"></script>
-   <script src="${Url.ContextPrefix()}/Scripts/ProjectBase_UI.min.js"></script>
+    <script src="${Url.ContextPrefix()}/Scripts/ProjectBase/ProjectBase_Common.min.js"></script>
+   <script src="${Url.ContextPrefix()}/Scripts/ProjectBase/ProjectBase_Ajax.min.js"></script>
+   <script src="${Url.ContextPrefix()}/Scripts/ProjectBase/ProjectBase_UI.min.js"></script>
 	<script src="${Url.ContextPrefix()}/Scripts/App_Common.min.js"></script>
 	<script src="${Url.ContextPrefix()}/Scripts/App_Menu.js"></script>
 	<script src="${Url.ContextPrefix()}/Scripts/lang/dict-zh-cn.js"></script>
