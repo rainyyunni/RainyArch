@@ -1,5 +1,5 @@
 ﻿<div ng-if="baseCtrl.Lang=='en'">
-<h2 class="bg-info text-white">Setting up the project and get it run!</h2>
+<h2 class="bg-info">Setting up the project and get it run!</h2>
 <p>
 	After you clone or download the source, you can get it run right now with just a little setup work.  
 </p>
@@ -15,9 +15,21 @@
 	<li>New a tomcat server to run the project. 
 </ol>
 <h3>Here it is!</h3>
+<img src="{{APP_ContextPrefix}}/guide/Guide/Running_en.jpg" width="600" height="300"></img>
+<h2 class="bg-info">Using your own naming</h2>
+<p>
+	In JavaNgArch， "JavaNgArch" is also used to name a package name and somewhere else. You can easily change it to your own name, like "myapp".
+</p>
+<ol>
+	<li>rename the folder /src/javangarch to "myapp".
+	<li>replace "javangarch" with "myapp" in all .java files under /src/myapp.
+	<li>In Eclipse,refresh the project.   
+</ol>
 </div> 
+
+
 <div ng-if="baseCtrl.Lang=='zh-cn'">
-<h2>创建项目并运行</h2>
+<h2 class="bg-info">创建项目并运行</h2>
 <p>
 	将源码复制或下载到本地后, 只需要一些设置工作就可以将其运行起来。
 </p>
@@ -33,4 +45,14 @@
 	<li>从一个tomcat server8上 运行该项目. 
 </ol>
 <h3>运行起来了！</h3>
+<img src="{{APP_ContextPrefix}}/guide/Guide/Running_zh-cn.jpg" width="600" height="300"></img>
+<h2 class="bg-info">替换JavaNgArch命名</h2>
+<p>
+	JavaNgArch项目中，"JavaNgArch"这个命名也用于包名等等。您可能希望用自己的名称,如myapp。
+</p>
+<ol>
+	<li>将src下javangarch目录名改为myapp.
+	<li>将src/myapp下所有.java文件中的javangarch.替换为myapp.
+	<li>在eclipse中Refresh.   
+</ol>
 </div> 

@@ -1,38 +1,61 @@
 ﻿<div ng-if="baseCtrl.Lang=='en'">
-<h2 class="bg-info">Setting up the project and get it run!</h2>
+<h2 class="bg-info">Global Configuration</h2>
 <p>
-	After you clone or download the source, you can get it run right now with just a little setup work.  
+	Once you got RainyArch run on your server, you can start to customize it to suit your project's situation.
+	At first, find out where global configurations go.
 </p>
-<h3>Development environment</h3>
-<p>
-	jdk8 + tomcat8 + eclipse Luna4.4 + chrome.  
+<h3>Configuration files</h3>
+<ul>
+	<li>Database connection configuration is in <code>/src/hibernate.cfg.xml and /web/META-INF/context.xml</code>.
+	<li>Logging configuration is in <code>/src/log4j.properties</code>。   
+	<li>Web application configuration is in <code>/web/WEB-INF/下web.xml</code>.   
+</ul>
+<h3>Data configuration</h3>
+<ul>
+	<li>i18n language files: <code>/web/Scripts/lang/en.json</code>.
+	<li>i18n language file for enum objects is <code>/web/Scripts/lang/dict-en.json</code>.
+	<li>Menu data is in <code>/web/Scripts/App_Menu.js</code>.   
+</ul>
+<h3>Application entry point</h3>
+<p><code>javangarch.mvc.shared.WebApp</code> extending <code>projectbase.mvc.BaseMvcApplication</code>，
+This is the entry point of the application and where bootstrap work get done.You should at lease do the following
 </p>
-<h3>Create a project for JavaNgArch</h3>
-<ol>
-	<li>In eclipse, create a new Dynamic Web Project, set "Project Location" to the "JavaNgArch" directory.
-	<li>Set "Source folders on build path" for java to "src".
-	<li>Set "Content directory" for web module to "web"". Don't use an IDE generated web deployment descriptor.   
-	<li>New a tomcat server to run the project. 
-</ol>
-<h3>Here it is!</h3>
+<ul>
+	<li>Set the projectname(top package name) for ProjectHierarchy.
+	<li>Set a Map with package names as its keys and DB table name prefix as the corresponding values.
+	The Map is used by hibernate ORM naming strategy so as to eliminate the prefix and map the remaining part of the table name to the entity class name.
+</ul>
+<h3>Home page(as in single-page application)</h3>
+<p><code>/web/home/Home/MainFrame.jsp</code>。 It's a whole html page while all others are just fragments.
+So do all traditional work here to load a page and related resources, especially those for AngularJs and client-side ProjectBase to bootstrap. And also, design global page layout here. 
 </div> 
 <div ng-if="baseCtrl.Lang=='zh-cn'">
-<h2>创建项目并运行</h2>
+<h2 class="bg-info">全局配置</h2>
 <p>
-	将源码复制或下载到本地后, 只需要一些设置工作就可以将其运行起来。
+	RainyArch的应用原型很容易就在你本地运行起来，此时可以着手调整全局配置，使其适合您的项目的实际情况。
 </p>
-<h3>开发环境</h3>
-<p>
-	jdk8 + tomcat8 + eclipse Luna4.4 + chrome.  
+<h3>配置文件</h3>
+<ul>
+	<li>数据库连接配置在<code>/src/hibernate.cfg.xml</code>和<code>/web/META-INF/context.xml</code>中.
+	<li>日志配置在<code>/src/log4j.properties</code>中。   
+	<li>应用配置在<code>/WEB-INF/下web.xml</code>中.   
+</ul>
+<h3>数据配置</h3>
+<ul>
+	<li><code>/web/Scripts/lang/zh-cn.json</code>下为多语言文件.
+	<li><code>/web/Scripts/lang/dict-zh-cn.json</code>下为枚举多语言文件.
+	<li><code>/web/Scripts/App_Menu.js</code>中存放菜单数据.   
+</ul>
+<h3>应用入口类</h3>
+<p><code>/src/javangarch/mvc/shared/WebApp.java</code>,该类继承<code>ProjectBase.web.Mvc.BaseMvcApplication</code>，
+在此处进行应用启动时的设置工作
 </p>
-<h3>为 JavaNgArch创建项目</h3>
-<ol>
-	<li>在eclipse中, 新建 Dynamic Web Project, 将 "Project Location" 设置到 "JavaNgArch" 目录.
-	<li>设置 "Source folders on build path" for java 为 "src".
-	<li>设置 "Content directory" for web module 为 "web"". 不要使用 IDE创建的 web deployment descriptor.   
-	<li>从一个tomcat server8上 运行该项目. 
-</ol>
-<h3>运行起来了！</h3>
+<ul>
+	<li>设置ProjectHierarchy中的projectname(最上层的包名).
+	<li>设置包名与数据库表前缀的对应关系.这里使用一个Map，其中key是包名，value是数据表名前缀。这个对应数据用于hibernate的命名策略，将表名映射到类名时会去掉前缀。
+</ul>
+<h3>入口页面(单页)</h3>
+<p><code>/web/home/Home/MainFrame.jsp</code>,在此处进行整个页面的客户端应用启动工作和页面布局设计。
 </div> 
 
 

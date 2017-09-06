@@ -103,8 +103,9 @@
 "APIReference":"API参考文档",
 "Architecture":"代码框架结构",
 "ProjectSetup":"项目搭建",
-
-
+"Config":"配置",
+"DirStructure":"目录结构",
+"Convention":"规范",
 
 "End":"End"
 }

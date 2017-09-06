@@ -1,3 +1,133 @@
-﻿<h2>Coming up</h2>
+﻿<div ng-if="baseCtrl.Lang=='en'">
+<h2 class="bg-info">Directory structure and file naming under /src</h2>
+<p>
+	<code>/src/projectbase</code>is the framework package, which encapsulate and integrate lower level frameworks 
+	and expose simplified programming interfaces to application level code，Usually application developers are not supposed to modify it.
+	<br><code>/src/javangarch</code>is application level code on top of the framework. It's coded against the api of projectbase to provide application functionalities。
+	This package is a ready-made example which shows how to use the framework and best practice of coding patterns.
+	We suggest to use this package as a quick start point and go on to next iteration。You can, of course, put it aside and use the framework alone to start coding your application from scratch.
+</p>
+<h3>Under projectbase, one package for each tier</h3>
+<ul>
+	<li>projectbase.bd
+	<li>projectbase.data  
+	<li>projectbase.domain   
+	<li>projectbase.mvc
+	<li>projectbase.desktop   
+	<li>projectbase.utils  
+</ul>
+<h3>Under javangarch, one package for each tier too</h3>
+<ul>
+	<li>javangarch.bd
+	<li>javangarch.domain.bdinterface   
+	<li>javangarch.domain.domainmodel
+	<li>javangarch.mvc  
+</ul>
+<h3>Package domainmodel and mvc are divided further to correspond to application modules</h3>
+<ul>
+	<li>javangarch.domain.domainmodel.gn is for all DomainObject classes in "system" module
+	<li>javangarch.mvc.gn is for all Controller and ViewModel classes in "system" module
+	<li>javangarch.mvc.shared is for application-wide Controller and ViewModel classes
+</ul>
+<div class="alert alert-warning" role="alert">Naming convention is required: Name a Controller class as XxxController and a ViewModel class as XxxVM。This convention enable the framework to identify those classes。</div>
+
+<h2 class="bg-info">Directory structure and file naming under /web</h2>
+<h3>One folder for each application module, then one sub-folder for each Controller(server-side class)</h3>
+<div class="alert alert-warning" role="alert">
+	<li>Folder name under web/ must the same as the package name under javangarch.mvc, eg. to javangarch.mvc.gn, there should be a folder named web/gn。
+	<li>Sub-folder name must be the same as the server-side Controller class name without the suffix "Controller", eg. to javangarch.mvc.gn.UserController, there should be a folder named web/gn/User。
+	<li>A view file should be named as same as the action method in the server-side Controller class so as to be related by default, eg. javangarch.mvc.gn.UserController.List() will use web/gn/User/List.jsp as the view。
+	<li>JavaScripts related to views should be written in one or more files under the same folder and named as XxxCtrl.js. No scripts reference is needed to those files because the framework can automatically search and combine *Ctrl.js into one referenced file.
+</div>
+<h3>Under web/Scripts</h3>
+<div class="table-responsive"><table class="table table-striped table-bordered table-hover">
+	<thead><tr><th>File</th><th>Description</th></tr></thead>
+	<tr><td>./ProjectBase目录</td><td>The client-side framework</td></tr>
+	<tr><td>./ProjectBase/ProjectBase_Ajax.js</td><td>Core functions，Handle Ajax request and response and implement bidirectional MVC binding between server side and client side.</td></tr>
+	<tr><td>./ProjectBase/ProjectBase_Common.js</td><td>Application-wide functionalities such as menu, navigation, localization, display and validation, etc.</td></tr>
+	<tr><td>./ProjectBase/ProjectBase_UI.js</td><td>UI components</td></tr>
+	<tr><td>./lang</td><td>I18n languages files for applications and components</td></tr>
+	<tr><td>./tpl</td><td>Template files used by UI components</td></tr>
+	<tr><td>App_Common.js</td><td>Application level scripts, data, configuration of components,and plug-ins to the framework</td></tr>
+</table></div>
+<h3>Under web/Shared</h3>
+<div class="table-responsive"><table class="table table-striped table-bordered table-hover">
+	<thead><tr><th>File</th><th>Description</th></tr></thead>
+	<tr><td>./Directive</td><td>Customized directives,UI components like navigator,pager,etc.
+	(No reference is needed in html to any .js file under this directory. The framework will search this directory and combine scripts in those files into a referenced file.)</td></tr>
+	<tr><td>_global.jsp</td><td>Page import declaration</td></tr>
+	<tr><td>ContentLayout.htm</td><td>Page layout file, used as the view of a parent state, which will be added to all child states' views for normal UI.</td></tr>
+	<tr><td>ErrorLayout.htm</td><td>Page layout file, used as the view of a parent state, which can be added to all child states' views for displaying errors.</td></tr>
+</table></div>
+</div> 
+
+
+
+
+
+
+
+
+<div ng-if="baseCtrl.Lang=='zh-cn'">
+<h2 class="bg-info">src下的目录结构与文件命名</h2>
+<p>
+	<code>/src/projectbase</code>是Java版的服务器端框架，其封装整合下层框架后对上层应用代码提供简化的编程接口，一般不需要自行修改。
+	<br><code>/src/javangarch</code>是以projectbase框架为基础的应用层代码，对框架提供的编程接口进行编程实现应用程序功能。
+	此包可作为使用projectbase的客户代码范例，其即演示了框架接口的使用，也提供了应用程序编程模式的最佳实践方法。
+	建议以此包为原型继续进行迭代开发。当然也可以不用此包而只使用projectbase，从头开始进行应用层编程。
+</p>
+<h3>projectbase下按多层结构进一步划分包结构</h3>
+<ul>
+	<li>projectbase.bd
+	<li>projectbase.data  
+	<li>projectbase.domain   
+	<li>projectbase.mvc
+	<li>projectbase.desktop   
+	<li>projectbase.utils  
+</ul>
+<h3>javangarch下同样按多层结构进一步划分包结构</h3>
+<ul>
+	<li>javangarch.bd
+	<li>javangarch.domain.bdinterface   
+	<li>javangarch.domain.domainmodel
+	<li>javangarch.mvc  
+</ul>
+<h3>domainmodel包和mvc包下j按应用功能模块划分包结构</h3>
+<ul>
+	<li>javangarch.domain.domainmodel.gn包下是系统功能模块对应的DomainObject子类
+	<li>javangarch.mvc.gn包下是系统功能模块对应的Controller类和ViewModel类
+	<li>javangarch.mvc.shared包下为多个功能模块共享的功能类
+</ul>
+<div class="alert alert-warning" role="alert">Controller类的命名应遵循规范，即为XxxController。ViewModel类的命名为XxxVM。依此规范，框架才可自动识别这些类。</div>
+
+<h2 class="bg-info">web下的目录结构与文件命名</h2>
+<h3>为每个功能模块设置一个目录,为每个服务器Controller设置一个子目录</h3>
+<div class="alert alert-warning" role="alert">
+	<li>对应模块的目录名必须与mvc包下对应的包名相同，如对应javangarch.mvc.gn，应设置一个web/gn目录。
+	<li>模块目录下，对应每个服务器Controller类，应设置一个同名目录，如对应javangarch.mvc.gn.UserController，应设置一个web/gn/User目录，在其下放置相关的视图文件和脚本文件。
+	<li>视图文件的命名应遵循规范，即与Controller中Action方法的命名相同，便于缺省识别,如javangarch.mvc.gn.UserController.List()方法缺省对应视图文件web/gn/User/List.jsp。
+	<li>视图对应的脚本应写在一个或多个脚本文件中，其命名遵循规范，以Ctrl.js为后缀，这样不必在页面添加引用，框架提供自动查找并合并这些脚本的功能。
+</div>
+<h3>web/Scripts目录下</h3>
+<div class="table-responsive"><table class="table table-striped table-bordered table-hover">
+	<thead><tr><th>文件</th><th>描述</th></tr></thead>
+	<tr><td>./ProjectBase目录</td><td>客户端框架</td></tr>
+	<tr><td>./ProjectBase/ProjectBase_Ajax.js</td><td>核心功能，自动进行ajax请求/响应处理与双向mvc绑定	</td></tr>
+	<tr><td>./ProjectBase/ProjectBase_Common.js</td><td>全局功能，如菜单、导航、本地化、显示、验证等</td></tr>
+	<tr><td>./ProjectBase/ProjectBase_UI.js</td><td>UI组件</td></tr>
+	<tr><td>./lang目录</td><td>多语言文件，包括app资源、客户端枚举、验证组件、字典数据等使用的语言文件</td></tr>
+	<tr><td>./tpl目录</td><td>UI组件使用的模板文件</td></tr>
+	<tr><td>App_Common.js</td><td>应用层脚本、数据、组件配置、框架Plugin等</td></tr>
+</table></div>
+<h3>web/Shared目录下</h3>
+<div class="table-responsive"><table class="table table-striped table-bordered table-hover">
+	<thead><tr><th>文件</th><th>描述</th></tr></thead>
+	<tr><td>./Directive</td><td>自定义指令，通用客户端UI组件：导航、分页、权限树.(此目录下脚本文件不必添加引用，框架提供自动查找并合并这些脚本的功能)</td></tr>
+	<tr><td>_global.jsp</td><td>页面引用声明</td></tr>
+	<tr><td>ContentLayout.htm</td><td>页面布局主文件，将其作为父state的视图模板，可以将相同内容添加到多个视图上</td></tr>
+	<tr><td>ErrorLayout.htm</td><td>错误页面布局主文件，将其作为父state的视图模板，可以将相同内容添加到报错内容的视图上</td></tr>
+</table></div>
+
+</div> 
 
 

@@ -30,6 +30,10 @@
 	<script src="HomeCtrl.js"></script>
 	<script src="../../guide/Guide/GuideCtrl.js"></script>
 	<script src="../../api/Domain/DomainCtrl.js"></script>
+	<script src="../../api/Mvc/MvcCtrl.js"></script>
+	<script src="../../api/Utils/UtilsCtrl.js"></script>
+	<script src="../../api/JS/JSCtrl.js"></script>
+	<script src="../../api/Desktop/DesktopCtrl.js"></script>
    <script>
    //make sure this be the last-loaded script
    def.RegisterImplicitControllers();
@@ -61,8 +65,8 @@
 	    			</li>
 	    		</ul>
 	    		<ul class="nav navbar-nav navbar-right">
-	    		<li><a href="" class="btn-small" ng-click="tvCtrl.setLang('zh-cn');" translate="Chinese"></a></li>
-        		<li><a href=""  class="btn-small" ng-click="tvCtrl.setLang('en');" translate="English"></a></li>
+	    		<li><a href="" role="button" class="btn-sm" ng-click="tvCtrl.setLang('zh-cn');" translate="Chinese"></a></li>
+        		<li><a href="" role="button" class="btn-sm" ng-click="tvCtrl.setLang('en');" translate="English"></a></li>
         		</ul>
 	    	</div>
 	    </div>

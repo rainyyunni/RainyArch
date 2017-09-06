@@ -1,0 +1,205 @@
+﻿<div ng-if="baseCtrl.Lang=='en'">
+<h2 class="bg-info">Naming Conventions</h2>
+<p>
+	In an application with multi-tier architecture, names in different places but for the same subject should be consistent. For example, database table name, class name, variable name, etc, should contain identical part to reference the same subject/term.
+	 Many important behaviors of RainyArch frameworks are based on the following naming conventions.
+</p>
+<h3>ORM naming conventions</h3>
+<div class="table-responsive"><table class="table table-striped table-bordered table-hover">
+	<thead><tr><th>Element</th><th>Naming conventions</th><th>Example</th><th>Usage</th></tr></thead>
+	<tr><td>DB table</td><td>Tables can be divided into groups according to the application modules, and table names can have a prefix to indicate the module/group. </td><td>gn_User</td><td>For ORM, class names are mapped to the same table names without the prefix。</td></tr>
+	<tr><td>DB field</td><td>No prefix</td><td>Name</td><td>For ORM, class properties names are mapped to the same field names.</td></tr>
+	<tr><td>Foreign key</td><td>Foreign key filed name should be the primary key field name with "Id" added</td><td>CorpId</td><td>For ORM, a property name referencing another entity is mapped to the foreign key field.</td></tr>
+	<tr><td>DomainObject class</td><td>class name should be the same as the table name without the prefix</td><td>User</td><td>For ORM, class names are mapped to the same table names without the prefix。</td></tr>
+	<tr><td>DomainObject property name</td><td>property name should be the same as the field name.</td><td>getName()</td><td>For ORM, class properties names are mapped to the same field names.</td></tr>
+</table></div>
+<h3>Server-side MVC naming conventions</h3>
+<div class="table-responsive"><table class="table table-striped table-bordered table-hover">
+	<thead><tr><th>Element</th><th>Naming conventions</th><th>Example</th><th>Usage</th></tr></thead>
+	<tr><td>Controller class</td><td>use "Controller" as the suffix</td>
+		<td>package javangarch.mvc.gn;<br> public class UserController {<br> public ActionResult List(){ return ForView()};}</td>
+		<td><li>Auto IOC registration, get dependency injection<li>On Url routing, a request for "/gn/User/List" will lead the server to call UserController's List method.</td>
+	</tr>
+	<tr><td>ViewModel class</td><td>use "VM as the suffix</td><td>UserListVM</td><td>Meta data in these classes are resolved to apply validation and type conversion,etc. </td></tr>
+	<tr><td>View file</td><td>Use the same name as the action method of the controller class for the view file under the web folder for the Controller</td><td>web/gn/User/List.jsp</td><td>In the action method, the return statement doesn't need to give a view file path, which, by default, is implied by the method( and the class and the package) name.</td></tr>
+</table></div>
+<p>
+	* see also <a ui-sref="/guide/Guide/DirStructure">"Directory Structure"</a>。
+</p>
+<h3>Client-side MVC naming conventions</h3>
+<div class="table-responsive"><table class="table table-striped table-bordered table-hover">
+	<thead><tr><th>Element</th><th>Naming conventions</th><th>Example</th><th>Usage</th></tr></thead>
+	<tr><td>State</td><td>Use the same as the URL for the corresponding action method(excluding parts of web context, file extension and query string)</td><td>/gn/User/List</td><td>Given the state name, requests are automatically sent, templates/data received and JavaScripts executed, etc.</td></tr>
+</table></div>
+
+<h2 class="bg-info">CoC Convention over configuration</h2>
+<p>
+	RainyArch minimizes usage of configuration files, but automates configuration by convention or by code explicitly.
+</p>
+<div class="table-responsive"><table class="table table-striped table-bordered table-hover">
+	<thead><tr><th>Subject</th><th>Convention</th><th>Framework built-in behavior</th><th>Explicit programming</th></tr></thead>
+	<tr>
+		<td>ORM</td>
+		<td>
+			<li>See above naming convention
+			<li>Subclasses of projectbase.domain.BaseDomainObjectWithTypedId
+			<li>Designate packages of these classes in javangarch.mvc.shared.SpringDOScanConfig
+		</td>
+		<td>Add annotations to the conformed classes (excluding inner classes)
+			<li>@Entity
+			<li>Bidirectional one-to-many: @OneToMany(mappedBy="xxx") and @CollectionType(type="projectbase.domain.customcollection.DomainListType")
+			<li>Uni-directional many-to-one: @ManyToOne. By default, optional=true. To not null field, should be annotated as optional=false manually. But in special cases, it is likely annotated as optional=false automatically, so pay attention to check it out.。
+			<li>See projectbase.data.hibernatemapbycode.convention for details.
+		</td>
+		<td>Use annotation to do mapping configuration
+			<li>If not mapped by JPA/hibernate or RainyArch by default, add annotations to do the mapping configuration
+			<li>If there is any existing persistent annotation on a class or property , the framework won't add any more.
+		</td>
+	</tr>
+	<tr>
+		<td>IOC</td>
+		<td>Declare instance variables with corresponding names by convention to get dependency injection
+			<li>Given a DO(Domain Object) class named Xxx, which conforms to the above ORM convention, instance variables declaration can be <code>IGenericDao&lt;Xxx&gt; XxxDao</code> and <code>ICommonBD&lt;Xxx&gt; XxxBD</code>
+			<li>Designate packages for bd tier, mvc tier, and data tier in javangarch.mvc.shared.SpringIocConfig. Contained classes in those packages with a suffix of BD, Dao, or Query can be injected as dependencies, eg. <code>IAdminBD AdminBD</code>
+			<li>For <code>IGenericDao&lt;Xxx&gt;</code> and <code>ICommonBD&lt;Xxx&gt;</code>, if the auto-created implementation class are not expected to be used, a customized implementation class should be put under the above-designated package and named by convention so as to be chosen as the injected dependency class.
+		</td>
+		<td>
+			<li>Register automatically all classes with a suffix of Controller, BD, Dao, or Query in the above-designated packages.
+			<li>Given a DO(Domain Object) class named Xxx, which conforms to the above ORM convention, create and register by naming convention to IOC <code>IGenericDao&lt;Xxx&gt;</code> and <code>ICommonBD&lt;Xxx&gt;</code>, all interfaces and implementation classes, no creation but registration for those already existing classes。
+			<li>See also projectbase.bd.SpringComponentRegistrar.
+		</td>
+		<td>Method BaseMvcApplication.getSpringContainer() provides access to the IOC container, call methods of which to register objects explicitly.
+		</td>
+	</tr>
+	<tr>
+		<td>Server-side MVC</td>
+		<td>
+			<li>See above naming convention
+			<li>Designate the containing packages of ViewModel classes in javangarch.mvc.shared.SpringVMScanConfig.
+		</td>
+		<td>
+			<li>Do URL routing to call the corresponding action method.
+			<li>Bind request parameters to parameters of the action method.
+			<li>locate a view file
+		</td>
+		<td>
+			Explicitly designate names of the controller/action method/view file. Work around RainyArch's server-side framework and use ways of programming of the lower-level framework(eg, Spring,etc) or native API.
+		</td>
+	</tr>
+	<tr>
+		<td>Client-sdie MVC</td>
+		<td>
+			<li>See above naming convention
+			<li>Use "c" as the alias of the controller and variable of self referencing(this) so as to use the same "c.xxx" to reference data and functions in html template and JavaScript.
+			<li>c.vm has the same structure and value as the server-side ViewModel.
+		</td>
+		<td>Automatically bind name-related state, controller, template and model, and set up requests and handle the responses</td>
+		<td>Explicitly assign names, Work around RainyArch's client-side framework and use native way of AngularJS, ui-router, etc, to do programming.</td>
+	</tr>
+</table></div>
+</div> 
+
+
+
+
+
+
+<div ng-if="baseCtrl.Lang=='zh-cn'">
+<h2 class="bg-info">命名规范</h2>
+<p>
+	在多层体系结构的应用程序中，对应同一实体、术语，可能有各种角色的对象以及多处代码进行引用，这些构成元素的命名中名称部分应尽量保持一致, 而通常以数据库对象命名为基准. RainyArch中 重要命名规范是框架功能的基础。
+</p>
+<h3>ORM 命名规范</h3>
+<div class="table-responsive"><table class="table table-striped table-bordered table-hover">
+	<thead><tr><th>构成元素</th><th>命名规范</th><th>举例</th><th>作用</th></tr></thead>
+	<tr><td>数据库表</td><td>通常按应用程序的功能模块来对数据库表分组，给表名前加前缀prefix_来表名其所属模块。</td><td>gn_User</td><td>用于ORM时，类名自动映射到表名。</td></tr>
+	<tr><td>数据库字段</td><td>不加任何前缀</td><td>Name</td><td>用于ORM时，类的属性变量名自动映射到字段名</td></tr>
+	<tr><td>外键字段</td><td>外键字段名应是主键表名去掉前缀加上Id</td><td>CorpId</td><td>类中引用另一实体的属性可自动映射到外键字段名</td></tr>
+	<tr><td>DomainObject类</td><td>与去掉前缀的数据表名相同</td><td>User</td><td>用于ORM时，类名自动映射到表名。</td></tr>
+	<tr><td>DomainObject类的属性变量名</td><td>与数据表字段名相同</td><td>getName()</td><td>用于ORM时，类的属性变量名自动映射到字段名</td></tr>
+</table></div>
+<h3>服务器端MVC 命名规范</h3>
+<div class="table-responsive"><table class="table table-striped table-bordered table-hover">
+	<thead><tr><th>构成元素</th><th>命名规范</th><th>举例</th><th>作用</th></tr></thead>
+	<tr><td>Controller类</td><td>以Controller为后缀</td>
+		<td>package javangarch.mvc.gn;<br> public class UserController {<br> public ActionResult List(){ return ForView()};}</td>
+		<td><li>自动进行IOC注册,获得依赖注入<li>Url路由时，请求/gn/User/List将导致UserController类的List方法被调用</td>
+	</tr>
+	<tr><td>ViewModel类</td><td>以VM为后缀</td><td>UserListVM</td><td>这些类中的元数据将被分析用于数据验证、类型转换等</td></tr>
+	<tr><td>View文件</td><td>在Controller类对应的web子目录下与Action方法名相同的网页文件</td><td>web/gn/User/List.jsp</td><td>Action方法返回结果时不需要指定View文件路径，缺省对应同名View文件</td></tr>
+</table></div>
+<p>
+	* 参见<a ui-sref="/guide/Guide/DirStructure">"目录结构"</a>。
+</p>
+<h3>客户端MVC 命名规范</h3>
+<div class="table-responsive"><table class="table table-striped table-bordered table-hover">
+	<thead><tr><th>构成元素</th><th>命名规范</th><th>举例</th><th>作用</th></tr></thead>
+	<tr><td>State</td><td>与对应服务器Action方法的请求URL相同(不包括web context、扩展名和QS参数部分)</td><td>/gn/User/List</td><td>框架通过state的名字，可自动发送请求，获取template、数据、执行对应脚本等，</td></tr>
+</table></div>
+
+<h2 class="bg-info">CoC 约定优于配置</h2>
+<p>
+	RainyArch中最小化使用配置文件，而是依据约定自动进行配置，或通过代码进行显式配置.
+</p>
+<div class="table-responsive"><table class="table table-striped table-bordered table-hover">
+	<thead><tr><th>主题</th><th>约定</th><th>框架默认自动进行</th><th>显式配置</th></tr></thead>
+	<tr>
+		<td>ORM</td>
+		<td>
+			<li>见上面的命名规范
+			<li>projectbase.domain.BaseDomainObjectWithTypedId的子类
+			<li>javangarch.mvc.shared.SpringDOScanConfig中指定这些类所在的包
+		</td>
+		<td>对符合约定的类进行自动标记(只有外部类上标)
+			<li>加@Entity
+			<li>双向一对多标：@OneToMany(mappedBy="xxx")和@CollectionType(type="projectbase.domain.customcollection.DomainListType")
+			<li>单向多对一标：@ManyToOne，默认optional=true，此时如果对应非空字段，须手动标记。特殊情况下框架也可能自动标记成optional=false,应注意核实或手动标记。
+			<li>见projectbase.data.hibernatemapbycode.convention
+		</td>
+		<td>在类文件中使用标记对DO类进行映射配置
+			<li>不符合框架和hibernate缺省约定的，需要通过加标记来进行映射
+			<li>类或属性上加有任何persistent标记时，框架不再自动加标记
+		</td>
+	</tr>
+	<tr>
+		<td>IOC</td>
+		<td>通过在实例变量声明中使用约定变量名来获得依赖注入
+			<li>对每个符合ORM约定的DO类Xxx，可声明注入<code>IGenericDao&lt;Xxx&gt; XxxDao</code>和 <code>ICommonBD&lt;Xxx&gt; XxxBD</code>
+			<li>javangarch.mvc.shared.SpringIocConfig中指定bd、mvc、data层对应的包,对其中的后缀为BD、Dao、Query的类可声明注入， 如<code>IAdminBD AdminBD</code>
+			<li>对<code>IGenericDao&lt;Xxx&gt;</code>和<code>ICommonBD&lt;Xxx&gt;</code>，如果不使用自动创建的实现类，应将定制的实现类放到以上指定的包中并按约定命名，则注入时将得到定制类。
+		</td>
+		<td>
+			<li>对约定中指定的包内的所有命名中后缀为Controller、BD、Dao、Query的类进行注册
+			<li>对每个符合ORM约定的DO类Xxx，创建并通过命名约定注册<code>IGenericDao&lt;Xxx&gt;</code>和<code>ICommonBD&lt;Xxx&gt;</code>接口与实现类。已存在同名注册的对象则不再自动创建和注册。
+			<li>见projectbase.bd.SpringComponentRegistrar
+		</td>
+		<td>通过BaseMvcApplication.getSpringContainer()可以访问Ioc容器，显式调用其方法来进行对象注册。
+		</td>
+	</tr>
+	<tr>
+		<td>服务器端MVC</td>
+		<td>
+			<li>见上面的命名规范
+			<li>javangarch.mvc.shared.SpringVMScanConfig中指定ViewModel类所在的包
+		</td>
+		<td>
+			<li>将请求的URI对应到Action方法
+			<li>绑定参数
+			<li>定位View文件
+		</td>
+		<td>
+			显式指定名称。绕过RainyArch服务器端框架使用下层框架(Spring等)以及原生方法编程处理。
+		</td>
+	</tr>
+	<tr>
+		<td>客户端MVC</td>
+		<td>
+			<li>见上面的命名规范
+			<li>使用c作为controller的别名和自引用变量名，在html文件和JavaScript脚本中使用一致的c.xxx引用数据和方法
+			<li>c.vm对应服务器ViewModel结构和取值
+		</td>
+		<td>同名的state、controller、template、model自动关联，构成请求和响应的自动处理</td>
+		<td>显式指定名称。绕过RainyArch客户端框架而使用AngularJS、ui-router等框架的原生方法进行编程</td>
+	</tr>
+</table></div>
+</div>
