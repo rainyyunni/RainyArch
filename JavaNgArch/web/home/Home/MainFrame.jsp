@@ -81,7 +81,7 @@
 			        <span class="icon-bar"></span>
 			        <span class="icon-bar"></span>
 			      </button>
-				<a class="navbar-brand" href="http://www.xinchunzhen.com">
+				<a class="navbar-brand" href="http://www.51chunzhen.com">
 					<img alt="Brand" src="/Content/images/czlogo_small.jpg" width="100" height="35"></img>
 				</a>
 	    	</div>
